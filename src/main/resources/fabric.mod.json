@@ -1,6 +1,6 @@
 {
     "schemaVersion" : 1,
-    "id" : "modid",
+    "id" : "${modid}",
     "version" : "${version}",
     "name" : "fabric.mod.json : name",
     "description" : "This is an example description! Tell everyone what your mod is about!",
