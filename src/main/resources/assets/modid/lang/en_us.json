@@ -1,3 +1,4 @@
 {
-    "item.modid.test_item" : "Test Item"
+    "item.modid.test_item" : "Test Item",
+    "block.modid.test_block" : "Test Block"
 }
