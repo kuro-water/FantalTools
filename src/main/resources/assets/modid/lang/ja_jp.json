@@ -1,5 +1,10 @@
 {
     "item.modid.test_item" : "テストアイテム",
     "item.modid.tutorial_pickaxe" : "チュートリアルのツルハシ",
-    "block.modid.test_block" : "テストブロック"
+    "item.modid.tutorial_helmet" : "チュートリアル ヘルメット",
+    "item.modid.tutorial_chestplate" : "チュートリアル チェストプレート",
+    "item.modid.tutorial_leggings" : "チュートリアル レギンス",
+    "item.modid.tutorial_boots" : "チュートリアル ブーツ",
+    "block.modid.test_block" : "テストブロック",
+    "block.modid.anime_block" : "アニメブロック"
 }

@@ -19,6 +19,9 @@ public final class TestBlock extends Block {
     public static final Block EXAMPLE_BLOCK = register(new Block(FabricBlockSettings.of(Material.METAL)
                                                                                     .strength(4.0f)), "test_block");
 
+    public static final Block ANIME_BLOCK = register(new Block(FabricBlockSettings.of(Material.METAL)
+            .strength(4.0f)), "anime_block");
+
     private static Block register(Block block, String path) {
         Registry.register(Registries.ITEM, new Identifier(MODID, path), new BlockItem(block, new Item.Settings()));
         return Registry.register(Registries.BLOCK, new Identifier(MODID, path), block);

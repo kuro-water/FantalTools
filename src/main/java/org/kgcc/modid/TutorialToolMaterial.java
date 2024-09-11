@@ -8,7 +8,7 @@ public class TutorialToolMaterial implements ToolMaterial {
     @Override
     //耐久値
     public int getDurability() {
-        return 2;
+        return 1800;
     }
 
     @Override
@@ -20,7 +20,7 @@ public class TutorialToolMaterial implements ToolMaterial {
     @Override
     //攻撃力
     public float getAttackDamage() {
-        return 1.0f;
+        return 0.0f;
     }
 
     @Override
