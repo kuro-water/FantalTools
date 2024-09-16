@@ -1,4 +1,5 @@
 {
     "item.modid.test_item" : "テストアイテム",
-    "block.modid.test_block" : "テストブロック"
+    "block.modid.test_block" : "テストブロック",
+    "item.modid.usable_item" : "使えるアイテム"
 }

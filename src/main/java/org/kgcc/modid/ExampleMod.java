@@ -1,6 +1,9 @@
 package org.kgcc.modid;
 
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import org.kgcc.modid.registry.ModItems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +21,7 @@ public class ExampleMod implements ModInitializer {
 
         LOGGER.info("Hello Fabric world!");
 
-        TestItem.initialize();
-        TestBlock.initialize();
+        ModItems.registerItems();
+
     }
 }
