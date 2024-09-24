@@ -5,5 +5,12 @@
     "block.modid.fantal_ore" : "ファンタル鉱石",
     "item.modid.fantal_ingot" : "ファンタルインゴット",
     "block.modid.fantal_block" : "ファンタルブロック",
-    "item.modid.row_fantal" : "ファンタルの原石"
+    "item.modid.row_fantal" : "ファンタルの原石",
+    "item.modid.anime_item" : "アニメアイテム",
+    "item.modid.tutorial_pickaxe" : "チュートリアルのツルハシ",
+    "item.modid.tutorial_helmet" : "チュートリアル ヘルメット",
+    "item.modid.tutorial_chestplate" : "チュートリアル チェストプレート",
+    "item.modid.tutorial_leggings" : "チュートリアル レギンス",
+    "item.modid.tutorial_boots" : "チュートリアル ブーツ",
+    "block.modid.anime_block" : "アニメブロック"
 }
