@@ -19,12 +19,13 @@ public class TestItem extends Item {
 
     // an instance of our new item
     public static final Item testItem = register(new Item(new Item.Settings()), "test_item");
+    public static final Item animeItem = register(new Item(new Item.Settings()), "anime_item");
 
-    //   public static final Item tutorialSward = register(new SwordItem(TUTORIAL_TOOL_MATERIAL,7,0.6f, new Item.Settings()),"tutorial_sword");
-    //   public static final Item tutorialAxe = register(new AxeItem(TUTORIAL_TOOL_MATERIAL,9,-0.1f, new Item.Settings()),"tutorial_axe");
+    public static final Item tutorialSward = register(new SwordItem(TUTORIAL_TOOL_MATERIAL,7,0.6f, new Item.Settings()),"tutorial_sword");
+    public static final Item tutorialAxe = register(new AxeItem(TUTORIAL_TOOL_MATERIAL,9,-0.1f, new Item.Settings()),"tutorial_axe");
     public static final Item tutorialPickaxe = register(new PickaxeItem(TUTORIAL_TOOL_MATERIAL,5,-2.8f, new Item.Settings()),"tutorial_pickaxe");
-    //   public static final Item tutorialShovel = register(new ShovelItem(TUTORIAL_TOOL_MATERIAL,5.5,0.0f, new Item.Settings()),"tutorial_shovel");
-    //   public static final Item tutorialHoe = register(new HoeItem(TUTORIAL_TOOL_MATERIAL,1,4.0f, new Item.Settings()),"tutorial_hoe");
+    public static final Item tutorialShovel = register(new ShovelItem(TUTORIAL_TOOL_MATERIAL,5.5f,0.0f, new Item.Settings()),"tutorial_shovel");
+    public static final Item tutorialHoe = register(new HoeItem(TUTORIAL_TOOL_MATERIAL,1,4.0f, new Item.Settings()),"tutorial_hoe");
 
     public static  Item tutorialHelmet = register(new ArmorItem(TUTORIAL_ARMOR_MATERIAL, ArmorItem.Type.HELMET, new Item.Settings()),"tutorial_helmet");
     public static  Item tutorialChestPlate = register(new ArmorItem(TUTORIAL_ARMOR_MATERIAL, ArmorItem.Type.CHESTPLATE, new Item.Settings()),"tutorial_chestplate");

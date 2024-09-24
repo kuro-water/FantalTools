@@ -1,5 +1,6 @@
 {
     "item.modid.test_item" : "テストアイテム",
+    "item.modid.anime_item" : "アニメアイテム",
     "item.modid.tutorial_pickaxe" : "チュートリアルのツルハシ",
     "item.modid.tutorial_helmet" : "チュートリアル ヘルメット",
     "item.modid.tutorial_chestplate" : "チュートリアル チェストプレート",

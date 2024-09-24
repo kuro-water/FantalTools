@@ -1,5 +1,6 @@
 {
     "item.modid.test_item" : "Test Item",
+    "item.modid.anime_item" : "Anime Item",
     "item.modid.tutorial_pickaxe" : "Tutorial Pickaxe",
     "item.modid.tutorial_helmet" : "Tutorial Helmet",
     "item.modid.tutorial_chestplate" : "Tutorial ChestPlate",
