@@ -1,5 +1,9 @@
 {
     "item.modid.test_item" : "テストアイテム",
     "block.modid.test_block" : "テストブロック",
-    "item.modid.usable_item" : "使えるアイテム"
+    "item.modid.usable_item" : "使えるアイテム",
+    "block.modid.fantal_ore" : "ファンタル鉱石",
+    "item.modid.fantal_ingot" : "ファンタルインゴット",
+    "block.modid.fantal_block" : "ファンタルブロック",
+    "item.modid.row_fantal" : "ファンタルの原石"
 }

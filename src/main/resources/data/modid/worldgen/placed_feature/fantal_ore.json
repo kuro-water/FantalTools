@@ -1,5 +1,5 @@
 {
-    "feature" : "modid:ore_custom",
+    "feature" : "modid:fantal_ore",
     "placement" : [
         {
             "type" : "minecraft:count",
@@ -13,10 +13,10 @@
             "height" : {
                 "type" : "minecraft:trapezoid",
                 "max_inclusive" : {
-                    "absolute" : 70
+                    "absolute" : 90
                 },
                 "min_inclusive" : {
-                    "absolute" : -24
+                    "absolute" : -64
                 }
             }
         },

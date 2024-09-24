@@ -9,9 +9,9 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
-public final class TestBlock extends Block {
-    public TestBlock() {
-        super(FabricBlockSettings.of(Material.METAL).strength(4.0f));
+public final class FantalOreBlock extends Block {
+    public FantalOreBlock() {
+        super(FabricBlockSettings.of(Material.STONE).strength(0.5f).requiresTool());
     }
 
     private static final String MODID = System.getProperty("modid");

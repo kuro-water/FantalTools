@@ -2,7 +2,6 @@ package org.kgcc.modid;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.SheepEntity;
@@ -17,7 +16,7 @@ import net.minecraft.world.World;
 
 public class UsableItem extends Item {
     public UsableItem() {
-        super(new Item.Settings().maxDamage(500).rarity(Rarity.COMMON));
+        super(new Item.Settings().rarity(Rarity.COMMON));
     }
 
     @Override

@@ -1,0 +1,7 @@
+{
+    "replace" : false,
+    "values" : [
+        "modid:fantal_ore",
+        "modid:fantal_block"
+    ]
+}

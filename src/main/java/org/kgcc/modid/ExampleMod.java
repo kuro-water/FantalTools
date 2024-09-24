@@ -19,8 +19,8 @@ public class ExampleMod implements ModInitializer {
     public static final Logger LOGGER = LoggerFactory.getLogger("modid");
 
     // 鉱石を保存するための新しいクラス レベル を作成
-    public static final RegistryKey<PlacedFeature> CUSTOM_ORE_PLACED_KEY =
-            RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier("modid", "ore_custom"));
+    public static final RegistryKey<PlacedFeature> FANTAL_ORE_PLACED_KEY =
+            RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier("modid", "fantal_ore"));
 
     @Override
     public void onInitialize() {
@@ -32,8 +32,8 @@ public class ExampleMod implements ModInitializer {
 
         ModItems.registerItems();
 
-        // バイオームに機能を追加する
+        // バイオームに機能を追加する 鉱石追加用
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(),
-                GenerationStep.Feature.UNDERGROUND_ORES, CUSTOM_ORE_PLACED_KEY);
+                GenerationStep.Feature.UNDERGROUND_ORES, FANTAL_ORE_PLACED_KEY);
     }
 }

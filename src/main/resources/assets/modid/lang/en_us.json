@@ -1,5 +1,9 @@
 {
     "item.modid.test_item" : "Test Item",
     "block.modid.test_block" : "Test Block",
-    "item.modid.usable_item" : "Usable Item"
+    "item.modid.usable_item" : "Usable Item",
+    "block.modid.fantal_ore" : "Fantal Ore",
+    "item.modid.fantal_ingot" : "Fantal Ingot",
+    "block.modid.fantal_block" : "Fantal Block",
+    "item.modid.row_fantal" : "Row Fantal"
 }
