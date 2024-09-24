@@ -31,6 +31,7 @@ public class ExampleMod implements ModInitializer {
         LOGGER.info("Hello Fabric world!");
 
         ModItems.registerItems();
+        TestItem.initialize();
 
         // バイオームに機能を追加する 鉱石追加用
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(),
