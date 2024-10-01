@@ -8,10 +8,14 @@ public class ExampleModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         ClientPlayNetworking.registerGlobalReceiver(ExampleMod.FANTAL_POLLUTION, (client, handler, buf, responseSender) -> {
+            ExampleMod.LOGGER.info("Received total fantal pollution from server");
             int totalFantalPollution = buf.readInt();
-            ExampleMod.LOGGER.info("init");
+            int playerSpecificDirtBlocksBroken = buf.readInt();
             client.execute(() -> {
-                client.player.sendMessage(Text.literal("現在の侵食度： " + totalFantalPollution));
+                if (client.player != null) {
+                    client.player.sendMessage(Text.literal("現在の侵食度：" + totalFantalPollution));
+                    client.player.sendMessage(Text.literal("Player specific dirt blocks broken: " + playerSpecificDirtBlocksBroken));
+                }
             });
         });
     }
