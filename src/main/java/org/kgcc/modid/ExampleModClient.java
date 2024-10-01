@@ -13,8 +13,9 @@ public class ExampleModClient implements ClientModInitializer {
             int playerSpecificDirtBlocksBroken = buf.readInt();
             client.execute(() -> {
                 if (client.player != null) {
-                    client.player.sendMessage(Text.literal("現在の侵食度：" + totalFantalPollution));
-                    client.player.sendMessage(Text.literal("Player specific dirt blocks broken: " + playerSpecificDirtBlocksBroken));
+                    client.player.sendMessage(Text.literal("全体の侵食度：" + totalFantalPollution));
+                    client.player.sendMessage(Text.literal(client.player.getDisplayName()
+                                                                        .getString() + "の侵食度：" + playerSpecificDirtBlocksBroken));
                 }
             });
         });
