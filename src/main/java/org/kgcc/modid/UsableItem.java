@@ -1,5 +1,7 @@
 package org.kgcc.modid;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -8,8 +10,11 @@ import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
@@ -26,6 +31,27 @@ public class UsableItem extends Item {
             // duration（継続時間）: 20 ticks = 1 seconds
             // amplifier（強度）
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 20, 0));
+
+            // server stateを取得
+            StateSaverAndLoader serverState = StateSaverAndLoader.getServerState(world.getServer());
+            // server stateを更新
+            serverState.totalFantalPollution += 1;
+
+            PlayerData playerState = StateSaverAndLoader.getPlayerState(user);
+            playerState.fantalPollution += 1;
+
+            MinecraftServer server = world.getServer();
+
+            // クライアントに送信
+            PacketByteBuf data = PacketByteBufs.create();
+            data.writeInt(serverState.totalFantalPollution);
+            data.writeInt(playerState.fantalPollution);
+
+            ServerPlayerEntity playerEntity = server.getPlayerManager().getPlayer(user.getUuid());
+            server.execute(() -> {
+                ExampleMod.LOGGER.info("Sending pollution data to client");
+                ServerPlayNetworking.send(playerEntity, ExampleMod.FANTAL_POLLUTION, data);
+            });
         }
         return super.use(world, user, hand);
     }

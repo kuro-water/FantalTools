@@ -53,27 +53,26 @@ public class ExampleMod implements ModInitializer {
 
         PlayerBlockBreakEvents.AFTER.register((world, player, pos, state, entity) -> {
             if (state.getBlock() == Blocks.GRASS_BLOCK || state.getBlock() == Blocks.DIRT) {
-
-                // server stateを取得
-                StateSaverAndLoader serverState = StateSaverAndLoader.getServerState(world.getServer());
-                // server stateを更新
-                serverState.totalFantalPollution += 1;
-
-                PlayerData playerState = StateSaverAndLoader.getPlayerState(player);
-                playerState.fantalPollution += 1;
-
-                MinecraftServer server = world.getServer();
-
-                // クライアントに送信
-                PacketByteBuf data = PacketByteBufs.create();
-                data.writeInt(serverState.totalFantalPollution);
-                data.writeInt(playerState.fantalPollution);
-
-                ServerPlayerEntity playerEntity = server.getPlayerManager().getPlayer(player.getUuid());
-                server.execute(() -> {
-                    LOGGER.info("Sending pollution data to client");
-                    ServerPlayNetworking.send(playerEntity, FANTAL_POLLUTION, data);
-                });
+//                // server stateを取得
+//                StateSaverAndLoader serverState = StateSaverAndLoader.getServerState(world.getServer());
+//                // server stateを更新
+//                serverState.totalFantalPollution += 1;
+//
+//                PlayerData playerState = StateSaverAndLoader.getPlayerState(player);
+//                playerState.fantalPollution += 1;
+//
+//                MinecraftServer server = world.getServer();
+//
+//                // クライアントに送信
+//                PacketByteBuf data = PacketByteBufs.create();
+//                data.writeInt(serverState.totalFantalPollution);
+//                data.writeInt(playerState.fantalPollution);
+//
+//                ServerPlayerEntity playerEntity = server.getPlayerManager().getPlayer(player.getUuid());
+//                server.execute(() -> {
+//                    LOGGER.info("Sending pollution data to client");
+//                    ServerPlayNetworking.send(playerEntity, FANTAL_POLLUTION, data);
+//                });
             }
         });
     }
