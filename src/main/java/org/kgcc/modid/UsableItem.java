@@ -2,23 +2,28 @@ package org.kgcc.modid;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.inventory.StackReference;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 public class UsableItem extends Item {
@@ -115,6 +120,26 @@ public class UsableItem extends Item {
 //            }
 //        }
         return super.useOnEntity(stack, user, entity, hand);
+    }
+
+    @Override
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        World world = context.getWorld();
+        BlockPos pos = context.getBlockPos().offset(context.getSide());
+        ItemStack stack = context.getStack();
+        Hand hand = context.getHand();
+
+        // 松明を設置
+        if (world.isAir(pos) && hand == Hand.MAIN_HAND && !world.isClient()) {
+            world.setBlockState(pos, Blocks.TORCH.getDefaultState());
+            if (!context.getPlayer().isCreative()) {
+                stack.decrement(1);
+            }
+            addFantalPollution(world, context.getPlayer(), hand);
+            return ActionResult.SUCCESS;
+        }
+
+        return ActionResult.FAIL;
     }
 
     private static final String MODID = System.getProperty("modid");
