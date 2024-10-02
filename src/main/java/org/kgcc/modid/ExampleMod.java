@@ -98,7 +98,7 @@ public class ExampleMod implements ModInitializer {
             }
         });
 
-        // 毎tickごとにポーション効果をチェックする
+        // 毎tickごとにポーション効果をチェックし、かけなおす。
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
                 var playerState = StateSaverAndLoader.getPlayerState(player);
