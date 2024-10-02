@@ -2,19 +2,16 @@
     "type" : "minecraft:crafting_shaped",
     "pattern" : [
         "WWW",
-        " R ",
-        " R "
+        "W W",
+        "W W"
     ],
     "key" : {
         "W" : {
             "item" : "modid:fantal_ingot"
-        },
-        "R" : {
-            "item" : "minecraft:stick"
         }
     },
     "result" : {
-        "item" : "modid:tutorial_pickaxe",
+        "item" : "modid:tutorial_leggins",
         "count" : 1
     }
 }

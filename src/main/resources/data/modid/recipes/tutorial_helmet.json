@@ -1,0 +1,16 @@
+{
+    "type" : "minecraft:crafting_shapeless",
+    "pattern" : [
+        "WWW",
+        "W W"
+    ],
+    "key" : {
+        "W" : {
+            "item" : "modid:fantal_ingot"
+        }
+    },
+    "result" : {
+        "item" : "modid:tutorial_helmet",
+        "count" : 1
+    }
+}

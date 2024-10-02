@@ -1,8 +1,8 @@
 {
     "type" : "minecraft:crafting_shaped",
     "pattern" : [
-        "WWW",
-        " R ",
+        "WW ",
+        "WR ",
         " R "
     ],
     "key" : {
@@ -14,7 +14,7 @@
         }
     },
     "result" : {
-        "item" : "modid:tutorial_pickaxe",
+        "item" : "modid:tutorial_axe",
         "count" : 1
     }
 }

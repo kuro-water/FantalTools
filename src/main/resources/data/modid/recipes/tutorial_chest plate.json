@@ -1,20 +1,17 @@
 {
     "type" : "minecraft:crafting_shaped",
     "pattern" : [
+        "W W",
         "WWW",
-        " R ",
-        " R "
+        "WWW"
     ],
     "key" : {
         "W" : {
             "item" : "modid:fantal_ingot"
-        },
-        "R" : {
-            "item" : "minecraft:stick"
         }
     },
     "result" : {
-        "item" : "modid:tutorial_pickaxe",
+        "item" : "modid:tutorial_chestplate",
         "count" : 1
     }
 }
