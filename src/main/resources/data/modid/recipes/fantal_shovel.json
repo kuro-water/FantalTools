@@ -2,7 +2,7 @@
     "type" : "minecraft:crafting_shaped",
     "pattern" : [
         " W ",
-        " W ",
+        " R ",
         " R "
     ],
     "key" : {
@@ -14,7 +14,7 @@
         }
     },
     "result" : {
-        "item" : "modid:tutorial_sword",
+        "item" : "modid:fantal_shovel",
         "count" : 1
     }
 }

@@ -1,6 +1,6 @@
 {
   "parent" : "item/generated",
   "textures" : {
-    "layer0" : "modid:item/tutorial_chestplate"
+    "layer0" : "modid:item/fantal_helmet"
   }
 }

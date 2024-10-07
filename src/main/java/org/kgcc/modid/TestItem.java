@@ -7,12 +7,12 @@ import net.minecraft.util.Identifier;
 
 import java.util.Properties;
 
+import static org.kgcc.modid.ExampleMod.MODID;
+
 public class TestItem extends Item {
     private TestItem(Settings settings) {
         super(settings);
     }
-
-    private static final String MODID = System.getProperty("modid");
 
     public static TutorialToolMaterial TUTORIAL_TOOL_MATERIAL = new TutorialToolMaterial();
     public static TutorialArmorMaterial TUTORIAL_ARMOR_MATERIAL = new TutorialArmorMaterial();

@@ -6,12 +6,12 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 
+import static org.kgcc.modid.ExampleMod.MODID;
+
 public class TutorialPickaxeItem extends Item {
     public TutorialPickaxeItem() {
         super(new Settings().rarity(Rarity.COMMON));
     }
-
-    private static final String MODID = System.getProperty("modid");
 
     public static Item register(Item instance, String path) {
         return Registry.register(Registries.ITEM, new Identifier(MODID, path), instance);

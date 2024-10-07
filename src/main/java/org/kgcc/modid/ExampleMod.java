@@ -13,10 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ExampleMod implements ModInitializer {
+    public static final String MODID = "modid";
     // このロガーはコンソールおよびログファイルにテキストを書き込むために使用されます。
     // ロガーの名前としてモッドIDを使用するのが最善の方法とされています。
     // そうすることで、どのモッドが情報、警告、エラーを書き込んだかが明確になります。
-    public static final Logger LOGGER = LoggerFactory.getLogger("modid");
+    public static final Logger LOGGER = LoggerFactory.getLogger(MODID);
 
     // 鉱石を保存するための新しいクラス レベル を作成
     public static final RegistryKey<PlacedFeature> FANTAL_ORE_PLACED_KEY =

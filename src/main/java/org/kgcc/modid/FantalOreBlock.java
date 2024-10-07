@@ -9,12 +9,12 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
+import static org.kgcc.modid.ExampleMod.MODID;
+
 public final class FantalOreBlock extends Block {
     public FantalOreBlock() {
         super(FabricBlockSettings.of(Material.STONE).strength(0.5f).requiresTool());
     }
-
-    private static final String MODID = System.getProperty("modid");
 
     public static Block register(Block block, String path) {
         Registry.register(Registries.ITEM, new Identifier(MODID, path), new BlockItem(block, new Item.Settings()));

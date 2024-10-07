@@ -14,6 +14,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 
+import static org.kgcc.modid.ExampleMod.MODID;
+
 public class UsableItem extends Item {
     public UsableItem() {
         super(new Item.Settings().rarity(Rarity.COMMON));
@@ -62,8 +64,6 @@ public class UsableItem extends Item {
         }
         return super.useOnEntity(stack, user, entity, hand);
     }
-
-    private static final String MODID = System.getProperty("modid");
 
     // an instance of our new item
 //    public static final Item testPickaxeItem = register(new Item(new Item.Settings().maxDamage(500)

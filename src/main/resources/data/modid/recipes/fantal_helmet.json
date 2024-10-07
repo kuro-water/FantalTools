@@ -2,7 +2,6 @@
     "type" : "minecraft:crafting_shaped",
     "pattern" : [
         "WWW",
-        "W W",
         "W W"
     ],
     "key" : {
@@ -11,7 +10,7 @@
         }
     },
     "result" : {
-        "item" : "modid:tutorial_leggins",
+        "item" : "modid:fantal_helmet",
         "count" : 1
     }
 }

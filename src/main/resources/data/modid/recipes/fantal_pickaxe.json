@@ -1,7 +1,7 @@
 {
     "type" : "minecraft:crafting_shaped",
     "pattern" : [
-        " W ",
+        "WWW",
         " R ",
         " R "
     ],
@@ -14,7 +14,7 @@
         }
     },
     "result" : {
-        "item" : "modid:tutorial_shovel",
+        "item" : "modid:fantal_pickaxe",
         "count" : 1
     }
 }

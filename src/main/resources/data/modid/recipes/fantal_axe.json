@@ -2,7 +2,7 @@
     "type" : "minecraft:crafting_shaped",
     "pattern" : [
         "WW ",
-        " R ",
+        "WR ",
         " R "
     ],
     "key" : {
@@ -14,7 +14,7 @@
         }
     },
     "result" : {
-        "item" : "modid:tutorial_hoe",
+        "item" : "modid:fantal_axe",
         "count" : 1
     }
 }
