@@ -13,7 +13,7 @@ public class ModItems {
 
     public static void registerItems() {
 //        ItemList.add(TestItem.register(new TestItem(), "test_item"));
-//        ItemList.add(UsableItem.register(new UsableItem(), "usable_item"));
+        ItemList.add(UsableItem.register(new UsableItem(), "usable_item"));
         ItemList.add(FantalIngotItem.register(new FantalIngotItem(), "fantal_ingot"));
         ItemList.add(RowFantalItem.register(new RowFantalItem(), "row_fantal"));
 
