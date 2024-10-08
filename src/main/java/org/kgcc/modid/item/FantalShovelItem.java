@@ -1,4 +1,4 @@
-package org.kgcc.modid;
+package org.kgcc.modid.item;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,6 +13,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.kgcc.modid.util.FantalStateManager;
 
 import static org.kgcc.modid.FantalMod.MODID;
 

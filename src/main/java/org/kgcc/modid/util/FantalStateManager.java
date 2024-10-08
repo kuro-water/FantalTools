@@ -1,4 +1,4 @@
-package org.kgcc.modid;
+package org.kgcc.modid.util;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -12,6 +12,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.PersistentState;
 import net.minecraft.world.PersistentStateManager;
 import net.minecraft.world.World;
+import org.kgcc.modid.FantalMod;
 
 import java.util.HashMap;
 import java.util.UUID;

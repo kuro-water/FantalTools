@@ -1,9 +1,11 @@
-package org.kgcc.modid;
+package org.kgcc.modid.test;
 
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import org.kgcc.modid.material.FantalArmorMaterial;
+import org.kgcc.modid.material.FantalToolMaterial;
 
 import static org.kgcc.modid.FantalMod.MODID;
 

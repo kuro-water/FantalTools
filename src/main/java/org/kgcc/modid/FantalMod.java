@@ -15,6 +15,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import org.kgcc.modid.registry.ModItems;
+import org.kgcc.modid.util.FantalStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

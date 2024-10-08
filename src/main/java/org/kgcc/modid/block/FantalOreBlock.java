@@ -1,4 +1,4 @@
-package org.kgcc.modid;
+package org.kgcc.modid.block;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -11,9 +11,9 @@ import net.minecraft.util.Identifier;
 
 import static org.kgcc.modid.FantalMod.MODID;
 
-public final class FantalBlock extends Block {
-    public FantalBlock() {
-        super(FabricBlockSettings.of(Material.STONE).strength(1f).requiresTool());
+public final class FantalOreBlock extends Block {
+    public FantalOreBlock() {
+        super(FabricBlockSettings.of(Material.STONE).strength(0.5f).requiresTool());
     }
 
     public static Block register(Block block, String path) {

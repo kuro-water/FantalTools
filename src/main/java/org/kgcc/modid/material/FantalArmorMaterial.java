@@ -1,4 +1,4 @@
-package org.kgcc.modid;
+package org.kgcc.modid.material;
 
 
 import net.minecraft.item.ArmorItem;

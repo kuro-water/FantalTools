@@ -1,4 +1,4 @@
-package org.kgcc.modid;
+package org.kgcc.modid.item;
 
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -7,8 +7,8 @@ import net.minecraft.util.Identifier;
 
 import static org.kgcc.modid.FantalMod.MODID;
 
-public class FantalIngotItem extends Item {
-    public FantalIngotItem() {
+public class RowFantalItem extends Item {
+    public RowFantalItem() {
         super(new Settings());
     }
 

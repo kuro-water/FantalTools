@@ -1,4 +1,4 @@
-package org.kgcc.modid;
+package org.kgcc.modid.test;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -21,6 +21,9 @@ import net.minecraft.text.Text;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.kgcc.modid.FantalMod;
+import org.kgcc.modid.util.FantalStateManager;
+import org.kgcc.modid.util.PlayerFantalData;
 
 import static org.kgcc.modid.FantalMod.MODID;
 

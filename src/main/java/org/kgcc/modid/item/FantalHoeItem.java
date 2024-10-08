@@ -1,4 +1,4 @@
-package org.kgcc.modid;
+package org.kgcc.modid.item;
 
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -12,19 +12,20 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.kgcc.modid.FantalMod;
+import org.kgcc.modid.util.FantalStateManager;
 
 import static org.kgcc.modid.FantalMod.MODID;
 
-public class FantalAxeItem extends Item {
-    public FantalAxeItem() {
+public class FantalHoeItem extends Item {
+    public FantalHoeItem() {
         super(new Settings().rarity(Rarity.COMMON));
     }
-
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!user.getWorld().isClient() && hand == Hand.MAIN_HAND) {
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 20 * FantalMod.TICK_PAR_SEC, 1));
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 20 * FantalMod.TICK_PAR_SEC, 0));
             FantalStateManager.incrementFantalPollution(world, user);
         }
         return super.use(world, user, hand);

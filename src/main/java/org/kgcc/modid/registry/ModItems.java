@@ -2,7 +2,10 @@ package org.kgcc.modid.registry;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
-import org.kgcc.modid.*;
+import org.kgcc.modid.block.FantalBlock;
+import org.kgcc.modid.block.FantalOreBlock;
+import org.kgcc.modid.item.*;
+import org.kgcc.modid.test.TestBlock;
 
 public class ModItems {
     public static final Item FANTAL_INGOT = FantalIngotItem.register(new FantalIngotItem(), "fantal_ingot");

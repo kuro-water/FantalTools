@@ -1,4 +1,4 @@
-package org.kgcc.modid;
+package org.kgcc.modid.item;
 
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -9,6 +9,8 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
+import org.kgcc.modid.FantalMod;
+import org.kgcc.modid.util.FantalStateManager;
 
 import static org.kgcc.modid.FantalMod.MODID;
 

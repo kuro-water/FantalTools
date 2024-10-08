@@ -1,6 +1,5 @@
-package org.kgcc.modid;
+package org.kgcc.modid.material;
 
-import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
 import org.kgcc.modid.registry.ModItems;
