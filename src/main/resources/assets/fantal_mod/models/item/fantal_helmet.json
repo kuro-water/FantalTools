@@ -1,6 +1,0 @@
-{
-  "parent" : "item/generated",
-  "textures" : {
-    "layer0" : "fantal_mod:item/fantal_helmet"
-  }
-}

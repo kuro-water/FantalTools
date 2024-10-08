@@ -1,7 +1,7 @@
 {
     "replace" : false,
     "values" : [
-        "fantal_mod:fantal_ore",
-        "fantal_mod:fantal_block"
+        "fantalmod:fantal_ore",
+        "fantalmod:fantal_block"
     ]
 }

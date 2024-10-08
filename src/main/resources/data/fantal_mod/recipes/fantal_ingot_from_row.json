@@ -1,9 +1,0 @@
-{
-    "type" : "minecraft:smelting",
-    "ingredient" : {
-        "item" : "fantal_mod:row_fantal"
-    },
-    "result" : "fantal_mod:fantal_ingot",
-    "experience" : 0.7,
-    "cookingtime" : 200
-}

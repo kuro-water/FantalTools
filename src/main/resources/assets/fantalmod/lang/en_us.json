@@ -1,0 +1,16 @@
+{
+    "item.fantalmod.test_item" : "Test Item",
+    "block.fantalmod.test_block" : "Test Block",
+    "item.fantalmod.usable_item" : "Usable Item",
+    "block.fantalmod.fantal_ore" : "Fantal Ore",
+    "item.fantalmod.fantal_ingot" : "Fantal Ingot",
+    "block.fantalmod.fantal_block" : "Fantal Block",
+    "item.fantalmod.row_fantal" : "Row Fantal",
+    "item.fantalmod.anime_item" : "Anime Item",
+    "item.fantalmod.tutorial_pickaxe" : "Tutorial Pickaxe",
+    "item.fantalmod.tutorial_helmet" : "Tutorial Helmet",
+    "item.fantalmod.tutorial_chestplate" : "Tutorial ChestPlate",
+    "item.fantalmod.tutorial_leggings" : "Tutorial Leggings",
+    "item.fantalmod.tutorial_boots" : "Tutorial Boots",
+    "block.fantalmod.anime_block" : "Anime Block"
+}
