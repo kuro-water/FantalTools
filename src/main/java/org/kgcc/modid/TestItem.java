@@ -5,8 +5,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
-import java.util.Properties;
-
 import static org.kgcc.modid.ExampleMod.MODID;
 
 public class TestItem extends Item {
@@ -14,8 +12,8 @@ public class TestItem extends Item {
         super(settings);
     }
 
-    public static TutorialToolMaterial TUTORIAL_TOOL_MATERIAL = new TutorialToolMaterial();
-    public static TutorialArmorMaterial TUTORIAL_ARMOR_MATERIAL = new TutorialArmorMaterial();
+    public static FantalToolMaterial TUTORIAL_TOOL_MATERIAL = new FantalToolMaterial();
+    public static FantalArmorMaterial TUTORIAL_ARMOR_MATERIAL = new FantalArmorMaterial();
 
     // an instance of our new item
     public static final Item testItem = register(new Item(new Item.Settings()), "test_item");

@@ -10,8 +10,8 @@ import net.minecraft.util.Rarity;
 import static org.kgcc.modid.ExampleMod.MODID;
 import static org.kgcc.modid.TestItem.TUTORIAL_ARMOR_MATERIAL;
 
-public class TutorialLegginsItem extends ArmorItem {
-    public TutorialLegginsItem() {
+public class FantalLeggingsItem extends ArmorItem {
+    public FantalLeggingsItem() {
         super(TUTORIAL_ARMOR_MATERIAL, ArmorItem.Type.LEGGINGS, new Item.Settings().rarity(Rarity.COMMON));
     }
 

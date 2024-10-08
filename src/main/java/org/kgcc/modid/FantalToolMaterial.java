@@ -3,8 +3,9 @@ package org.kgcc.modid;
 import net.minecraft.item.Items;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
+import org.kgcc.modid.registry.ModItems;
 
-public class TutorialToolMaterial implements ToolMaterial {
+public class FantalToolMaterial implements ToolMaterial {
     @Override
     //耐久値
     public int getDurability() {
@@ -38,6 +39,6 @@ public class TutorialToolMaterial implements ToolMaterial {
     @Override
     //修理の素材
     public Ingredient getRepairIngredient() {
-        return Ingredient.ofItems(Items.DIRT);
+        return Ingredient.ofItems(ModItems.FANTAL_INGOT);
     }
 }

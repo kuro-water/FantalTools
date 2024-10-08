@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.KelpPlantBlock;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -34,7 +33,7 @@ public class ExampleMod implements ModInitializer {
 
     // 鉱石を保存するための新しいクラス レベル を作成
     public static final RegistryKey<PlacedFeature> FANTAL_ORE_PLACED_KEY =
-            RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier("modid", "fantal_ore"));
+            RegistryKey.of(RegistryKeys.PLACED_FEATURE, new Identifier(MODID, "fantal_ore"));
 
     // 汚染状態を保存するための新しいクラス レベル を作成
     public static final Identifier FANTAL_POLLUTION = new Identifier(MODID, "fantal_pollution");
@@ -65,8 +64,7 @@ public class ExampleMod implements ModInitializer {
 
         LOGGER.info("Hello Fabric world!");
 
-        ModItems.registerItems();
-        TestItem.initialize();
+        new ModItems();
 
         // バイオームに機能を追加する 鉱石追加用
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(),

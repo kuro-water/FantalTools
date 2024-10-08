@@ -6,8 +6,9 @@ import net.minecraft.item.ArmorMaterial;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import org.kgcc.modid.registry.ModItems;
 
-public class TutorialArmorMaterial implements ArmorMaterial {
+public class FantalArmorMaterial implements ArmorMaterial {
 
     //耐久値
     public int getDurability(ArmorItem.Type type) {
@@ -39,13 +40,13 @@ public class TutorialArmorMaterial implements ArmorMaterial {
     //修復アイテム
     @Override
     public Ingredient getRepairIngredient() {
-        return Ingredient.ofItems(TestItem.testItem);
+        return Ingredient.ofItems(ModItems.FANTAL_INGOT);
     }
 
     //名前
     @Override
     public String getName() {
-        return "tutorial";
+        return "fantal";
     }
 
     //防具強度

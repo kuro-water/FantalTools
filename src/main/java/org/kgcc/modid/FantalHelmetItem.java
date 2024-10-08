@@ -9,10 +9,10 @@ import net.minecraft.util.Identifier;
 import static org.kgcc.modid.ExampleMod.MODID;
 import static org.kgcc.modid.TestItem.TUTORIAL_ARMOR_MATERIAL;
 
-public class TutorialBootsItem extends ArmorItem {
-    public TutorialBootsItem() {
+public class FantalHelmetItem extends ArmorItem {
+    public FantalHelmetItem() {
 
-        super(TUTORIAL_ARMOR_MATERIAL, Type.BOOTS, new Item.Settings());
+        super(TUTORIAL_ARMOR_MATERIAL, Type.HELMET, new Item.Settings());
     }
 
     public static Item register(Item instance, String path) {

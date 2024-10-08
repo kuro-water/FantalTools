@@ -8,8 +8,8 @@ import net.minecraft.util.Rarity;
 
 import static org.kgcc.modid.ExampleMod.MODID;
 
-public class TutorialPickaxeItem extends Item {
-    public TutorialPickaxeItem() {
+public class FantalHoeItem extends Item {
+    public FantalHoeItem() {
         super(new Settings().rarity(Rarity.COMMON));
     }
 
