@@ -1,0 +1,17 @@
+{
+    "type" : "minecraft:crafting_shaped",
+    "pattern" : [
+        "WWW",
+        "W W",
+        "WWW"
+    ],
+    "key" : {
+        "W" : {
+            "item" : "minecraft:dirt"
+        }
+    },
+    "result" : {
+        "item" : "fantal_mod:test_item",
+        "count" : 4
+    }
+}

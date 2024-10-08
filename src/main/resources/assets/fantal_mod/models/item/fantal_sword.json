@@ -1,0 +1,6 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "fantal_mod:item/fantal_sword"
+  }
+}

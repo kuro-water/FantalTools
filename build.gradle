@@ -51,7 +51,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 tasks.withType(JavaExec).configureEach {
-    it.systemProperty "modid", modid
+    it.systemProperty "fantal_mod", modid
 }
 
 java {

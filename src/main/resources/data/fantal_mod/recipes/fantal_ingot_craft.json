@@ -1,0 +1,17 @@
+{
+    "type" : "minecraft:crafting_shaped",
+    "pattern" : [
+        "   ",
+        " W ",
+        "   "
+    ],
+    "key" : {
+        "W" : {
+            "item" : "fantal_mod:fantal_block"
+        }
+    },
+    "result" : {
+        "item" : "fantal_mod:fantal_ingot",
+        "count" : 9
+    }
+}

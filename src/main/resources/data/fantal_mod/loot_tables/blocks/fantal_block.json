@@ -1,0 +1,22 @@
+{
+    "type" : "minecraft:block",
+    "pools" : [
+        {
+            "rolls" : 1,
+            "entries" : [
+                {
+                    "type" : "minecraft:item",
+                    "name" : "fantal_mod:fantal_block",
+                    "conditions" : [
+                        {
+                            "condition" : "minecraft:match_tool",
+                            "predicate" : {
+                                "min" : 1
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

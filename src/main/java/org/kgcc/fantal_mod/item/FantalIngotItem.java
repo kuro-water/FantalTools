@@ -1,0 +1,18 @@
+package org.kgcc.fantal_mod.item;
+
+import net.minecraft.item.Item;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
+import net.minecraft.util.Identifier;
+
+import static org.kgcc.fantal_mod.FantalMod.MODID;
+
+public class FantalIngotItem extends Item {
+    public FantalIngotItem() {
+        super(new Settings());
+    }
+
+    public static Item register(Item instance, String path) {
+        return Registry.register(Registries.ITEM, new Identifier(MODID, path), instance);
+    }
+}
