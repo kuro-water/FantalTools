@@ -5,14 +5,14 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
+import org.kgcc.fantal_mod.material.FantalArmorMaterial;
 
 import static org.kgcc.fantal_mod.FantalMod.MODID;
-import static org.kgcc.fantal_mod.test.TestItem.TUTORIAL_ARMOR_MATERIAL;
 
 public class FantalHelmetItem extends ArmorItem {
     public FantalHelmetItem() {
 
-        super(TUTORIAL_ARMOR_MATERIAL, Type.HELMET, new Item.Settings());
+        super(new FantalArmorMaterial(), Type.HELMET, new Item.Settings());
     }
 
     public static Item register(Item instance, String path) {

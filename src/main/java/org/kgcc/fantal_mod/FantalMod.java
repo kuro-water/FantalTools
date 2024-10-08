@@ -36,12 +36,9 @@ public class FantalMod implements ModInitializer {
 
     // 汚染状態を保存するための新しいクラス レベル を作成
     public static final Identifier FANTAL_POLLUTION = new Identifier(MODID, "fantal_pollution");
-    public static void initialize() {
-        LOGGER.info("FantalMod is initializing!");
-        // Your initialization code here
-    }
 
     public static final int TICK_PAR_SEC = 20;
+
     public static void KeepStatusEffect(PlayerEntity player, StatusEffect effect) {
         // duration（継続時間）: 20 ticks = 1 seconds
         // amplifier（強度）
@@ -66,7 +63,7 @@ public class FantalMod implements ModInitializer {
 
         LOGGER.info("Hello Fabric world!");
 
-        new ModItems();
+        ModItems.initialize();
 
         // バイオームに機能を追加する 鉱石追加用
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(),
@@ -76,13 +73,13 @@ public class FantalMod implements ModInitializer {
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
                 var playerState = FantalStateManager.getPlayerState(player);
-                if(20 < playerState.fantalPollution) {
+                if (20 < playerState.fantalPollution) {
                     KeepStatusEffect(player, StatusEffects.HUNGER);
                 }
-                if(40 < playerState.fantalPollution) {
+                if (40 < playerState.fantalPollution) {
                     KeepStatusEffect(player, StatusEffects.SLOWNESS);
                 }
-                if(60 < playerState.fantalPollution) {
+                if (60 < playerState.fantalPollution) {
                     KeepStatusEffect(player, StatusEffects.MINING_FATIGUE);
                 }
             }

@@ -2,16 +2,15 @@ package org.kgcc.fantal_mod.registry;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import org.kgcc.fantal_mod.FantalMod;
 import org.kgcc.fantal_mod.block.FantalBlock;
 import org.kgcc.fantal_mod.block.FantalOreBlock;
 import org.kgcc.fantal_mod.item.*;
-import org.kgcc.fantal_mod.test.TestBlock;
 
 public class ModItems {
     public static final Item FANTAL_INGOT = FantalIngotItem.register(new FantalIngotItem(), "fantal_ingot");
     public static final Item ROW_FANTAL = RowFantalItem.register(new RowFantalItem(), "row_fantal");
 
-    public static final Block TEST_BLOCK = TestBlock.register(new TestBlock(), "test_block");
     public static final Block FANTAL_ORE = FantalOreBlock.register(new FantalOreBlock(), "fantal_ore");
     public static final Block FANTAL_BLOCK = FantalBlock.register(new FantalBlock(), "fantal_block");
 
@@ -26,5 +25,7 @@ public class ModItems {
     public static final Item FANTAL_LEGGINGS = FantalLeggingsItem.register(new FantalLeggingsItem(), "fantal_leggings");
     public static final Item FANTAL_BOOTS = FantalBootsItem.register(new FantalBootsItem(), "fantal_boots");
 
-//    public static final Item USABLE_ITEM = UsableItem.register(new UsableItem(), "usable_item");
+    public static void  initialize() {
+        FantalMod.LOGGER.info("ModItems registered.");
+    }
 }
