@@ -1,5 +1,5 @@
 package org.kgcc.modid;
 
-public class PlayerData {
+public class PlayerFantalData {
     public  int fantalPollution =  0 ;
 }

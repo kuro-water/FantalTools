@@ -22,7 +22,7 @@ import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import static org.kgcc.modid.ExampleMod.MODID;
+import static org.kgcc.modid.FantalMod.MODID;
 
 public class UsableItem extends Item {
     public UsableItem() {
@@ -37,11 +37,11 @@ public class UsableItem extends Item {
 
     private void addFantalPollution(World world, PlayerEntity user, Hand hand) {
         // server stateを取得
-        StateSaverAndLoader serverState = StateSaverAndLoader.getServerState(world.getServer());
+        FantalStateManager serverState = FantalStateManager.getServerState(world.getServer());
         // server stateを更新
         serverState.totalFantalPollution += 1;
 
-        PlayerData playerState = StateSaverAndLoader.getPlayerState(user);
+        PlayerFantalData playerState = FantalStateManager.getPlayerState(user);
         playerState.fantalPollution += 1;
 
         MinecraftServer server = world.getServer();
@@ -53,8 +53,8 @@ public class UsableItem extends Item {
 
         ServerPlayerEntity playerEntity = server.getPlayerManager().getPlayer(user.getUuid());
         server.execute(() -> {
-            ExampleMod.LOGGER.info("Sending pollution data to client");
-            ServerPlayNetworking.send(playerEntity, ExampleMod.FANTAL_POLLUTION, data);
+            FantalMod.LOGGER.info("Sending pollution data to client");
+            ServerPlayNetworking.send(playerEntity, FantalMod.FANTAL_POLLUTION, data);
         });
     }
 

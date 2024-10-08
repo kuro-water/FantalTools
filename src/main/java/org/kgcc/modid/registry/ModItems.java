@@ -23,5 +23,5 @@ public class ModItems {
     public static final Item FANTAL_LEGGINGS = FantalLeggingsItem.register(new FantalLeggingsItem(), "fantal_leggings");
     public static final Item FANTAL_BOOTS = FantalBootsItem.register(new FantalBootsItem(), "fantal_boots");
 
-    public static final Item USABLE_ITEM = UsableItem.register(new UsableItem(), "usable_item");
+//    public static final Item USABLE_ITEM = UsableItem.register(new UsableItem(), "usable_item");
 }

@@ -5,7 +5,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
-import static org.kgcc.modid.ExampleMod.MODID;
+import static org.kgcc.modid.FantalMod.MODID;
 
 public class FantalIngotItem extends Item {
     public FantalIngotItem() {

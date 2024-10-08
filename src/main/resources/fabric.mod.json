@@ -16,10 +16,10 @@
     "environment" : "*",
     "entrypoints" : {
         "main" : [
-            "org.kgcc.modid.ExampleMod"
+            "org.kgcc.modid.FantalMod"
         ],
         "client" : [
-            "org.kgcc.modid.ExampleModClient"
+            "org.kgcc.modid.FantalModClient"
         ]
     },
     "mixins" : [

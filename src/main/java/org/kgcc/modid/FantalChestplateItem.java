@@ -6,7 +6,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
-import static org.kgcc.modid.ExampleMod.MODID;
+import static org.kgcc.modid.FantalMod.MODID;
 import static org.kgcc.modid.TestItem.TUTORIAL_ARMOR_MATERIAL;
 
 public class FantalChestplateItem extends ArmorItem {

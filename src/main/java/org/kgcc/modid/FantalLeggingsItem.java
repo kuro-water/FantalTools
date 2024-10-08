@@ -7,7 +7,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 
-import static org.kgcc.modid.ExampleMod.MODID;
+import static org.kgcc.modid.FantalMod.MODID;
 import static org.kgcc.modid.TestItem.TUTORIAL_ARMOR_MATERIAL;
 
 public class FantalLeggingsItem extends ArmorItem {
