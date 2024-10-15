@@ -28,7 +28,7 @@ public class FantalHoeItem extends HoeItem {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!user.getWorld().isClient() && hand == Hand.MAIN_HAND) {
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 20 * FantalMod.TICK_PAR_SEC, 0));
-            FantalStateManager.incrementFantalPollution(world, user);
+            FantalStateManager.addFantalPollution(world, user,1);
         }
         return super.use(world, user, hand);
     }

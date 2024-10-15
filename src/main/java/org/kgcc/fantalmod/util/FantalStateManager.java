@@ -60,10 +60,10 @@ public class FantalStateManager extends PersistentState {
     // サーバーの状態を取得
     public static FantalStateManager getServerState(MinecraftServer server) {
         var world = server.getWorld(World.OVERWORLD);
-        if(world == null) {
+        if (world == null) {
             throw new IllegalStateException("World is null");
         }
-        PersistentStateManager persistentStateManager =world.getPersistentStateManager();
+        PersistentStateManager persistentStateManager = world.getPersistentStateManager();
 
         FantalStateManager state = persistentStateManager.getOrCreate(
                 nbt -> createFromNbt(nbt, null), // Create from NBT
@@ -77,7 +77,7 @@ public class FantalStateManager extends PersistentState {
 
     public static PlayerFantalData getPlayerState(LivingEntity player) {
         var world = player.getWorld().getServer();
-        if(world == null) {
+        if (world == null) {
             throw new IllegalStateException("World is null");
         }
         FantalStateManager serverState = getServerState(world);
@@ -86,18 +86,22 @@ public class FantalStateManager extends PersistentState {
         return serverState.players.computeIfAbsent(player.getUuid(), uuid -> new PlayerFantalData());
     }
 
-    public static void incrementFantalPollution(World world, PlayerEntity user) {
+    public static void addFantalPollution(World world, PlayerEntity user, int dif) {
+        setFantalPollution(world, user, getPlayerState(user).fantalPollution + dif);
+    }
+
+    public static void setFantalPollution(World world, PlayerEntity user, int value) {
         MinecraftServer server = world.getServer();
-        if(server == null) {
+        if (server == null) {
             throw new IllegalStateException("Server is null");
         }
         // server stateを取得
         FantalStateManager serverState = FantalStateManager.getServerState(server);
         // server stateを更新
-        serverState.totalFantalPollution += 1;
+        serverState.totalFantalPollution = value;
 
         PlayerFantalData playerState = FantalStateManager.getPlayerState(user);
-        playerState.fantalPollution += 1;
+        playerState.fantalPollution = value;
 
         // クライアントに送信
         PacketByteBuf data = PacketByteBufs.create();
@@ -105,7 +109,7 @@ public class FantalStateManager extends PersistentState {
         data.writeInt(playerState.fantalPollution);
 
         ServerPlayerEntity playerEntity = server.getPlayerManager().getPlayer(user.getUuid());
-        if(playerEntity == null) {
+        if (playerEntity == null) {
             throw new IllegalStateException("Player is null");
         }
 

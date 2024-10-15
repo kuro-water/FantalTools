@@ -28,7 +28,7 @@ public class FantalSwordItem extends SwordItem {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!user.getWorld().isClient() && hand == Hand.MAIN_HAND) {
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.STRENGTH, 20 * FantalMod.TICK_PAR_SEC, 1));
-            FantalStateManager.incrementFantalPollution(world, user);
+            FantalStateManager.addFantalPollution(world, user,1);
         }
         return super.use(world, user, hand);
     }
