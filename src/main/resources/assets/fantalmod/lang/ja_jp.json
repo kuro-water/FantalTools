@@ -1,5 +1,6 @@
 {
     "block.fantalmod.fantal_ore" : "ファンタル鉱石",
+    "block.fantalmod.deep_fantal_ore" : "深層ファンタル鉱石",
     "item.fantalmod.fantal_ingot" : "ファンタルインゴット",
     "block.fantalmod.fantal_block" : "ファンタルブロック",
     "item.fantalmod.row_fantal" : "ファンタルの原石",

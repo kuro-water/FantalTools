@@ -1,0 +1,6 @@
+{
+    "parent" : "block/cube_all",
+    "textures" : {
+        "all" : "fantalmod:block/deep_fantal_ore"
+    }
+}
