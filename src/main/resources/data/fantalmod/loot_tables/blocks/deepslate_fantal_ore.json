@@ -6,7 +6,7 @@
             "entries": [
                 {
                     "type": "minecraft:item",
-                    "name": "fantalmod:deep_fantal_ore",
+                    "name": "fantalmod:deepslate_fantal_ore",
                     "conditions": [
                         {
                             "condition": "minecraft:match_tool",

@@ -5,7 +5,7 @@
     "experience" : 0.7,
     "group" : "fantal_ingot",
     "ingredient" : {
-        "item" : "fantalmod:deep_fantal_ore"
+        "item" : "fantalmod:deepslate_fantal_ore"
     },
     "result" : "fantalmod:fantal_ingot"
 }

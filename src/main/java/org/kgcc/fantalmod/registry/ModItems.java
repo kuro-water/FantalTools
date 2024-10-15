@@ -13,7 +13,7 @@ public class ModItems {
     public static final Item FANTAL_NUGGET = FantalNuggetItem.register(new FantalNuggetItem(), "fantal_nugget");
 
     public static final Block FANTAL_ORE = FantalOreBlock.register(new FantalOreBlock(), "fantal_ore");
-    public static final Block DEEP_FANTAL_ORE = FantalOreBlock.register(new FantalOreBlock(), "deep_fantal_ore");
+    public static final Block DEEP_FANTAL_ORE = FantalOreBlock.register(new FantalOreBlock(), "deepslate_fantal_ore");
     public static final Block FANTAL_BLOCK = FantalBlock.register(new FantalBlock(), "fantal_block");
 
     public static final Item FANTAL_SWORD = FantalSwordItem.register(new FantalSwordItem(), "fantal_sword");

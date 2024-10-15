@@ -15,7 +15,7 @@
             },
             {
                 "state" : {
-                    "Name" : "fantalmod:deep_fantal_ore"
+                    "Name" : "fantalmod:deepslate_fantal_ore"
                 },
                 "target" : {
                     "predicate_type" : "minecraft:tag_match",
