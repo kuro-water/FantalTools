@@ -5,6 +5,12 @@ import net.minecraft.recipe.Ingredient;
 import org.kgcc.fantalmod.registry.ModItems;
 
 public class FantalToolMaterial implements ToolMaterial {
+    public static void setMiningSpeed(float miningSpeedMultiplier) {
+    }
+
+    public static void setMiningLevel(int miningLevel) {
+    }
+
     @Override
     //耐久値
     public int getDurability() {

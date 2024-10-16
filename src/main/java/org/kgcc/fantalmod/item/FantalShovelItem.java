@@ -5,6 +5,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.ShovelItem;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.ActionResult;
@@ -13,13 +14,18 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.kgcc.fantalmod.material.FantalToolMaterial;
 import org.kgcc.fantalmod.util.FantalStateManager;
 
 import static org.kgcc.fantalmod.FantalMod.MODID;
 
-public class FantalShovelItem extends Item {
+public class FantalShovelItem extends ShovelItem {
+    private static final int DURABILITY = 1561; // 耐久値
+    private static final float MINING_SPEED_MULTIPLIER = 8.0F; // 採掘速度
+    private static final int MINING_LEVEL = 3; // 採掘レベル
+
     public FantalShovelItem() {
-        super(new Settings().rarity(Rarity.COMMON));
+        super(new FantalToolMaterial(), 1, 1.0f, new Settings().rarity(Rarity.COMMON));
     }
 
     @Override
