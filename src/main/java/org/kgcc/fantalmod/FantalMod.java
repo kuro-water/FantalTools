@@ -14,6 +14,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
+import org.kgcc.fantalmod.material.FantalToolMaterial;
 import org.kgcc.fantalmod.registry.ModItems;
 import org.kgcc.fantalmod.util.FantalStateManager;
 import org.slf4j.Logger;
@@ -84,5 +85,8 @@ public class FantalMod implements ModInitializer {
                 }
             }
         });
+
+        // クリエイティブタブに追加
+        FantalToolMaterial.registerCreativeTab();
     }
 }
