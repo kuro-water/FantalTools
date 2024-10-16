@@ -24,10 +24,6 @@ import static org.kgcc.fantalmod.FantalMod.MODID;
 import static org.kgcc.fantalmod.registry.ModItems.FANTAL_INGOT;
 
 public class FantalSwordItem extends SwordItem {
-    private static final int DURABILITY = 1561; // 耐久値
-    private static final float MINING_SPEED_MULTIPLIER = 8.0F; // 採掘速度
-    private static final int MINING_LEVEL = 3; // 採掘レベル
-
     public FantalSwordItem() {
         super(new FantalToolMaterial(), 1, 1.0f, new Item.Settings().rarity(Rarity.COMMON));
     }

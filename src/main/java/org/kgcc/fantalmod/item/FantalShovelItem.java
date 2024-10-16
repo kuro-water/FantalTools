@@ -20,10 +20,6 @@ import org.kgcc.fantalmod.util.FantalStateManager;
 import static org.kgcc.fantalmod.FantalMod.MODID;
 
 public class FantalShovelItem extends ShovelItem {
-    private static final int DURABILITY = 1561; // 耐久値
-    private static final float MINING_SPEED_MULTIPLIER = 8.0F; // 採掘速度
-    private static final int MINING_LEVEL = 3; // 採掘レベル
-
     public FantalShovelItem() {
         super(new FantalToolMaterial(), 1, 1.0f, new Settings().rarity(Rarity.COMMON));
     }

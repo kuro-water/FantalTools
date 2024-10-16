@@ -20,15 +20,8 @@ import org.kgcc.fantalmod.util.FantalStateManager;
 import static org.kgcc.fantalmod.FantalMod.MODID;
 
 public class FantalHoeItem extends HoeItem {
-    private static final int DURABILITY = 1561; // 耐久値
-    private static final float MINING_SPEED_MULTIPLIER = 8.0F; // 採掘速度
-    private static final int MINING_LEVEL = 3; // 採掘レベル
-
     public FantalHoeItem() {
-        super(new FantalToolMaterial(), 1, 1.0f, new Settings().rarity(Rarity.COMMON).maxDamage(DURABILITY));
-
-        FantalToolMaterial.setMiningSpeed(MINING_SPEED_MULTIPLIER);
-        FantalToolMaterial.setMiningLevel(MINING_LEVEL);
+        super(new FantalToolMaterial(), 1, 1.0f, new Settings().rarity(Rarity.COMMON));
     }
 
     @Override
