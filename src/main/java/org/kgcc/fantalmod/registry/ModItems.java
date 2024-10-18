@@ -22,10 +22,10 @@ public class ModItems {
     public static final Item FANTAL_SHOVEL = FantalShovelItem.register(new FantalShovelItem(), "fantal_shovel");
     public static final Item FANTAL_HOE = FantalHoeItem.register(new FantalHoeItem(), "fantal_hoe");
 
-    public static final Item FANTAL_HELMET = FantalHelmetItem.register(new FantalHelmetItem(), "fantal_helmet");
-    public static final Item FANTAL_CHESTPLATE = FantalChestplateItem.register(new FantalChestplateItem(), "fantal_chestplate");
-    public static final Item FANTAL_LEGGINGS = FantalLeggingsItem.register(new FantalLeggingsItem(), "fantal_leggings");
-    public static final Item FANTAL_BOOTS = FantalBootsItem.register(new FantalBootsItem(), "fantal_boots");
+    //public static final Item FANTAL_HELMET = FantalHelmetItem.register(new FantalHelmetItem(), "fantal_helmet");
+    //public static final Item FANTAL_CHESTPLATE = FantalChestplateItem.register(new FantalChestplateItem(), "fantal_chestplate");
+    //public static final Item FANTAL_LEGGINGS = FantalLeggingsItem.register(new FantalLeggingsItem(), "fantal_leggings");
+    //public static final Item FANTAL_BOOTS = FantalBootsItem.register(new FantalBootsItem(), "fantal_boots");
 
     public static void  initialize() {
         FantalMod.LOGGER.info("ModItems registered.");

@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -14,10 +15,15 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
+import org.kgcc.fantalmod.fantal.FantalArmorEffect;
+import org.kgcc.fantalmod.item.ModItemGroup;
+import org.kgcc.fantalmod.item.Modaitems;
+
 import org.kgcc.fantalmod.registry.ModItems;
 import org.kgcc.fantalmod.util.FantalStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import software.bernie.geckolib.GeckoLib;
 
 import java.util.Objects;
 
@@ -60,10 +66,18 @@ public class FantalMod implements ModInitializer {
         // このコードは、Minecraftがモッドロード準備完了状態になったときに実行されます。
         // ただし、リソースなどの一部のものはまだ初期化されていない場合があります。
         // 注意して進めてください。
-
+        GeckoLib.initialize();
         LOGGER.info("Hello Fabric world!");
-
+        ModItemGroup.registerItemGroups();
+        Modaitems.registerModItems();
         ModItems.initialize();
+
+        FantalArmorEffect.register();
+
+
+
+
+
 
         // バイオームに機能を追加する 鉱石追加用
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(),
