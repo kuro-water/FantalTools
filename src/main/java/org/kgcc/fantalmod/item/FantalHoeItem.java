@@ -21,7 +21,7 @@ import static org.kgcc.fantalmod.FantalMod.MODID;
 
 public class FantalHoeItem extends HoeItem {
     public FantalHoeItem() {
-        super(new FantalToolMaterial(), 1, 1.0f, new Settings().rarity(Rarity.COMMON));
+        super(new FantalToolMaterial(), -3, 0, new Settings().rarity(Rarity.COMMON));
     }
 
     @Override

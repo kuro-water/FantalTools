@@ -21,7 +21,7 @@ import static org.kgcc.fantalmod.FantalMod.MODID;
 
 public class FantalAxeItem extends AxeItem {
     public FantalAxeItem() {
-        super(new FantalToolMaterial(), 1, 1.0f, new Settings().rarity(Rarity.COMMON));
+        super(new FantalToolMaterial(), 5f, -3f, new Settings().rarity(Rarity.COMMON));
     }
 
 

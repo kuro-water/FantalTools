@@ -12,7 +12,12 @@ public class FantalArmorMaterial implements ArmorMaterial {
 
     //耐久値
     public int getDurability(ArmorItem.Type type) {
-        return 35;
+        return switch (type) {
+            case HELMET -> 370;
+            case CHESTPLATE -> 550;
+            case LEGGINGS -> 525;
+            case BOOTS -> 450;
+        };
     }
 
     //防御力

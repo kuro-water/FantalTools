@@ -6,26 +6,22 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
-import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.util.*;
+import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.Rarity;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.material.FantalToolMaterial;
 import org.kgcc.fantalmod.util.FantalStateManager;
-import net.minecraft.item.Item.Settings;
-import net.minecraft.item.ItemGroup;
-
-
-
 
 import static org.kgcc.fantalmod.FantalMod.MODID;
-import static org.kgcc.fantalmod.registry.ModItems.FANTAL_INGOT;
 
 public class FantalSwordItem extends SwordItem {
     public FantalSwordItem() {
-        super(new FantalToolMaterial(), 1, 1.0f, new Item.Settings().rarity(Rarity.COMMON));
+        super(new FantalToolMaterial(), 3, -2.4f, new Item.Settings().rarity(Rarity.COMMON));
     }
 
     @Override
