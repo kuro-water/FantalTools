@@ -6,6 +6,8 @@ import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.block.FantalBlock;
 import org.kgcc.fantalmod.block.FantalOreBlock;
 import org.kgcc.fantalmod.item.*;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.Item;
 
 public class ModItems {
     public static final Item FANTAL_INGOT = FantalIngotItem.register(new FantalIngotItem(), "fantal_ingot");
