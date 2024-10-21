@@ -5,14 +5,12 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
@@ -75,8 +73,7 @@ public class FantalMod implements ModInitializer {
         FantalStateManager.register();
 
         // バイオームに機能を追加する 鉱石追加用
-        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(),
-                                      GenerationStep.Feature.UNDERGROUND_ORES, FANTAL_ORE_PLACED_KEY
+        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, FANTAL_ORE_PLACED_KEY);
 
 
         var addFantalPollutionArgument =
@@ -176,13 +173,11 @@ public class FantalMod implements ModInitializer {
 
         // コマンドを登録
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(humei));
-        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            dispatcher.register(literal("fantalmod").then(addFantalPollutionLiteral)
-                                        .then(addFantalPollutionPlayerLiteral)
-                                        .then(setFantalPollutionLiteral)
-                                        .then(setFantalPollutionPlayerLiteral)
-                                        .then(showFantalPollutionLiteral)
-                                        .then(showFantalPollutionPlayerLiteral));
-        });
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("fantalmod").then(addFantalPollutionLiteral)
+                                    .then(addFantalPollutionPlayerLiteral)
+                                    .then(setFantalPollutionLiteral)
+                                    .then(setFantalPollutionPlayerLiteral)
+                                    .then(showFantalPollutionLiteral)
+                                    .then(showFantalPollutionPlayerLiteral)));
     }
 }
