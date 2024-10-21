@@ -22,7 +22,7 @@ public class FantalShovelItem extends ShovelItem {
         BlockPos pos = context.getBlockPos().offset(context.getSide());
         Hand hand = context.getHand();
         PlayerEntity player = context.getPlayer();
-        if(player == null) {
+        if (player == null) {
             return ActionResult.FAIL;
         }
 
@@ -40,7 +40,7 @@ public class FantalShovelItem extends ShovelItem {
             // 設置処理
             ActionResult result = blockItem.place(new ItemPlacementContext(player, hand, torchStack, hitResult));
             if (result.isAccepted()) {
-                FantalStateManager.incrementFantalPollution(world, player);
+                FantalStateManager.addFantalPollution(world, player, 1);
                 return ActionResult.SUCCESS;
             }
         }

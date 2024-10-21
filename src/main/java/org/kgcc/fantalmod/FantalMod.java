@@ -1,13 +1,19 @@
 package org.kgcc.fantalmod;
 
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
@@ -18,6 +24,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
+
+import static net.minecraft.server.command.CommandManager.argument;
+import static net.minecraft.server.command.CommandManager.literal;
 
 public class FantalMod implements ModInitializer {
     // このMODのIDを取得します。
@@ -42,8 +51,7 @@ public class FantalMod implements ModInitializer {
         // amplifier（強度）
         try {
             // effectの残り時間をチェック
-            var hasteDuration = Objects.requireNonNull(player.getStatusEffect(effect))
-                    .getDuration();
+            var hasteDuration = Objects.requireNonNull(player.getStatusEffect(effect)).getDuration();
             if (hasteDuration < 5 * TICK_PAR_SEC) {
                 player.addStatusEffect(new StatusEffectInstance(effect, 10 * TICK_PAR_SEC, 0, false, false));
             }
@@ -69,7 +77,112 @@ public class FantalMod implements ModInitializer {
         // バイオームに機能を追加する 鉱石追加用
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(),
                                       GenerationStep.Feature.UNDERGROUND_ORES, FANTAL_ORE_PLACED_KEY
-                                     );
 
+
+        var addFantalPollutionArgument =
+                argument("value", IntegerArgumentType.integer()).requires(source -> source.hasPermissionLevel(2))
+                        .executes(context -> {
+                            final int value = IntegerArgumentType.getInteger(context, "value");
+                            var player = context.getSource().getPlayer();
+                            if (player == null) {
+                                return 0;
+                            }
+                            FantalStateManager.addFantalPollution(player.world, player, value);
+                            var playerState = FantalStateManager.getPlayerState(player);
+                            context.getSource()
+                                    .sendFeedback(Text.literal("%s's Pollution: %s".formatted(player.getUuid(), playerState.fantalPollution)), false);
+                            return 1;
+                        });
+        var addFantalPollutionLiteral = literal("addFantalPollution").then(addFantalPollutionArgument);
+
+        var addFantalPollutionPlayerArgument =
+                argument("player", EntityArgumentType.player()).requires(source -> source.hasPermissionLevel(2))
+                        .then(argument("value", IntegerArgumentType.integer()).requires(source -> source.hasPermissionLevel(2))
+                                      .executes(context -> {
+                                          final PlayerEntity player = EntityArgumentType.getPlayer(context, "player");
+                                          final int value = IntegerArgumentType.getInteger(context, "value");
+                                          FantalStateManager.addFantalPollution(player.world, player, value);
+                                          var playerState = FantalStateManager.getPlayerState(player);
+                                          context.getSource()
+                                                  .sendFeedback(Text.literal("%s's Pollution: %s".formatted(player.getUuid(), playerState.fantalPollution)), false);
+                                          return 1;
+                                      }));
+        var addFantalPollutionPlayerLiteral = literal("addFantalPollution").then(addFantalPollutionPlayerArgument);
+
+        var setFantalPollutionArgument =
+                argument("value", IntegerArgumentType.integer()).requires(source -> source.hasPermissionLevel(2))
+                        .executes(context -> {
+                            final int value = IntegerArgumentType.getInteger(context, "value");
+                            var player = context.getSource().getPlayer();
+                            if (player == null) {
+                                return 0;
+                            }
+                            FantalStateManager.setFantalPollution(player.world, player, value);
+                            var playerState = FantalStateManager.getPlayerState(player);
+                            context.getSource()
+                                    .sendFeedback(Text.literal("%s's Pollution: %s".formatted(player.getUuid(), playerState.fantalPollution)), false);
+                            return 1;
+                        });
+        var setFantalPollutionLiteral = literal("setFantalPollution").then(setFantalPollutionArgument);
+
+        var setFantalPollutionPlayerArgument =
+                argument("player", EntityArgumentType.player()).requires(source -> source.hasPermissionLevel(2))
+                        .then(argument("value", IntegerArgumentType.integer()).requires(source -> source.hasPermissionLevel(2))
+                                      .executes(context -> {
+                                          final PlayerEntity player = EntityArgumentType.getPlayer(context, "player");
+                                          final int value = IntegerArgumentType.getInteger(context, "value");
+                                          FantalStateManager.setFantalPollution(player.world, player, value);
+                                          var playerState = FantalStateManager.getPlayerState(player);
+                                          context.getSource()
+                                                  .sendFeedback(Text.literal("%s's Pollution: %s".formatted(player.getUuid(), playerState.fantalPollution)), false);
+                                          return 1;
+                                      }));
+        var setFantalPollutionPlayerLiteral = literal("setFantalPollution").then(setFantalPollutionPlayerArgument);
+
+        var showFantalPollutionLiteral = literal("showFantalPollution").executes(context -> {
+            var player = context.getSource().getPlayer();
+            if (player == null) {
+                return 0;
+            }
+            var playerState = FantalStateManager.getPlayerState(player);
+            context.getSource()
+                    .sendFeedback(Text.literal("%s's Pollution: %s".formatted(player.getUuid(), playerState.fantalPollution)), false);
+            return 1;
+        });
+
+        var showFantalPollutionPlayerLiteral =
+                literal("showFantalPollution").then(argument("player", EntityArgumentType.player()).executes(context -> {
+                    final PlayerEntity player = EntityArgumentType.getPlayer(context, "player");
+                    final var playerState = FantalStateManager.getPlayerState(player);
+                    context.getSource()
+                            .sendFeedback(Text.literal("%s's Pollution: %s".formatted(player.getUuid(), playerState.fantalPollution)), false);
+                    return 1;
+                }));
+
+        var humei = literal("foo").executes(context -> {
+            context.getSource().sendFeedback(Text.literal("Called foo without bar"), false);
+            return 1;
+        }).then(literal("bar").executes(context -> {
+            context.getSource().sendFeedback(Text.literal("Called foo with bar"), false);
+            return 1;
+        })).then(literal("baz").executes(context -> {
+            context.getSource().sendFeedback(Text.literal("Called foo with baz"), false);
+            return 1;
+        })).then(literal("baz").then(argument("value", EntityArgumentType.player()).executes(context -> {
+            final PlayerEntity value = EntityArgumentType.getPlayer(context, "value");
+            context.getSource().sendFeedback(Text.literal("Called foo with baz and value: %s".formatted(value)), false);
+            return 1;
+        })));
+
+        // コマンドを登録
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(humei));
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
+            dispatcher.register(literal("fantalmod").then(addFantalPollutionLiteral)
+                                        .then(addFantalPollutionPlayerLiteral)
+                                        .then(setFantalPollutionLiteral)
+                                        .then(setFantalPollutionPlayerLiteral)
+                                        .then(showFantalPollutionLiteral)
+                                        .then(showFantalPollutionPlayerLiteral));
+        });
     }
 }
