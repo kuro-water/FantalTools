@@ -1,21 +1,15 @@
-package org.kgcc.fantalmod.item;
+package org.kgcc.fantalmod.tool;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.kgcc.fantalmod.material.FantalToolMaterial;
 import org.kgcc.fantalmod.util.FantalStateManager;
-
-import static org.kgcc.fantalmod.FantalMod.MODID;
 
 public class FantalShovelItem extends ShovelItem {
     public FantalShovelItem() {
@@ -51,9 +45,5 @@ public class FantalShovelItem extends ShovelItem {
             }
         }
         return ActionResult.FAIL;
-    }
-
-    public static Item register(Item instance, String path) {
-        return Registry.register(Registries.ITEM, new Identifier(MODID, path), instance);
     }
 }

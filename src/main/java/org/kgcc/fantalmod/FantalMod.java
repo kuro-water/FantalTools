@@ -3,18 +3,15 @@ package org.kgcc.fantalmod;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
-import org.kgcc.fantalmod.material.FantalToolMaterial;
+import org.kgcc.fantalmod.armor.FantalArmorEffect;
 import org.kgcc.fantalmod.registry.ModItems;
 import org.kgcc.fantalmod.util.FantalStateManager;
 import org.slf4j.Logger;
@@ -46,7 +43,7 @@ public class FantalMod implements ModInitializer {
         try {
             // effectの残り時間をチェック
             var hasteDuration = Objects.requireNonNull(player.getStatusEffect(effect))
-                                       .getDuration();
+                    .getDuration();
             if (hasteDuration < 5 * TICK_PAR_SEC) {
                 player.addStatusEffect(new StatusEffectInstance(effect, 10 * TICK_PAR_SEC, 0, false, false));
             }
@@ -65,28 +62,14 @@ public class FantalMod implements ModInitializer {
         LOGGER.info("Hello Fabric world!");
 
         ModItems.initialize();
+        ModItems.registerCreativeTab();
+        FantalArmorEffect.register();
+        FantalStateManager.register();
 
         // バイオームに機能を追加する 鉱石追加用
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(),
-                GenerationStep.Feature.UNDERGROUND_ORES, FANTAL_ORE_PLACED_KEY);
+                                      GenerationStep.Feature.UNDERGROUND_ORES, FANTAL_ORE_PLACED_KEY
+                                     );
 
-        // 毎tickごとにポーション効果をチェックし、かけなおす。
-        ServerTickEvents.END_SERVER_TICK.register(server -> {
-            for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
-                var playerState = FantalStateManager.getPlayerState(player);
-                if (20 < playerState.fantalPollution) {
-                    KeepStatusEffect(player, StatusEffects.HUNGER);
-                }
-                if (40 < playerState.fantalPollution) {
-                    KeepStatusEffect(player, StatusEffects.SLOWNESS);
-                }
-                if (60 < playerState.fantalPollution) {
-                    KeepStatusEffect(player, StatusEffects.MINING_FATIGUE);
-                }
-            }
-        });
-
-        // クリエイティブタブに追加
-        FantalToolMaterial.registerCreativeTab();
     }
 }

@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.fantal;
+package org.kgcc.fantalmod.armor;
 
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.entity.effect.StatusEffectInstance;

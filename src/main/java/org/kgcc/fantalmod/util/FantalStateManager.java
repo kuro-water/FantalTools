@@ -1,8 +1,10 @@
 package org.kgcc.fantalmod.util;
 
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
@@ -17,9 +19,29 @@ import org.kgcc.fantalmod.FantalMod;
 import java.util.HashMap;
 import java.util.UUID;
 
+import static org.kgcc.fantalmod.FantalMod.KeepStatusEffect;
+
 public class FantalStateManager extends PersistentState {
     public int totalFantalPollution = 0;
     public final HashMap<UUID, PlayerFantalData> players = new HashMap<>();
+
+    // 毎tickごとにポーション効果をチェックし、かけなおす。
+    public static void register() {
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+                var playerState = FantalStateManager.getPlayerState(player);
+                if (20 < playerState.fantalPollution) {
+                    KeepStatusEffect(player, StatusEffects.HUNGER);
+                }
+                if (40 < playerState.fantalPollution) {
+                    KeepStatusEffect(player, StatusEffects.SLOWNESS);
+                }
+                if (60 < playerState.fantalPollution) {
+                    KeepStatusEffect(player, StatusEffects.MINING_FATIGUE);
+                }
+            }
+        });
+    }
 
     // 書き込み
     @Override
@@ -60,16 +82,16 @@ public class FantalStateManager extends PersistentState {
     // サーバーの状態を取得
     public static FantalStateManager getServerState(MinecraftServer server) {
         var world = server.getWorld(World.OVERWORLD);
-        if(world == null) {
+        if (world == null) {
             throw new IllegalStateException("World is null");
         }
-        PersistentStateManager persistentStateManager =world.getPersistentStateManager();
+        PersistentStateManager persistentStateManager = world.getPersistentStateManager();
 
         FantalStateManager state = persistentStateManager.getOrCreate(
                 nbt -> createFromNbt(nbt, null), // Create from NBT
                 FantalStateManager::new, // Create new if not present
                 FantalMod.MODID
-        );
+                                                                     );
 
         state.markDirty();
         return state;
@@ -77,7 +99,7 @@ public class FantalStateManager extends PersistentState {
 
     public static PlayerFantalData getPlayerState(LivingEntity player) {
         var world = player.getWorld().getServer();
-        if(world == null) {
+        if (world == null) {
             throw new IllegalStateException("World is null");
         }
         FantalStateManager serverState = getServerState(world);
@@ -88,7 +110,7 @@ public class FantalStateManager extends PersistentState {
 
     public static void incrementFantalPollution(World world, PlayerEntity user) {
         MinecraftServer server = world.getServer();
-        if(server == null) {
+        if (server == null) {
             throw new IllegalStateException("Server is null");
         }
         // server stateを取得
@@ -105,7 +127,7 @@ public class FantalStateManager extends PersistentState {
         data.writeInt(playerState.fantalPollution);
 
         ServerPlayerEntity playerEntity = server.getPlayerManager().getPlayer(user.getUuid());
-        if(playerEntity == null) {
+        if (playerEntity == null) {
             throw new IllegalStateException("Player is null");
         }
 

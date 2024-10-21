@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.fantal;
+package org.kgcc.fantalmod.armor;
 
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
