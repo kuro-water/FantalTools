@@ -24,7 +24,6 @@ public class FantalAxeItem extends AxeItem {
         super(new FantalToolMaterial(), 5f, -3f, new Settings().rarity(Rarity.COMMON));
     }
 
-
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!user.getWorld().isClient() && hand == Hand.MAIN_HAND) {

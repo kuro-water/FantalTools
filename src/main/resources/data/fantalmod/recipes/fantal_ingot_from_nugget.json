@@ -2,16 +2,16 @@
     "type" : "minecraft:crafting_shaped",
     "pattern" : [
         "WWW",
-        "W W",
+        "WWW",
         "WWW"
     ],
     "key" : {
         "W" : {
-            "item" : "minecraft:dirt"
+            "item" : "fantalmod:fantal_nugget"
         }
     },
     "result" : {
-        "item" : "fantalmod:test_item",
-        "count" : 4
+        "item" : "fantalmod:fantal_ingot",
+        "count" : 1
     }
 }
