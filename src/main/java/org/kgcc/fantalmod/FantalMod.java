@@ -4,7 +4,6 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -16,9 +15,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import org.kgcc.fantalmod.fantal.FantalArmorEffect;
-import org.kgcc.fantalmod.item.ModItemGroup;
-import org.kgcc.fantalmod.item.Modaitems;
-
 import org.kgcc.fantalmod.registry.ModItems;
 import org.kgcc.fantalmod.util.FantalStateManager;
 import org.slf4j.Logger;
@@ -68,8 +64,8 @@ public class FantalMod implements ModInitializer {
         // 注意して進めてください。
         GeckoLib.initialize();
         LOGGER.info("Hello Fabric world!");
-        ModItemGroup.registerItemGroups();
-        Modaitems.registerModItems();
+//        ModItemGroup.registerItemGroups();
+//        Modaitems.registerModItems();
         ModItems.initialize();
 
         FantalArmorEffect.register();
