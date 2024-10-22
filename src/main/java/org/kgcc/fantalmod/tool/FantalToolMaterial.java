@@ -2,7 +2,7 @@ package org.kgcc.fantalmod.tool;
 
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.recipe.Ingredient;
-import org.kgcc.fantalmod.registry.ModItems;
+import org.kgcc.fantalmod.registry.FantalModItems;
 
 public class FantalToolMaterial implements ToolMaterial {
     @Override
@@ -38,6 +38,6 @@ public class FantalToolMaterial implements ToolMaterial {
     @Override
     //修理の素材
     public Ingredient getRepairIngredient() {
-        return Ingredient.ofItems(ModItems.FANTAL_INGOT);
+        return Ingredient.ofItems(FantalModItems.FANTAL_INGOT);
     }
 }

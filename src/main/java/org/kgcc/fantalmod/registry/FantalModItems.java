@@ -19,7 +19,7 @@ import org.kgcc.fantalmod.tool.*;
 
 import static org.kgcc.fantalmod.FantalMod.MODID;
 
-public class ModItems {
+public class FantalModItems {
     public static final Item FANTAL_INGOT = registerItem(new FantalIngotItem(), "fantal_ingot");
     public static final Item ROW_FANTAL = registerItem(new RowFantalItem(), "row_fantal");
     public static final Item FANTAL_NUGGET = registerItem(new FantalNuggetItem(), "fantal_nugget");
@@ -55,37 +55,37 @@ public class ModItems {
     // クリエイティブタブへの追加
     public static void registerCreativeTab() {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(entries -> {
-            entries.addAfter(Items.DIAMOND_HOE, ModItems.FANTAL_SHOVEL);
-            entries.addAfter(ModItems.FANTAL_SHOVEL, ModItems.FANTAL_PICKAXE);
-            entries.addAfter(ModItems.FANTAL_PICKAXE, ModItems.FANTAL_AXE);
-            entries.addAfter(ModItems.FANTAL_AXE, ModItems.FANTAL_HOE);
+            entries.addAfter(Items.DIAMOND_HOE, FantalModItems.FANTAL_SHOVEL);
+            entries.addAfter(FantalModItems.FANTAL_SHOVEL, FantalModItems.FANTAL_PICKAXE);
+            entries.addAfter(FantalModItems.FANTAL_PICKAXE, FantalModItems.FANTAL_AXE);
+            entries.addAfter(FantalModItems.FANTAL_AXE, FantalModItems.FANTAL_HOE);
             // 他のツールがあれば、ここに追加する
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
-            entries.addAfter(Items.RAW_GOLD, ModItems.ROW_FANTAL);
-            entries.addAfter(Items.GOLD_INGOT, ModItems.FANTAL_INGOT);
+            entries.addAfter(Items.RAW_GOLD, FantalModItems.ROW_FANTAL);
+            entries.addAfter(Items.GOLD_INGOT, FantalModItems.FANTAL_INGOT);
             // 他に材料系アイテムがあれば、ここに追加する
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.NATURAL).register(entries -> {
-            entries.addAfter(Items.DIAMOND_ORE, ModItems.FANTAL_ORE);
-            entries.addAfter(ModItems.FANTAL_ORE, ModItems.DEEP_FANTAL_ORE);
+            entries.addAfter(Items.DIAMOND_ORE, FantalModItems.FANTAL_ORE);
+            entries.addAfter(FantalModItems.FANTAL_ORE, FantalModItems.DEEP_FANTAL_ORE);
             // 他の鉱石があれば、ここに追加する
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(entries -> {
-            entries.addAfter(Items.DIAMOND_BLOCK, ModItems.FANTAL_BLOCK);
+            entries.addAfter(Items.DIAMOND_BLOCK, FantalModItems.FANTAL_BLOCK);
             // 他のブロックがあれば、ここに追加する
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.COMBAT).register(entries -> {
-            entries.addAfter(Items.DIAMOND_SWORD, ModItems.FANTAL_SWORD);
-            entries.addAfter(Items.DIAMOND_AXE, ModItems.FANTAL_AXE);
-            entries.addAfter(Items.DIAMOND_BOOTS, ModItems.FANTAL_HELMET);
-            entries.addAfter(ModItems.FANTAL_HELMET, ModItems.FANTAL_CHESTPLATE);
-            entries.addAfter(ModItems.FANTAL_CHESTPLATE, ModItems.FANTAL_LEGGINGS);
-            entries.addAfter(ModItems.FANTAL_LEGGINGS, ModItems.FANTAL_BOOTS);
+            entries.addAfter(Items.DIAMOND_SWORD, FantalModItems.FANTAL_SWORD);
+            entries.addAfter(Items.DIAMOND_AXE, FantalModItems.FANTAL_AXE);
+            entries.addAfter(Items.DIAMOND_BOOTS, FantalModItems.FANTAL_HELMET);
+            entries.addAfter(FantalModItems.FANTAL_HELMET, FantalModItems.FANTAL_CHESTPLATE);
+            entries.addAfter(FantalModItems.FANTAL_CHESTPLATE, FantalModItems.FANTAL_LEGGINGS);
+            entries.addAfter(FantalModItems.FANTAL_LEGGINGS, FantalModItems.FANTAL_BOOTS);
             // 他の防具があれば、ここに追加する
         });
     }
