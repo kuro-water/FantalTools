@@ -10,6 +10,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Lazy;
 import net.minecraft.util.StringIdentifiable;
 import net.minecraft.util.Util;
+import org.kgcc.fantalmod.registry.FantalModItems;
 
 import java.util.EnumMap;
 import java.util.function.Supplier;
@@ -20,7 +21,7 @@ public enum FantalArmorMaterials implements ArmorMaterial {
         map.put(ArmorItem.Type.LEGGINGS, 6);
         map.put(ArmorItem.Type.CHESTPLATE, 8);
         map.put(ArmorItem.Type.HELMET, 3);
-    }), 19, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 2.0F, 0.1F, () -> Ingredient.ofItems(Items.NETHERITE_INGOT));
+    }), 19, SoundEvents.ITEM_ARMOR_EQUIP_NETHERITE, 2.0F, 0.1F, () -> Ingredient.ofItems(FantalModItems.FANTAL_NUGGET));
 
     public static final StringIdentifiable.Codec<ArmorMaterials> CODEC =
             StringIdentifiable.createCodec(ArmorMaterials::values);
@@ -51,34 +52,42 @@ public enum FantalArmorMaterials implements ArmorMaterial {
         this.repairIngredientSupplier = new Lazy<>(repairIngredientSupplier);
     }
 
+    @Override
     public int getDurability(ArmorItem.Type type) {
         return BASE_DURABILITY.get(type) * this.durabilityMultiplier;
     }
 
+    @Override
     public int getProtection(ArmorItem.Type type) {
         return this.protectionAmounts.get(type);
     }
 
+    @Override
     public int getEnchantability() {
         return this.enchantability;
     }
 
+    @Override
     public SoundEvent getEquipSound() {
         return this.equipSound;
     }
 
+    @Override
     public Ingredient getRepairIngredient() {
         return this.repairIngredientSupplier.get();
     }
 
+    @Override
     public String getName() {
         return this.name;
     }
 
+    @Override
     public float getToughness() {
         return this.toughness;
     }
 
+    @Override
     public float getKnockbackResistance() {
         return this.knockbackResistance;
     }
