@@ -41,6 +41,7 @@ public class FantalShovelItem extends ShovelItem {
             ActionResult result = blockItem.place(new ItemPlacementContext(player, hand, torchStack, hitResult));
             if (result.isAccepted()) {
                 FantalStateManager.addFantalPollution(world, player, 1);
+                FantalStateManager.sendFantalPollution(world, player);
                 return ActionResult.SUCCESS;
             }
         }

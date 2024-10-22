@@ -22,6 +22,7 @@ public class FantalPickaxeItem extends PickaxeItem {
         if (!user.getWorld().isClient() && hand == Hand.MAIN_HAND) {
             user.addStatusEffect(new StatusEffectInstance(StatusEffects.HASTE, 20 * FantalMod.TICK_PAR_SEC, 1));
             FantalStateManager.addFantalPollution(world, user,1);
+            FantalStateManager.sendFantalPollution(world, user);
         }
         return super.use(world, user, hand);
     }
