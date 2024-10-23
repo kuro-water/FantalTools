@@ -63,6 +63,7 @@ public class FantalModItems {
         });
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(entries -> {
+            entries.addAfter(Items.GOLD_NUGGET,FantalModItems.FANTAL_NUGGET);
             entries.addAfter(Items.RAW_GOLD, FantalModItems.ROW_FANTAL);
             entries.addAfter(Items.GOLD_INGOT, FantalModItems.FANTAL_INGOT);
             // 他に材料系アイテムがあれば、ここに追加する
