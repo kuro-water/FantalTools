@@ -4,6 +4,8 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -20,11 +22,26 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
-import static org.kgcc.fantalmod.FantalMod.KeepStatusEffect;
-
 public class FantalStateManager extends PersistentState {
     public int totalFantalPollution = 0;
     public final HashMap<UUID, PlayerFantalData> players = new HashMap<>();
+    
+    public static final int TICK_PAR_SEC = 20;
+    
+    public static void KeepStatusEffect(PlayerEntity player, StatusEffect effect) {
+        // duration（継続時間）: 20 ticks = 1 seconds
+        // amplifier（強度）
+        try {
+            // effectの残り時間をチェック
+            var hasteDuration = Objects.requireNonNull(player.getStatusEffect(effect)).getDuration();
+            if (hasteDuration < 5 * TICK_PAR_SEC) {
+                player.addStatusEffect(new StatusEffectInstance(effect, 10 * TICK_PAR_SEC, 0, false, false));
+            }
+        } catch (NullPointerException _e) {
+            // effectが付与されていない場合NullPointerExceptionが発生するので、こちらで再度付与
+            player.addStatusEffect(new StatusEffectInstance(effect, 10 * TICK_PAR_SEC, 0, false, false));
+        }
+    }
     
     // 毎tickごとにポーション効果をチェックし、かけなおす。
     public static void register() {
@@ -134,7 +151,7 @@ public class FantalStateManager extends PersistentState {
     public static void addFantalPollution(World world, PlayerEntity user, int dif) {
         setServerFantalPollution(world, getServerState(
                 Objects.requireNonNull(world.getServer())).totalFantalPollution + dif);
-        setFantalPollution( user, getPlayerState(user).fantalPollution + dif);
+        setFantalPollution(user, getPlayerState(user).fantalPollution + dif);
     }
     
     public static void setFantalPollution(PlayerEntity user, int value) {

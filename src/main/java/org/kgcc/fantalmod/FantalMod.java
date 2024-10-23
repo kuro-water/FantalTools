@@ -36,23 +36,6 @@ public class FantalMod implements ModInitializer {
     // 汚染状態を保存するための新しいクラス レベル を作成
     public static final Identifier FANTAL_POLLUTION = new Identifier(MODID, "fantal_pollution");
 
-    public static final int TICK_PAR_SEC = 20;
-
-    public static void KeepStatusEffect(PlayerEntity player, StatusEffect effect) {
-        // duration（継続時間）: 20 ticks = 1 seconds
-        // amplifier（強度）
-        try {
-            // effectの残り時間をチェック
-            var hasteDuration = Objects.requireNonNull(player.getStatusEffect(effect)).getDuration();
-            if (hasteDuration < 5 * TICK_PAR_SEC) {
-                player.addStatusEffect(new StatusEffectInstance(effect, 10 * TICK_PAR_SEC, 0, false, false));
-            }
-        } catch (NullPointerException _e) {
-            // effectが付与されていない場合NullPointerExceptionが発生するので、こちらで再度付与
-            player.addStatusEffect(new StatusEffectInstance(effect, 10 * TICK_PAR_SEC, 0, false, false));
-        }
-    }
-
     @Override
     public void onInitialize() {
         // このコードは、Minecraftがモッドロード準備完了状態になったときに実行されます。

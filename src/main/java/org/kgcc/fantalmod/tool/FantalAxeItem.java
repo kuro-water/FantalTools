@@ -20,7 +20,7 @@ public class FantalAxeItem extends AxeItem {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (!user.getWorld().isClient() && hand == Hand.MAIN_HAND) {
-            user.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 20 * FantalMod.TICK_PAR_SEC, 1));
+            user.addStatusEffect(new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 20 * FantalStateManager.TICK_PAR_SEC, 1));
             FantalStateManager.addFantalPollution(world, user,1);
             FantalStateManager.sendFantalPollution(world, user);
         }
