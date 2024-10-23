@@ -24,8 +24,8 @@ public class FantalModItems {
     public static final Item ROW_FANTAL = registerItem(new RowFantalItem(), "row_fantal");
     public static final Item FANTAL_NUGGET = registerItem(new FantalNuggetItem(), "fantal_nugget");
 
-    public static final Block FANTAL_ORE = registerBlock(new FantalOreBlock(), "fantal_ore");
-    public static final Block DEEP_FANTAL_ORE = registerBlock(new FantalOreBlock(), "deepslate_fantal_ore");
+    public static final Block FANTAL_ORE = registerBlock(new FantalOreBlock(3.0f), "fantal_ore");
+    public static final Block DEEP_FANTAL_ORE = registerBlock(new FantalOreBlock(4.5f), "deepslate_fantal_ore");
     public static final Block FANTAL_BLOCK = registerBlock(new FantalBlock(), "fantal_block");
 
     public static final Item FANTAL_SWORD = registerItem(new FantalSwordItem(), "fantal_sword");
