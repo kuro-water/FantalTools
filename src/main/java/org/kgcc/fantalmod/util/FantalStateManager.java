@@ -1,5 +1,6 @@
 package org.kgcc.fantalmod.util;
 
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -23,40 +24,87 @@ import java.util.Objects;
 import java.util.UUID;
 
 public class FantalStateManager extends PersistentState {
-    public int totalFantalPollution = 0;
+    private int totalFantalPollution = 0;
+    
+    public int getTotalFantalPollution() {
+        return totalFantalPollution;
+    }
+    
+    public void setTotalFantalPollution(int totalFantalPollution) {
+        if (totalFantalPollution < 0) {
+            totalFantalPollution = 0;
+        }
+        this.totalFantalPollution = totalFantalPollution;
+    }
+    
+    
     public final HashMap<UUID, PlayerFantalData> players = new HashMap<>();
     
+    // 20 ticks = 1 seconds
     public static final int TICK_PAR_SEC = 20;
     
-    public static void KeepStatusEffect(PlayerEntity player, StatusEffect effect) {
-        // duration（継続時間）: 20 ticks = 1 seconds
+    public static void KeepStatusEffect(PlayerEntity player, StatusEffect effect, int amplifier, boolean ambient, boolean visible) {
+        // duration（継続時間）
         // amplifier（強度）
         try {
             // effectの残り時間をチェック
             var hasteDuration = Objects.requireNonNull(player.getStatusEffect(effect)).getDuration();
             if (hasteDuration < 5 * TICK_PAR_SEC) {
-                player.addStatusEffect(new StatusEffectInstance(effect, 10 * TICK_PAR_SEC, 0, false, false));
+                player.addStatusEffect(
+                        new StatusEffectInstance(effect, 10 * TICK_PAR_SEC, amplifier, ambient, visible));
             }
         } catch (NullPointerException _e) {
             // effectが付与されていない場合NullPointerExceptionが発生するので、こちらで再度付与
-            player.addStatusEffect(new StatusEffectInstance(effect, 10 * TICK_PAR_SEC, 0, false, false));
+            player.addStatusEffect(new StatusEffectInstance(effect, 10 * TICK_PAR_SEC, amplifier, ambient, visible));
         }
     }
     
-    // 毎tickごとにポーション効果をチェックし、かけなおす。
+    public static int lastTick = 0;
+    
+    
     public static void register() {
+        // 毎tickごとにチェック
         ServerTickEvents.END_SERVER_TICK.register(server -> {
+            // 20秒経過していれば、全プレイヤーの汚染度を1減らす
+            var tick = server.getTicks();
+            if (20 * TICK_PAR_SEC < tick - lastTick) {
+                lastTick = tick;
+                for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+                    addFantalPollution(server, player, -1);
+                }
+            }
+            
+            // 汚染度による状態異常を付与
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
                 var playerState = FantalStateManager.getPlayerState(player);
-                if (20 < playerState.fantalPollution) {
-                    KeepStatusEffect(player, StatusEffects.HUNGER);
+                if (20 < playerState.getFantalPollution()) {
+                    KeepStatusEffect(player, StatusEffects.HUNGER, 0, false, false);
                 }
-                if (40 < playerState.fantalPollution) {
-                    KeepStatusEffect(player, StatusEffects.SLOWNESS);
+                if (40 < playerState.getFantalPollution()) {
+                    KeepStatusEffect(player, StatusEffects.SLOWNESS, 0, false, false);
                 }
-                if (60 < playerState.fantalPollution) {
-                    KeepStatusEffect(player, StatusEffects.MINING_FATIGUE);
+                if (60 < playerState.getFantalPollution()) {
+                    KeepStatusEffect(player, StatusEffects.MINING_FATIGUE, 0, false, false);
                 }
+                if (80 < playerState.getFantalPollution()) {
+                    KeepStatusEffect(player, StatusEffects.WEAKNESS, 0, false, false);
+                }
+                if (100 < playerState.getFantalPollution()) {
+                    KeepStatusEffect(player, StatusEffects.POISON, 0, false, false);
+                }
+                if (150 < playerState.getFantalPollution()) {
+                    KeepStatusEffect(player, StatusEffects.WITHER, 1, false, false);
+                }
+                if (200 < playerState.getFantalPollution()) {
+                    player.kill();
+                }
+            }
+        });
+        
+        // プレイヤーが死亡したときに汚染度をリセット
+        ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
+            if (entity instanceof PlayerEntity player) {
+                FantalStateManager.setFantalPollution(player, 0);
             }
         });
     }
@@ -69,13 +117,10 @@ public class FantalStateManager extends PersistentState {
         NbtCompound playersNbt = new NbtCompound();
         players.forEach((uuid, playerData) -> {
             NbtCompound playerNbt = new NbtCompound();
-            
-            playerNbt.putInt("fantalPollution", playerData.fantalPollution);
-            
+            playerNbt.putInt("fantalPollution", playerData.getFantalPollution());
             playersNbt.put(uuid.toString(), playerNbt);
         });
         nbt.put("players", playersNbt);
-        
         return nbt;
     }
     
@@ -88,7 +133,7 @@ public class FantalStateManager extends PersistentState {
         playersNbt.getKeys().forEach(key -> {
             PlayerFantalData playerData = new PlayerFantalData();
             
-            playerData.fantalPollution = playersNbt.getCompound(key).getInt("fantalPollution");
+            playerData.setFantalPollution(playersNbt.getCompound(key).getInt("fantalPollution"));
             
             UUID uuid = UUID.fromString(key);
             state.players.put(uuid, playerData);
@@ -126,11 +171,7 @@ public class FantalStateManager extends PersistentState {
         return serverState.players.computeIfAbsent(player.getUuid(), uuid -> new PlayerFantalData());
     }
     
-    public static void sendFantalPollution(World world, PlayerEntity user) {
-        MinecraftServer server = world.getServer();
-        if (server == null) {
-            throw new IllegalStateException("Server is null");
-        }
+    public static void sendFantalPollution(MinecraftServer server, PlayerEntity user) {
         FantalStateManager serverState = FantalStateManager.getServerState(server);
         ServerPlayerEntity playerEntity = server.getPlayerManager().getPlayer(user.getUuid());
         if (playerEntity == null) {
@@ -141,31 +182,25 @@ public class FantalStateManager extends PersistentState {
         PacketByteBuf data = PacketByteBufs.create();
         PlayerFantalData playerState = FantalStateManager.getPlayerState(user);
         data.writeInt(serverState.totalFantalPollution);
-        data.writeInt(playerState.fantalPollution);
+        data.writeInt(playerState.getFantalPollution());
         server.execute(() -> {
             FantalMod.LOGGER.info("Sending pollution data to client");
             ServerPlayNetworking.send(playerEntity, FantalMod.FANTAL_POLLUTION, data);
         });
     }
     
-    public static void addFantalPollution(World world, PlayerEntity user, int dif) {
-        setServerFantalPollution(world, getServerState(
-                Objects.requireNonNull(world.getServer())).totalFantalPollution + dif);
-        setFantalPollution(user, getPlayerState(user).fantalPollution + dif);
+    public static void addFantalPollution(MinecraftServer server, PlayerEntity user, int dif) {
+        setServerFantalPollution(server, getServerState(server).totalFantalPollution + dif);
+        setFantalPollution(user, getPlayerState(user).getFantalPollution() + dif);
     }
     
     public static void setFantalPollution(PlayerEntity user, int value) {
         PlayerFantalData playerState = FantalStateManager.getPlayerState(user);
-        playerState.fantalPollution = value;
+        playerState.setFantalPollution(value);
     }
     
-    public static void setServerFantalPollution(World world, int value) {
-        MinecraftServer server = world.getServer();
-        if (server == null) {
-            throw new IllegalStateException("Server is null");
-        }
+    public static void setServerFantalPollution(MinecraftServer server, int value) {
         FantalStateManager serverState = FantalStateManager.getServerState(server);
-        serverState.totalFantalPollution = value;
-        
+        serverState.setTotalFantalPollution(value);
     }
 }

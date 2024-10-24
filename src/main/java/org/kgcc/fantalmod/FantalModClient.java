@@ -19,8 +19,8 @@ public class FantalModClient implements ClientModInitializer {
                                                         
                                                         client.execute(() -> {
                                                             if (client.player != null) {
-                                                                client.player.sendMessage(Text.literal(
-                                                                        "全体の侵食度：" + totalFantalPollution));
+//                                                                client.player.sendMessage(Text.literal(
+//                                                                        "全体の侵食度：" + totalFantalPollution));
                                                                 client.player.sendMessage(Text.literal(
                                                                         name + "の侵食度：" + playerSpecificDirtBlocksBroken));
                                                             }

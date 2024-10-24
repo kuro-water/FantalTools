@@ -28,6 +28,7 @@ public class FantalShovelItem extends ShovelItem {
 
         // 松明を設置
         if (!world.isClient() && hand == Hand.MAIN_HAND && world.isAir(pos)) {
+            var server = world.getServer();
             ItemStack torchStack = new ItemStack(Blocks.TORCH);
             BlockItem blockItem = (BlockItem) torchStack.getItem();
             BlockHitResult hitResult = new BlockHitResult(
@@ -40,8 +41,8 @@ public class FantalShovelItem extends ShovelItem {
             // 設置処理
             ActionResult result = blockItem.place(new ItemPlacementContext(player, hand, torchStack, hitResult));
             if (result.isAccepted()) {
-                FantalStateManager.addFantalPollution(world, player, 1);
-                FantalStateManager.sendFantalPollution(world, player);
+                FantalStateManager.addFantalPollution(server, player, 1);
+                FantalStateManager.sendFantalPollution(server, player);
                 return ActionResult.SUCCESS;
             }
         }
