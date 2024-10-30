@@ -17,7 +17,7 @@
         "homepage" : "https://fabricmc.net/",
         "sources" : "https://github.com/FabricMC/fabric-example-mod"
     },
-    "license" : "MIT",
+    "license" : "GNU GENERAL PUBLIC LICENSE v3.0",
     "icon" : "assets/fantalmod/icon.png",
     "environment" : "*",
     "entrypoints" : {
