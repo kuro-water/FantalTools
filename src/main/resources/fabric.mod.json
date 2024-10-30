@@ -3,16 +3,21 @@
     "id" : "${modid}",
     "version" : "${version}",
     "name" : "Fantal Mod",
-    "description" : "This is an example description! Tell everyone what your mod is about!",
+    "description" : "Add some fantal features to Minecraft.",
     "authors" : [
-        "kuro-water"
+        "aoyama",
+        "donbei",
+        "kuro-water",
+        "matsuhisa",
+        "taku",
+        "umezawa",
+        "yururi"
     ],
     "contact" : {
         "homepage" : "https://fabricmc.net/",
         "sources" : "https://github.com/FabricMC/fabric-example-mod"
-
     },
-    "license" : "CC0-1.0",
+    "license" : "MIT",
     "icon" : "assets/fantalmod/icon.png",
     "environment" : "*",
     "entrypoints" : {
