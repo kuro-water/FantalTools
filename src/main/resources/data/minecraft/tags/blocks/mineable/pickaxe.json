@@ -1,0 +1,8 @@
+{
+    "replace" : false,
+    "values" : [
+        "fantalmod:fantal_ore",
+        "fantalmod:deepslate_fantal_ore",
+        "fantalmod:fantal_block"
+    ]
+}

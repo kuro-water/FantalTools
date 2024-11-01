@@ -1,0 +1,17 @@
+{
+    "type" : "minecraft:crafting_shaped",
+    "pattern" : [
+        "W W",
+        "WWW",
+        "WWW"
+    ],
+    "key" : {
+        "W" : {
+            "item" : "fantalmod:fantal_ingot"
+        }
+    },
+    "result" : {
+        "item" : "fantalmod:fantal_chestplate",
+        "count" : 1
+    }
+}

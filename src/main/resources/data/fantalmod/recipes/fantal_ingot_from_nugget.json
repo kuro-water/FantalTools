@@ -1,0 +1,17 @@
+{
+    "type" : "minecraft:crafting_shaped",
+    "pattern" : [
+        "WWW",
+        "WWW",
+        "WWW"
+    ],
+    "key" : {
+        "W" : {
+            "item" : "fantalmod:fantal_nugget"
+        }
+    },
+    "result" : {
+        "item" : "fantalmod:fantal_ingot",
+        "count" : 1
+    }
+}

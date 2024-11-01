@@ -1,0 +1,20 @@
+{
+    "type" : "minecraft:crafting_shaped",
+    "pattern" : [
+        "WW ",
+        "WR ",
+        " R "
+    ],
+    "key" : {
+        "W" : {
+            "item" : "fantalmod:fantal_ingot"
+        },
+        "R" : {
+            "item" : "minecraft:stick"
+        }
+    },
+    "result" : {
+        "item" : "fantalmod:fantal_axe",
+        "count" : 1
+    }
+}
