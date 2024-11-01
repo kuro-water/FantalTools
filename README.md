@@ -1,6 +1,6 @@
-The mod's release page is [here](https://www.curseforge.com/minecraft/mc-mods/fantalmod)
+The mod's release page is [here](https://www.curseforge.com/minecraft/mc-mods/fantalmod)<br>
 
-mod公開ページは[こちら](https://www.curseforge.com/minecraft/mc-mods/fantalmod)
+mod公開ページは[こちら](https://www.curseforge.com/minecraft/mc-mods/fantalmod)<br>
 
 Adds Fantal Ore, an original mineral, and its toolset. Currently, only an alpha version is available.<br>
 
