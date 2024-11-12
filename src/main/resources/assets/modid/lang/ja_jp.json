@@ -1,4 +1,13 @@
 {
     "item.modid.test_item" : "テストアイテム",
-    "block.modid.test_block" : "テストブロック"
+    "item.modid.anime_item" : "アニメアイテム",
+    "item.modid.tutorial_pickaxe" : "チュートリアルのツルハシ",
+    "item.modid.tutorial_helmet" : "チュートリアル ヘルメット",
+    "item.modid.tutorial_chestplate" : "チュートリアル チェストプレート",
+    "item.modid.tutorial_leggings" : "チュートリアル レギンス",
+    "item.modid.tutorial_boots" : "チュートリアル ブーツ",
+    "block.modid.test_block" : "テストブロック",
+    "block.modid.anime_block" : "アニメブロック",
+    "block.modid.crystal_block" : "クリスタルブロック",
+    "block.modid.clear_block" : "クリアブロック"
 }

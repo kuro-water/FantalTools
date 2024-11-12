@@ -1,0 +1,20 @@
+{
+    "type" : "minecraft:crafting_shaped",
+    "pattern" : [
+        "WWW",
+        " R ",
+        " R "
+    ],
+    "key" : {
+        "W" : {
+            "item" : "minecraft:dirt"
+        },
+        "R" : {
+            "item" : "minecraft:cobblestone"
+        }
+    },
+    "result" : {
+        "item" : "modid:tutorial_pickaxe",
+        "count" : 1
+    }
+}

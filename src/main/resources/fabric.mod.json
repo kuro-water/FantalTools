@@ -17,6 +17,9 @@
     "entrypoints" : {
         "main" : [
             "org.kgcc.modid.ExampleMod"
+        ],
+        "client": [
+            "org.kgcc.modid.kgccClient"
         ]
     },
     "mixins" : [
