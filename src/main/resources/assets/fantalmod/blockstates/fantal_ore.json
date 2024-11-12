@@ -1,0 +1,7 @@
+{
+    "variants" : {
+        "" : {
+            "model" : "fantalmod:block/fantal_ore"
+        }
+    }
+}

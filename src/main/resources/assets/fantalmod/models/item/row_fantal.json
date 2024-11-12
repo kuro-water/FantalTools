@@ -1,0 +1,7 @@
+{
+    "parent" : "item/generated",
+    "textures" : {
+        "layer0" : "fantalmod:item/row_fantal"
+    }
+}
+pi

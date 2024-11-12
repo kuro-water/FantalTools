@@ -2,28 +2,34 @@
     "schemaVersion" : 1,
     "id" : "${modid}",
     "version" : "${version}",
-    "name" : "fabric.mod.json : name",
-    "description" : "This is an example description! Tell everyone what your mod is about!",
+    "name" : "Fantal Mod",
+    "description" : "Add some fantal features to Minecraft.",
     "authors" : [
-        "kuro-water"
+        "aoyama",
+        "donbei",
+        "kuro-water",
+        "matsuhisa",
+        "taku",
+        "umezawa",
+        "yururi"
     ],
     "contact" : {
         "homepage" : "https://fabricmc.net/",
         "sources" : "https://github.com/FabricMC/fabric-example-mod"
     },
-    "license" : "CC0-1.0",
-    "icon" : "assets/modid/icon.png",
+    "license" : "GNU GENERAL PUBLIC LICENSE v3.0",
+    "icon" : "assets/fantalmod/icon.png",
     "environment" : "*",
     "entrypoints" : {
         "main" : [
-            "org.kgcc.modid.ExampleMod"
+            "org.kgcc.fantalmod.FantalMod"
         ],
-        "client": [
-            "org.kgcc.modid.kgccClient"
+        "client" : [
+            "org.kgcc.fantalmod.FantalModClient"
         ]
     },
     "mixins" : [
-        "modid.mixins.json"
+        "fantalmod.mixins.json"
     ],
     "depends" : {
         "fabricloader" : ">=0.14.19",
