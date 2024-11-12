@@ -9,7 +9,6 @@ public class ExampleMod implements ModInitializer {
     // ロガーの名前としてモッドIDを使用するのが最善の方法とされています。
     // そうすることで、どのモッドが情報、警告、エラーを書き込んだかが明確になります。
     public static final Logger LOGGER = LoggerFactory.getLogger("modid");
-
     @Override
     public void onInitialize() {
         // このコードは、Minecraftがモッドロード準備完了状態になったときに実行されます。
@@ -17,7 +16,6 @@ public class ExampleMod implements ModInitializer {
         // 注意して進めてください。
 
         LOGGER.info("Hello Fabric world!");
-
         TestItem.initialize();
         TestBlock.initialize();
     }
