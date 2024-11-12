@@ -13,5 +13,11 @@
     "item.fantalmod.fantal_sword" : "Fantal Sword",
     "item.fantalmod.fantal_axe" : "Fantal Axe",
     "item.fantalmod.fantal_shovel" : "Fantal Shovel",
-    "item.fantalmod.fantal_hoe" : "Fantal Hoe"
+    "item.fantalmod.fantal_hoe" : "Fantal Hoe",
+    "item.modid.test_item" : "Test Item",
+    "item.modid.anime_item" : "Anime Item",
+    "block.modid.test_block" : "Test Block",
+    "block.modid.anime_block" : "Anime Block",
+    "block.modid.crystal_block" : "Crystal Block",
+    "block.modid.clear_block" : "clear_block"
 }

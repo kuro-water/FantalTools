@@ -1,12 +1,17 @@
 package org.kgcc.fantalmod;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
 
 public class FantalModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
+        BlockRenderLayerMap.INSTANCE.putBlock(TestBlock.CRYSTAL_BLOCK, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(TestBlock.CLEAR_BLOCK, RenderLayer.getCutout());
+        
         ClientPlayNetworking.registerGlobalReceiver(FantalMod.FANTAL_POLLUTION,
                                                     (client, handler, buf, responseSender) -> {
                                                         var totalFantalPollution = buf.readInt();

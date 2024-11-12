@@ -1,6 +1,6 @@
 {
     "parent" : "item/generated",
     "textures" : {
-        "layer0" : "modid:item/crystal_block"
+        "layer0" : "fantalmod:item/crystal_block"
     }
 }
