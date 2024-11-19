@@ -8,6 +8,7 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import org.kgcc.fantalmod.FantalMod;
+import org.kgcc.fantalmod.util.FantalStateManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,12 +27,14 @@ public class InGameHudMixin {
     
     @Inject(method = "render", at = @At(("HEAD")))
     private void render(MatrixStack matrixStack, float tickDelta, CallbackInfo ci) {
+        // ここはクライアントサイドかサーバーサイドかというと、クライアントサイドです。
         int x = 0;
         int y = 0;
         MinecraftClient client = MinecraftClient.getInstance();
         if (client != null) {
             int width = client.getWindow().getScaledWidth();
             int height = client.getWindow().getScaledHeight();
+//            FantalModCommand.notifyAllPlayers(client.getServer(), "width: " + width + ", height: " + height);
             
             x = width / 2;
             y = height;
@@ -47,5 +50,11 @@ public class InGameHudMixin {
             DrawableHelper.drawTexture(matrixStack, x - 94, y - 50, 0, 0, 182, 5, 182, 5);
         }
         
+        // playerを取得したい。client.playerはnullだった。
+        
+        var pollution = FantalStateManager.getPlayerState(client.player).getFantalPollution();
+        
+        RenderSystem.setShaderTexture(0, PIC);
+        DrawableHelper.drawTexture(matrixStack, 0, 0, 0, 0, pollution * 2, 123, 386, 123);
     }
 }
