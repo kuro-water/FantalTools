@@ -39,6 +39,9 @@ public class FantalStateManager extends PersistentState {
     
     
     public final HashMap<UUID, PlayerFantalData> players = new HashMap<>();
+    // serverが取得できない場合のために、最後の情報を保存
+    public static HashMap<UUID, PlayerFantalData> lastPlayers = new HashMap<>();
+    
     
     // 20 ticks = 1 seconds
     public static final int TICK_PAR_SEC = 20;
@@ -139,6 +142,8 @@ public class FantalStateManager extends PersistentState {
             state.players.put(uuid, playerData);
         });
         
+        FantalStateManager.lastPlayers = state.players;
+        
         return state;
     }
     
@@ -161,11 +166,13 @@ public class FantalStateManager extends PersistentState {
     }
     
     public static PlayerFantalData getPlayerState(LivingEntity player) {
-        var world = player.getWorld().getServer();
-        if (world == null) {
-            throw new IllegalStateException("World is null");
+        var server = player.getWorld().getServer();
+        if (server == null) {
+//            FantalMod.LOGGER.error("Server is null");
+            return FantalStateManager.lastPlayers.computeIfAbsent(player.getUuid(), uuid -> new PlayerFantalData());
         }
-        FantalStateManager serverState = getServerState(world);
+        
+        FantalStateManager serverState = getServerState(server);
         
         // uuid でプレイヤーを取得するか、プレイヤーのデータがまだない場合は、新しいプレイヤー状態を作成します
         return serverState.players.computeIfAbsent(player.getUuid(), uuid -> new PlayerFantalData());
