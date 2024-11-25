@@ -24,21 +24,21 @@ public class InGameHudMixin {
                                                            "textures/test/experience_bar_background.png");
     @Unique
     private static final Identifier PIC = new Identifier(FantalMod.MODID, "textures/test/pic.png");
+    private static final int PIC_WIDTH = 386;
+    private static final int PIC_HEIGHT = 123;
     
     @Inject(method = "render", at = @At(("HEAD")))
     private void render(MatrixStack matrixStack, float tickDelta, CallbackInfo ci) {
         // ここはクライアントサイドかサーバーサイドかというと、クライアントサイドです。
-        int x = 0;
-        int y = 0;
         MinecraftClient client = MinecraftClient.getInstance();
-        if (client != null) {
-            int width = client.getWindow().getScaledWidth();
-            int height = client.getWindow().getScaledHeight();
-//            FantalModCommand.notifyAllPlayers(client.getServer(), "width: " + width + ", height: " + height);
-            
-            x = width / 2;
-            y = height;
+        if (client == null) {
+            FantalMod.LOGGER.error("render Mixin:MinecraftClient is null");
+            return;
         }
+        
+        int x = client.getWindow().getScaledWidth() / 2;
+        int y = client.getWindow().getScaledHeight();
+//            FantalModCommand.notifyAllPlayers(client.getServer(), "width: " + width + ", height: " + height);
         
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
@@ -50,11 +50,26 @@ public class InGameHudMixin {
             DrawableHelper.drawTexture(matrixStack, x - 94, y - 50, 0, 0, 182, 5, 182, 5);
         }
         
-        // playerを取得したい。client.playerはnullだった。
+        final int mode = 2;
         
-        var pollution = FantalStateManager.getPlayerState(client.player).getFantalPollution();
-        
-        RenderSystem.setShaderTexture(0, PIC);
-        DrawableHelper.drawTexture(matrixStack, 0, 0, 0, 0, pollution * 2, 123, 386, 123);
+        switch (mode) {
+            case 1 -> {
+                // 横向きのバー
+                var pollution = FantalStateManager.getPlayerState(client.player).getFantalPollution();
+                
+                RenderSystem.setShaderTexture(0, PIC);
+                DrawableHelper.drawTexture(matrixStack, 0, 0, 0, 0, pollution * 2, 123, PIC_WIDTH, PIC_HEIGHT);
+            }
+            case 2 -> {
+                // 縦向きのバー
+                var pollution = FantalStateManager.getPlayerState(client.player).getFantalPollution();
+                
+                RenderSystem.setShaderTexture(0, PIC);
+                final int pollution_max = 200;
+                final int pos = pollution_max / 2 - pollution / 2;
+                final int height = pollution / 2 + (PIC_HEIGHT - pollution_max / 2);
+                DrawableHelper.drawTexture(matrixStack, 0, pos, 0, pos, PIC_WIDTH, height, PIC_WIDTH, PIC_HEIGHT);
+            }
+        }
     }
 }
