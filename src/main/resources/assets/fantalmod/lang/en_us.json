@@ -13,5 +13,7 @@
     "item.fantalmod.fantal_sword" : "Fantal Sword",
     "item.fantalmod.fantal_axe" : "Fantal Axe",
     "item.fantalmod.fantal_shovel" : "Fantal Shovel",
-    "item.fantalmod.fantal_hoe" : "Fantal Hoe"
+    "item.fantalmod.fantal_hoe" : "Fantal Hoe",
+    "effect.fantalmod.exp" : "Experience",
+    "effect.fantalmod.oripathy": "Oripathy"
 }

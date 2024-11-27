@@ -13,5 +13,7 @@
     "item.fantalmod.fantal_sword" : "ファンタルの剣",
     "item.fantalmod.fantal_axe" : "ファンタルの斧",
     "item.fantalmod.fantal_shovel" : "ファンタルのシャベル",
-    "item.fantalmod.fantal_hoe" : "ファンタルのクワ"
+    "item.fantalmod.fantal_hoe" : "ファンタルのクワ",
+    "effect.fantalmod.exp" : "経験値",
+    "effect.fantalmod.oripathy": "鉱石病"
 }

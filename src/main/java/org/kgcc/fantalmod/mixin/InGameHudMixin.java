@@ -8,6 +8,7 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import org.kgcc.fantalmod.FantalMod;
+import org.kgcc.fantalmod.registry.FantalModStatusEffects;
 import org.kgcc.fantalmod.util.FantalStateManager;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -17,6 +18,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
+    // @Uniqueをつけておくと、Mixinが適用されるクラスに同名のフィールドが無いことが保証される。
+    // もしあった場合、コンパイル時にエラーが発生する。
     @Unique
     private static final Identifier FULL = new Identifier(FantalMod.MODID, "textures/test/experience_bar_progress.png");
     @Unique
@@ -24,13 +27,19 @@ public class InGameHudMixin {
                                                            "textures/test/experience_bar_background.png");
     @Unique
     private static final Identifier PIC = new Identifier(FantalMod.MODID, "textures/test/pic.png");
+    @Unique
     private static final int PIC_WIDTH = 386;
+    @Unique
     private static final int PIC_HEIGHT = 123;
     
+    @Unique
     private static final int EFFECT_WIDTH = 18;
+    @Unique
     private static final int EFFECT_HEIGHT = 18;
+    @Unique
     private static final Identifier HUNGER = new Identifier(FantalMod.MODID, "textures/mob_effect/hunger.png");
     
+    @Unique
     private static final Identifier PIC2 = new Identifier(FantalMod.MODID, "textures/mob_effect/320.jpg");
     
     @Inject(method = "render", at = @At(("HEAD")))
@@ -42,24 +51,37 @@ public class InGameHudMixin {
             return;
         }
         
+        // ウィンドウの幅と高さを取得
         int scaledWidth = client.getWindow().getScaledWidth();
         int mid = scaledWidth / 2;
         int scaledHeight = client.getWindow().getScaledHeight();
 //            FantalModCommand.notifyAllPlayers(client.getServer(), "width: " + width + ", height: " + height);
         
+        // テクスチャのバインド
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, EMPTY);
-        DrawableHelper.drawTexture(matrixStack, mid - 94, scaledHeight - 54, 0, 0, 91, 2, 12, 12);
         
-        RenderSystem.setShaderTexture(0, FULL);
-        if (5 > 1) {
-            DrawableHelper.drawTexture(matrixStack, mid - 94, scaledHeight - 50, 0, 0, 182, 5, 182, 5);
+        // 鉱石病のHUD
+        if (client.player != null && client.player.hasStatusEffect(FantalModStatusEffects.ORIPATHY)) {
+            RenderSystem.setShaderTexture(0, PIC2);
+            var size = 320 / 3;
+            var size2 = 320 / 4;
+            DrawableHelper.drawTexture(matrixStack, 0, 0, 0, 0, size, size, size, size);
+            DrawableHelper.drawTexture(matrixStack, size, 0, 0, 0, size2, size2, size2, size2);
         }
         
-        final int mode = 4;
         
+        final int mode = 4;
         switch (mode) {
+            case 0 -> {
+                RenderSystem.setShaderTexture(0, EMPTY);
+                DrawableHelper.drawTexture(matrixStack, mid - 94, scaledHeight - 54, 0, 0, 91, 2, 12, 12);
+                
+                RenderSystem.setShaderTexture(0, FULL);
+                if (5 > 1) {
+                    DrawableHelper.drawTexture(matrixStack, mid - 94, scaledHeight - 50, 0, 0, 182, 5, 182, 5);
+                }
+            }
             case 1 -> {
                 // 横向きのバー
                 var pollution = FantalStateManager.getPlayerState(client.player).getFantalPollution();
@@ -106,13 +128,6 @@ public class InGameHudMixin {
 //                for (int i = 0; i < 140; i += 10) {
 //                    DrawableHelper.fill(matrixStack, i, y, i + 10, y + 10, color_list.get(i % color_list.size()));
 //                }
-            }
-            case 4 -> {
-                RenderSystem.setShaderTexture(0, PIC2);
-                var size = 320 / 3;
-                var size2 = 320 / 4;
-                DrawableHelper.drawTexture(matrixStack, 0, 0, 0, 0, size, size, size, size);
-                DrawableHelper.drawTexture(matrixStack, size, 0, 0, 0, size2, size2, size2, size2);
             }
         }
     }
