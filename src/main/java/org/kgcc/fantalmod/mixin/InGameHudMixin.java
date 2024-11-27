@@ -129,6 +129,10 @@ public class InGameHudMixin {
 //                    DrawableHelper.fill(matrixStack, i, y, i + 10, y + 10, color_list.get(i % color_list.size()));
 //                }
             }
+            case 4 -> {
+                RenderSystem.setShaderTexture(0, PIC);
+                DrawableHelper.drawTexture(matrixStack, 0, 0, 0, 0, 386/4, 123, 386/4, 123);
+            }
         }
     }
 }
