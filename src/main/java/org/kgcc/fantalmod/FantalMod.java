@@ -12,6 +12,7 @@ import org.kgcc.fantalmod.armor.FantalArmorEffect;
 import org.kgcc.fantalmod.registry.FantalModCommand;
 import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.util.FantalStateManager;
+import org.kgcc.fantalmod.village.FantalModVillagers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -44,6 +45,8 @@ public class FantalMod implements ModInitializer {
         FantalArmorEffect.register();
         FantalStateManager.register();
         FantalModCommand.registerCommands();
+        FantalModVillagers.registerVillagers();
+        FantalModVillagers.registerTrades();
 
         // バイオームに機能を追加する 鉱石追加用
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, FANTAL_ORE_PLACED_KEY);

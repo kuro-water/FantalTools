@@ -13,5 +13,6 @@
     "item.fantalmod.fantal_sword" : "ファンタルの剣",
     "item.fantalmod.fantal_axe" : "ファンタルの斧",
     "item.fantalmod.fantal_shovel" : "ファンタルのシャベル",
-    "item.fantalmod.fantal_hoe" : "ファンタルのクワ"
+    "item.fantalmod.fantal_hoe" : "ファンタルのクワ",
+    "entity.minecraft.villager.fantalsmith" : "ファンタルの鍛冶屋"
 }
