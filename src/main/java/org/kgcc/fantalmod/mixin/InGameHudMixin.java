@@ -11,6 +11,7 @@ import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.registry.FantalModStatusEffects;
 import org.kgcc.fantalmod.util.FantalStateManager;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -18,6 +19,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
+    @Shadow
+    private int scaledHeight;
+    @Shadow
+    private int scaledWidth;
     // @Uniqueをつけておくと、Mixinが適用されるクラスに同名のフィールドが無いことが保証される。
     // もしあった場合、コンパイル時にエラーが発生する。
     @Unique
@@ -42,6 +47,10 @@ public class InGameHudMixin {
     @Unique
     private static final Identifier PIC2 = new Identifier(FantalMod.MODID, "textures/mob_effect/320.jpg");
     
+    // ゲージ
+    @Unique
+    private static final Identifier GAUGE = new Identifier(FantalMod.MODID, "textures/test/gauge.png");
+    
     @Inject(method = "render", at = @At(("HEAD")))
     private void render(MatrixStack matrixStack, float tickDelta, CallbackInfo ci) {
         // ここはクライアントサイドかサーバーサイドかというと、クライアントサイドです。
@@ -55,7 +64,7 @@ public class InGameHudMixin {
         int scaledWidth = client.getWindow().getScaledWidth();
         int mid = scaledWidth / 2;
         int scaledHeight = client.getWindow().getScaledHeight();
-//            FantalModCommand.notifyAllPlayers(client.getServer(), "width: " + width + ", height: " + height);
+//        FantalModCommand.notifyAllPlayers(client.getServer(), "width: " + scaledWidth + ", height: " + scaledHeight);
         
         // テクスチャのバインド
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
@@ -71,7 +80,7 @@ public class InGameHudMixin {
         }
         
         
-        final int mode = 4;
+        final int mode = 5;
         switch (mode) {
             case 0 -> {
                 RenderSystem.setShaderTexture(0, EMPTY);
@@ -107,7 +116,6 @@ public class InGameHudMixin {
                 
                 int red = 0xFFFF0000; // 赤色 (ARGB形式)
                 
-                
                 // ----- ホットバーの領域の描画 -----
                 int hotBarWidth = 182;
                 int hotBarHeight = 91;
@@ -131,7 +139,27 @@ public class InGameHudMixin {
             }
             case 4 -> {
                 RenderSystem.setShaderTexture(0, PIC);
-                DrawableHelper.drawTexture(matrixStack, 0, 0, 0, 0, 386/4, 123, 386/4, 123);
+                DrawableHelper.drawTexture(matrixStack, 0, 0, 0, 0, 386 / 4, 123, 386 / 4, 123);
+            }
+            case 5 -> {
+                RenderSystem.setShaderTexture(0, GAUGE);
+                
+                // 320, 214
+                
+                // バーの計算
+                int hotBarWidth = 182;
+                int hotBarHeight = 91;
+                int hotBarLeft = mid - hotBarWidth / 2;
+                
+                int gaugeWidth = 50;
+                int gaugeHeight = 100;
+                
+                int scaledGaugeWidth = gaugeWidth * scaledWidth / 320 * 4 / 5;
+                int scaledGaugeHeight = gaugeHeight * scaledWidth / 320 * 4 / 5;
+                
+                DrawableHelper.drawTexture(matrixStack, (hotBarLeft - scaledGaugeWidth) / 2,
+                                           scaledHeight - 5 - scaledGaugeHeight, 0, 0, scaledGaugeWidth,
+                                           scaledGaugeHeight, scaledGaugeWidth, scaledGaugeHeight);
             }
         }
     }
