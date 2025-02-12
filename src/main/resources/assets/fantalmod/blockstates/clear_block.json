@@ -1,7 +1,7 @@
 {
   "variants" : {
     "" : {
-      "model" : "modid:block/clear_block"
+      "model" : "fantalmod:block/clear_block"
     }
   }
 }

@@ -26,6 +26,7 @@ public final class TestBlock extends Block {
     
     public static final Block CRYSTAL_BLOCK = register(new AmethystClusterBlock(7, 3, FabricBlockSettings.of(
                                                                                                                  Material.AMETHYST)
+                                                                                                         .lightLevel(6)
                                                                                                          .nonOpaque()
                                                                                                          .ticksRandomly()
                                                                                                          .sounds(BlockSoundGroup.AMETHYST_CLUSTER)
