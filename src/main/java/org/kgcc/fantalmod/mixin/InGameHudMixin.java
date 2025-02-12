@@ -51,6 +51,9 @@ public class InGameHudMixin {
     @Unique
     private static final Identifier GAUGE = new Identifier(FantalMod.MODID, "textures/test/gauge.png");
     
+    @Unique
+    private static final Identifier BA_N = new Identifier(FantalMod.MODID, "textures/test/ba-n3.jpg");
+    
     @Inject(method = "render", at = @At(("HEAD")))
     private void render(MatrixStack matrixStack, float tickDelta, CallbackInfo ci) {
         // ここはクライアントサイドかサーバーサイドかというと、クライアントサイドです。
@@ -142,6 +145,7 @@ public class InGameHudMixin {
                 DrawableHelper.drawTexture(matrixStack, 0, 0, 0, 0, 386 / 4, 123, 386 / 4, 123);
             }
             case 5 -> {
+                // ゲージ試作
                 RenderSystem.setShaderTexture(0, GAUGE);
                 
                 // 320, 214
@@ -160,6 +164,11 @@ public class InGameHudMixin {
                 DrawableHelper.drawTexture(matrixStack, (hotBarLeft - scaledGaugeWidth) / 2,
                                            scaledHeight - 5 - scaledGaugeHeight, 0, 0, scaledGaugeWidth,
                                            scaledGaugeHeight, scaledGaugeWidth, scaledGaugeHeight);
+            }
+            case 6 -> {
+                RenderSystem.setShaderTexture(0, BA_N);
+                DrawableHelper.drawTexture(matrixStack, 0, 0, 0, 0, scaledWidth, scaledHeight, scaledWidth,
+                                           scaledHeight);
             }
         }
     }
