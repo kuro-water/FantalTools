@@ -52,6 +52,12 @@ public class InGameHudMixin {
     private static final Identifier GAUGE = new Identifier(FantalMod.MODID, "textures/test/gauge.png");
     
     @Unique
+    private static final Identifier GAUGE1 = new Identifier(FantalMod.MODID, "textures/test/gauge1.png");
+    
+    @Unique
+    private static final Identifier GAUGE2 = new Identifier(FantalMod.MODID, "textures/test/gauge2.png");
+    
+    @Unique
     private static final Identifier BA_N = new Identifier(FantalMod.MODID, "textures/test/ba-n3.jpg");
     
     @Inject(method = "render", at = @At(("HEAD")))
@@ -146,7 +152,7 @@ public class InGameHudMixin {
             }
             case 5 -> {
                 // ゲージ試作
-                RenderSystem.setShaderTexture(0, GAUGE);
+                RenderSystem.setShaderTexture(0, GAUGE1);
                 
                 // 320, 214
                 
@@ -164,6 +170,15 @@ public class InGameHudMixin {
                 DrawableHelper.drawTexture(matrixStack, (hotBarLeft - scaledGaugeWidth) / 2,
                                            scaledHeight - 5 - scaledGaugeHeight, 0, 0, scaledGaugeWidth,
                                            scaledGaugeHeight, scaledGaugeWidth, scaledGaugeHeight);
+                
+                int currentHeight = scaledGaugeHeight - (int) client.world.getTime() % scaledGaugeHeight;
+                
+                RenderSystem.setShaderTexture(0, GAUGE2);
+                DrawableHelper.drawTexture(matrixStack, (hotBarLeft - scaledGaugeWidth) / 2,
+                                           scaledHeight - 5 - scaledGaugeHeight, 0, 0, scaledGaugeWidth, currentHeight,
+                                           scaledGaugeWidth, scaledGaugeHeight);
+                
+                
             }
             case 6 -> {
                 RenderSystem.setShaderTexture(0, BA_N);
