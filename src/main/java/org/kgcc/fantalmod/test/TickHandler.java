@@ -7,13 +7,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * タスクを管理するクラス
+ * ゲーム開始時にregister()を呼び出せば、ServerTickEventsに登録され、タスクが実行される
+ * タスクはstartTask()で登録する
+ * 毎tickごとにServerTickEventsがonTick()を呼び出すことでタスクが実行される
+ */
 public class TickHandler {
     private static final List<Task> tasks = new ArrayList<>();
     
     /**
      * タスクを登録する
+     * 例：TickHandler.startTask(MAX_RECORD_NUM, () -> {ここに処理を記述});
+     *
      * @param durationInTicks タスクの持続時間（単位：tick）
-     * @param task タスク
+     * @param task            タスク
      */
     public static void startTask(int durationInTicks, Runnable task) {
         tasks.add(new Task(durationInTicks, task));
@@ -26,6 +34,7 @@ public class TickHandler {
     /**
      * タスクを実行する
      * 毎tickごとにServerTickEventsにより呼び出される
+     *
      * @param server サーバー
      */
     private static void onTick(MinecraftServer server) {
@@ -33,9 +42,8 @@ public class TickHandler {
         while (iterator.hasNext()) {
             Task task = iterator.next();
             task.tickCounter++;
-            if (task.tickCounter % 20 == 0) { // 毎秒
-                task.task.run();
-            }
+            task.task.run(); // 毎tick
+            
             if (task.tickCounter >= task.duration) {
                 iterator.remove();
             }
