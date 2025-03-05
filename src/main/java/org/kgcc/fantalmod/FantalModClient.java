@@ -6,18 +6,12 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
-import net.fabricmc.fabric.api.client.screen.v1.Screens;
-import net.fabricmc.fabric.mixin.client.keybinding.KeyBindingAccessor;
 import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
-import net.minecraft.client.gui.widget.GridWidget;
-import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
-import org.kgcc.fantalmod.mixin.GridWidgetAccessor;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 
 @Environment(EnvType.CLIENT)
@@ -50,20 +44,21 @@ public class FantalModClient implements ClientModInitializer {
                                                         FantalMod.LOGGER.info("{}の侵食度：{}", name,
                                                                               playerSpecificDirtBlocksBroken);
                                                     });
-
+        
         ScreenEvents.AFTER_INIT.register(((client, screen, scaledWidth, scaledHeight) -> {
-            if(!(screen instanceof GameMenuScreen)) return;
-            ClickableWidget gridWidget = net.fabricmc.fabric.api.client.screen.v1.Screens.getButtons(screen).get(0);
-            if(gridWidget instanceof GridWidgetAccessor) {
-                List<ClickableWidget> widgets = ((GridWidgetAccessor) gridWidget).getChildren();
-                ButtonWidget fantalmodsettingBtn = ButtonWidget.builder(Text.of("Fantal Mod"), (widget) -> {
-                    if (client.player != null)
-                        client.player.sendMessage(Text.of("Fantal Mod楽しい！！！"));
-                }).dimensions(screen.width / 2 - 102, screen.height / 4 + 128, 204, 20).build();
-                widgets.add(fantalmodsettingBtn);
-            } else{
-                FantalMod.LOGGER.info("uwaaaaaaaaaaaaaaaaaaaaa");
-            }
+            if (!(screen instanceof GameMenuScreen))
+                return;
+            
+            List<ClickableWidget> widgets = net.fabricmc.fabric.api.client.screen.v1.Screens.getButtons(screen);
+            widgets.forEach(widget -> {
+                FantalMod.LOGGER.info("{}", widget.getClass().getSimpleName());
+            });
+            
+            ButtonWidget fantalmodsettingBtn = ButtonWidget.builder(Text.of("Fantal Mod"), (widget) -> {
+                if (client.player != null)
+                    client.player.sendMessage(Text.of("Fantal Mod楽しい！！！"));
+            }).dimensions(screen.width / 2 - 102, screen.height / 4 + 128, 204, 20).build();
+            widgets.add(fantalmodsettingBtn);
         }));
     }
 }
