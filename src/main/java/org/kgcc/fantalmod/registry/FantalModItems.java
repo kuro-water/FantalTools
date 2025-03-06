@@ -2,7 +2,9 @@ package org.kgcc.fantalmod.registry;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
+import net.minecraft.block.Material;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -12,6 +14,8 @@ import org.kgcc.fantalmod.armor.FantalArmorItem;
 import org.kgcc.fantalmod.armor.FantalArmorMaterials;
 import org.kgcc.fantalmod.block.FantalBlock;
 import org.kgcc.fantalmod.block.FantalOreBlock;
+
+import org.kgcc.fantalmod.gui.GemInfusingStationBlock;
 import org.kgcc.fantalmod.item.FantalIngotItem;
 import org.kgcc.fantalmod.item.FantalNuggetItem;
 import org.kgcc.fantalmod.item.RowFantalItem;
@@ -26,7 +30,17 @@ public class FantalModItems {
 
     public static final Block FANTAL_ORE = registerBlock(new FantalOreBlock(3.0f), "fantal_ore");
     public static final Block DEEP_FANTAL_ORE = registerBlock(new FantalOreBlock(4.5f), "deepslate_fantal_ore");
+
+
+
+
     public static final Block FANTAL_BLOCK = registerBlock(new FantalBlock(), "fantal_block");
+    public static final Block GEM_INFUSING_STATION = registerBlock(
+            new GemInfusingStationBlock(FabricBlockSettings.of(Material.METAL).strength(4f).requiresTool().nonOpaque()),"gem_infusing_station");
+
+
+
+
 
     public static final Item FANTAL_SWORD = registerItem(new FantalSwordItem(), "fantal_sword");
     public static final Item FANTAL_AXE = registerItem(new FantalAxeItem(), "fantal_axe");
@@ -59,6 +73,7 @@ public class FantalModItems {
             entries.addAfter(FantalModItems.FANTAL_SHOVEL, FantalModItems.FANTAL_PICKAXE);
             entries.addAfter(FantalModItems.FANTAL_PICKAXE, FantalModItems.FANTAL_AXE);
             entries.addAfter(FantalModItems.FANTAL_AXE, FantalModItems.FANTAL_HOE);
+            entries.add(GEM_INFUSING_STATION);
             // 他のツールがあれば、ここに追加する
         });
 
