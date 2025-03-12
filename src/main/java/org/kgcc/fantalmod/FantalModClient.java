@@ -5,12 +5,12 @@ import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
+import org.kgcc.fantalmod.registry.FantalModItems;
 
 public class FantalModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        BlockRenderLayerMap.INSTANCE.putBlock(TestBlock.CRYSTAL_BLOCK, RenderLayer.getCutout());
-        BlockRenderLayerMap.INSTANCE.putBlock(TestBlock.CLEAR_BLOCK, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(FantalModItems.FANTAL_CRYSTAL, RenderLayer.getCutout());
         
         ClientPlayNetworking.registerGlobalReceiver(FantalMod.FANTAL_POLLUTION,
                                                     (client, handler, buf, responseSender) -> {
