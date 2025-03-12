@@ -57,6 +57,7 @@ public class FantalModClient implements ClientModInitializer {
             ButtonWidget fantalmodsettingBtn = ButtonWidget.builder(Text.of("Fantal Mod"), (widget) -> {
                 if (client.player != null)
                     client.player.sendMessage(Text.of("Fantal Mod楽しい！！！"));
+
             }).dimensions(screen.width / 2 - 102, screen.height / 4 + 128, 204, 20).build();
             widgets.add(fantalmodsettingBtn);
         }));
