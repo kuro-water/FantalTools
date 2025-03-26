@@ -1,0 +1,26 @@
+{
+  "parent": "item/bow",
+  "textures": {
+    "layer0": "fantalmod:item/fantal_bow"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "pulling": 0.0
+      },
+      "model": "fantalmod:item/fantal_bow_pulling_0"
+    },
+    {
+      "predicate": {
+        "pulling": 0.5
+      },
+      "model": "fantalmod:item/fantal_bow_pulling_1"
+    },
+    {
+      "predicate": {
+        "pulling": 1.0
+      },
+      "model": "fantalmod:item/fantal_bow_pulling_2"
+    }
+  ]
+}
