@@ -58,6 +58,9 @@ public class InGameHudMixin {
     private static final Identifier GAUGE2 = new Identifier(FantalMod.MODID, "textures/test/gauge2.png");
     
     @Unique
+    private static final Identifier GAUGE3 = new Identifier(FantalMod.MODID, "textures/test/gauge3.png");
+    
+    @Unique
     private static final Identifier BA_N = new Identifier(FantalMod.MODID, "textures/test/ba-n3.jpg");
     
     @Inject(method = "render", at = @At(("HEAD")))
@@ -151,34 +154,43 @@ public class InGameHudMixin {
                 DrawableHelper.drawTexture(matrixStack, 0, 0, 0, 0, 386 / 4, 123, 386 / 4, 123);
             }
             case 5 -> {
+                // https://www.youtube.com/watch?v=fkwXxsEttd8
+                // これを参考に、ResourceLocationとか使いたい
                 // ゲージ試作
-                RenderSystem.setShaderTexture(0, GAUGE1);
                 
                 // 320, 214
                 
-                // バーの計算
-                int hotBarWidth = 182;
-                int hotBarHeight = 91;
-                int hotBarLeft = mid - hotBarWidth / 2;
+                // ホットバーの長さ計算（固定値）
+                final int hotBarWidth = 182;
+                final int hotBarHeight = 91;
+                final int hotBarLeft = mid - hotBarWidth / 2;
                 
+                // ゲージの基準サイズ（比率）
                 int gaugeWidth = 50;
                 int gaugeHeight = 100;
                 
+                // ゲージの実サイズ
                 int scaledGaugeWidth = gaugeWidth * scaledWidth / 320 * 4 / 5;
                 int scaledGaugeHeight = gaugeHeight * scaledWidth / 320 * 4 / 5;
                 
-                DrawableHelper.drawTexture(matrixStack, (hotBarLeft - scaledGaugeWidth) / 2,
-                                           scaledHeight - 5 - scaledGaugeHeight, 0, 0, scaledGaugeWidth,
-                                           scaledGaugeHeight, scaledGaugeWidth, scaledGaugeHeight);
-                
-                int currentHeight = scaledGaugeHeight - (int) client.world.getTime() % scaledGaugeHeight;
-                
+                // ゲージの枠の描画
                 RenderSystem.setShaderTexture(0, GAUGE2);
-                DrawableHelper.drawTexture(matrixStack, (hotBarLeft - scaledGaugeWidth) / 2,
-                                           scaledHeight - 5 - scaledGaugeHeight, 0, 0, scaledGaugeWidth, currentHeight,
+                // 左端
+                int x = (hotBarLeft - scaledGaugeWidth) / 2;
+                // 上端
+                int y =  scaledHeight - 5 - scaledGaugeHeight;
+                DrawableHelper.drawTexture(matrixStack, x, y, 0, 0, scaledGaugeWidth, scaledGaugeHeight,
                                            scaledGaugeWidth, scaledGaugeHeight);
                 
+                // 高さの計算
+                int currentHeight = (int) client.world.getTime() % scaledGaugeHeight;
+                int currentLength = scaledGaugeHeight - currentHeight;
                 
+                // ゲージの中身の描画
+                RenderSystem.setShaderTexture(0, GAUGE3);
+                y += currentLength;
+                DrawableHelper.drawTexture(matrixStack, x, y, 0, currentLength, scaledGaugeWidth, currentHeight,
+                                           scaledGaugeWidth, scaledGaugeHeight);
             }
             case 6 -> {
                 RenderSystem.setShaderTexture(0, BA_N);
