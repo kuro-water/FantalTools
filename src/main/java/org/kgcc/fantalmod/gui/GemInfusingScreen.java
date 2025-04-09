@@ -2,6 +2,7 @@ package org.kgcc.fantalmod.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
@@ -20,6 +21,10 @@ public class GemInfusingScreen extends HandledScreen<GemInfusingScreenHandler> {
     protected void init() {
         super.init();
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
+        addDrawableChild(ButtonWidget.builder(Text.of("button"), button -> {
+            //ボタン押したときの処理
+            FantalMod.LOGGER.info("Clicked on button");
+        }).size(100, 100).width(100).position(100, 100).build());
     }
 
     @Override

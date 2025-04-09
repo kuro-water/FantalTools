@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.gui;
+package org.kgcc.fantalmod.fantalgui;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -11,24 +11,24 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import org.kgcc.fantalmod.registry.ModScreenHandlers;
 
-public class GemInfusingScreenHandler extends ScreenHandler {
+public class SiroanBlockScreenHandler extends ScreenHandler {
     private final Inventory inventory;
     private final PropertyDelegate propertyDelegate;
 
-    public GemInfusingScreenHandler(int syncId, PlayerInventory inventory) {
+    public SiroanBlockScreenHandler(int syncId, PlayerInventory inventory) {
         this(syncId, inventory, new SimpleInventory(3), new ArrayPropertyDelegate(2));
     }
 
-    public GemInfusingScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate) {
-        super(ModScreenHandlers.GEM_INFUSING_SCREEN_HANDLER, syncId);
+    public SiroanBlockScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate) {
+        super(ModScreenHandlers.SIROAN_BLOCK_SCREEN_HANDLER, syncId);
         checkSize(inventory, 3);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
         this.propertyDelegate = delegate;
         //スロットの位置
         this.addSlot(new Slot(inventory, 0, 12, 15));//入力
-        this.addSlot(new Slot(inventory, 1, 86, 15));//燃
-        this.addSlot(new Slot(inventory, 2, 86, 60));//出力
+
+        this.addSlot(new Slot(inventory, 1, 12, 60));//出力
 
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
@@ -77,7 +77,7 @@ public class GemInfusingScreenHandler extends ScreenHandler {
     public boolean canUse(PlayerEntity player) {
         return this.inventory.canPlayerUse(player);
     }
-//プレイヤーのインベントリスロット
+    //プレイヤーのインベントリスロット
     private void addPlayerInventory(PlayerInventory playerInventory) {
         for (int i = 0; i < 3; ++i) {
             for (int l = 0; l < 9; ++l) {
@@ -85,7 +85,7 @@ public class GemInfusingScreenHandler extends ScreenHandler {
             }
         }
     }
-//プレイヤーホットバースロット
+    //プレイヤーホットバースロット
     private void addPlayerHotbar(PlayerInventory playerInventory) {
         for (int i = 0; i < 9; ++i) {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 144));

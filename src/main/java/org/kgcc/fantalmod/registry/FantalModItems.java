@@ -16,6 +16,7 @@ import org.kgcc.fantalmod.block.FantalBlock;
 import org.kgcc.fantalmod.block.FantalOreBlock;
 
 import org.kgcc.fantalmod.gui.GemInfusingStationBlock;
+import org.kgcc.fantalmod.fantalgui.SiroanBlock;
 import org.kgcc.fantalmod.item.FantalIngotItem;
 import org.kgcc.fantalmod.item.FantalNuggetItem;
 import org.kgcc.fantalmod.item.RowFantalItem;
@@ -27,6 +28,8 @@ public class FantalModItems {
     public static final Item FANTAL_INGOT = registerItem(new FantalIngotItem(), "fantal_ingot");
     public static final Item ROW_FANTAL = registerItem(new RowFantalItem(), "row_fantal");
     public static final Item FANTAL_NUGGET = registerItem(new FantalNuggetItem(), "fantal_nugget");
+    public static final Item RED_SMALL = registerItem(new FantalNuggetItem(), "red_small");
+
 
     public static final Block FANTAL_ORE = registerBlock(new FantalOreBlock(3.0f), "fantal_ore");
     public static final Block DEEP_FANTAL_ORE = registerBlock(new FantalOreBlock(4.5f), "deepslate_fantal_ore");
@@ -38,7 +41,8 @@ public class FantalModItems {
     public static final Block GEM_INFUSING_STATION = registerBlock(
             new GemInfusingStationBlock(FabricBlockSettings.of(Material.METAL).strength(4f).requiresTool().nonOpaque()),"gem_infusing_station");
 
-
+    public static final Block SIROAN_BLOCK= registerBlock(
+            new SiroanBlock(FabricBlockSettings.of(Material.METAL).strength(4f).requiresTool().nonOpaque()),"siroan_block");
 
 
 

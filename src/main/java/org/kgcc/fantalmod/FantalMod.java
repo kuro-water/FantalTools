@@ -9,8 +9,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import org.kgcc.fantalmod.armor.FantalArmorEffect;
-import org.kgcc.fantalmod.gui.ModBlockEntities;
-import org.kgcc.fantalmod.gui.ModScreenHandlers;
+import org.kgcc.fantalmod.registry.FantalBlockEntities;
+import org.kgcc.fantalmod.registry.ModScreenHandlers;
 import org.kgcc.fantalmod.registry.FantalModCommand;
 import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.util.FantalStateManager;
@@ -46,7 +46,7 @@ public class FantalMod implements ModInitializer {
         FantalArmorEffect.register();
         FantalStateManager.register();
         FantalModCommand.registerCommands();
-        ModBlockEntities.registerBlockEntities();
+        FantalBlockEntities.registerBlockEntities();
 
         // バイオームに機能を追加する 鉱石追加用
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, FANTAL_ORE_PLACED_KEY);
