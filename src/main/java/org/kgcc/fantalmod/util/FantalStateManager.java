@@ -23,7 +23,16 @@ import java.util.HashMap;
 import java.util.Objects;
 import java.util.UUID;
 
+/**
+ * PlayerFantalDataを管理するクラス
+ * NBTに保存したりとかのメソッドが用意されている
+ */
 public class FantalStateManager extends PersistentState {
+    /**
+     * サーバー全体の汚染度
+     * 汚染度は、プレイヤーの汚染度の合計値のはず
+     * ただ、減らす処理とか同期とか抜けてるかも。計算合わない気がしてきた
+     */
     private int totalFantalPollution = 0;
     
     public int getTotalFantalPollution() {
@@ -37,15 +46,31 @@ public class FantalStateManager extends PersistentState {
         this.totalFantalPollution = totalFantalPollution;
     }
     
-    
+    /**
+     * プレイヤーごとの汚染度
+     * UUIDをキーにして、汚染度（PlayerFantalData）を管理する
+     */
     public final HashMap<UUID, PlayerFantalData> players = new HashMap<>();
     
-    // 20 ticks = 1 seconds
+    /**
+     * 20 ticks = 1 seconds
+     */
     public static final int TICK_PAR_SEC = 20;
     
+    /**
+     * プレイヤーに状態異常を付与する
+     * 状態異常の継続時間が5秒未満の場合、10秒の状態異常を付与する
+     * ServerTickEvents.END_SERVER_TICKなどで毎tick呼び出される前提
+     * FantalStateManager.register()で登録される
+     *
+     * @param player
+     * @param effect
+     * @param amplifier 強度
+     * @param ambient
+     * @param visible
+     */
     public static void KeepStatusEffect(PlayerEntity player, StatusEffect effect, int amplifier, boolean ambient, boolean visible) {
-        // duration（継続時間）
-        // amplifier（強度）
+        // duration：継続時間
         try {
             // effectの残り時間をチェック
             var hasteDuration = Objects.requireNonNull(player.getStatusEffect(effect)).getDuration();
@@ -61,7 +86,9 @@ public class FantalStateManager extends PersistentState {
     
     public static int lastTick = 0;
     
-    
+    /**
+     * 毎tickごとに必要な処理と、死亡時に必要な処理をMinecraftに存在するEventたちに登録する
+     */
     public static void register() {
         // 毎tickごとにチェック
         ServerTickEvents.END_SERVER_TICK.register(server -> {
@@ -109,7 +136,9 @@ public class FantalStateManager extends PersistentState {
         });
     }
     
-    // 書き込み
+    /**
+     * NBTに書き込み
+     */
     @Override
     public NbtCompound writeNbt(NbtCompound nbt) {
         nbt.putInt("totalFantalPollution", totalFantalPollution);
@@ -124,7 +153,13 @@ public class FantalStateManager extends PersistentState {
         return nbt;
     }
     
-    // 読み込み
+    /**
+     * NBTから読み込み
+     *
+     * @param tag
+     * @param registryLookup
+     * @return
+     */
     public static FantalStateManager createFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
         FantalStateManager state = new FantalStateManager();
         state.totalFantalPollution = tag.getInt("totalFantalPollution");
@@ -142,7 +177,12 @@ public class FantalStateManager extends PersistentState {
         return state;
     }
     
-    // サーバーの状態を取得
+    /**
+     * サーバーの状態を取得
+     *
+     * @param server
+     * @return
+     */
     public static FantalStateManager getServerState(MinecraftServer server) {
         var world = server.getWorld(World.OVERWORLD);
         if (world == null) {
@@ -154,7 +194,7 @@ public class FantalStateManager extends PersistentState {
                                                                       // Create from NBT
                                                                       FantalStateManager::new,
                                                                       // Create new if not present
-                                                                      FantalMod.MODID);
+                                                                      FantalMod.MODID + "_fantal_state_manager");
         
         state.markDirty();
         return state;

@@ -9,8 +9,9 @@ import java.util.List;
 
 /**
  * タスクを管理するクラス
- * ゲーム開始時にregister()を呼び出せば、ServerTickEventsに登録され、タスクが実行される
- * タスクはstartTask()で登録する
+ * ゲーム開始時にregister()を呼び出せば、ServerTickEventsに登録される
+ * タスクはstartTask()で開始する
+ * 持続tick数が経過したら自動的に削除される
  * 毎tickごとにServerTickEventsがonTick()を呼び出すことでタスクが実行される
  */
 public class TickHandler {
