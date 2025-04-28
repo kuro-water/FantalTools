@@ -1,5 +1,6 @@
 package org.kgcc.fantalmod.test;
 
+import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.LivingEntity;
@@ -21,17 +22,6 @@ import java.util.UUID;
 public class RecallDataManager extends PersistentState {
     private static final String RECALL_DATA_LIST_KEY = "recallDataList";
     private static final int MAX_RECORD_NUM = 40;
-    
-    /**
-     * setter todo:あとでちゃんとつくろう プレイヤーを指定してリコールデータを保存する
-     *
-     * @return
-     */
-//    public void setRecallDataList(LinkedList<RecallData> recallDataList) {
-//        this.recallDataList.clear();
-//        this.recallDataList.addAll(recallDataList);
-//    }
-    
     /**
      * プレイヤーごとのリコールデータ
      * UUIDをキーにして、リコールデータ（RecallData）を管理する
@@ -58,10 +48,6 @@ public class RecallDataManager extends PersistentState {
     
     /**
      * NBTから読み込み
-     *
-     * @param tag
-     * @param registryLookup
-     * @return
      */
     public static RecallDataManager createFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
         RecallDataManager state = new RecallDataManager();
@@ -84,9 +70,6 @@ public class RecallDataManager extends PersistentState {
      * サーバーの状態を取得
      * RecallDataManagerのserver情報を保持したインスタンスを取得する？
      * プレイヤーごとのRecallDataしか情報が無いので、あまり使うことは多くないと思う
-     *
-     * @param server
-     * @return
      */
     public static RecallDataManager getServerState(MinecraftServer server) {
         var world = server.getWorld(World.OVERWORLD);
@@ -134,9 +117,6 @@ public class RecallDataManager extends PersistentState {
      *     });
      * });
      * }</pre>
-     *
-     * @param server
-     * @param user
      */
     public static void sendRecallDataList(MinecraftServer server, PlayerEntity user) {
         ServerPlayerEntity playerEntity = server.getPlayerManager().getPlayer(user.getUuid());
@@ -153,17 +133,22 @@ public class RecallDataManager extends PersistentState {
         });
         server.execute(() -> {
             FantalMod.LOGGER.info("Sending pollution data to client");
-            ServerPlayNetworking.send(playerEntity, FantalMod.FANTAL_POLLUTION, data);
+            ServerPlayNetworking.send(playerEntity, FantalMod.RECALL_DATA, data);
         });
     }
     
     /**
      * プレイヤーのリコールデータを追加する
-     *
-     * @param player
-     * @param recallData
      */
     public static void addRecallData(PlayerEntity player, RecallData recallData) {
+        if (player.getServer() == null) {
+            return;
+        }
+        if (recallData.health <= 0) {
+            // HPが0以下のデータは保存しない
+            return;
+        }
+        
         // LinkedListは参照型なので、直接操作する
         LinkedList<RecallData> recallDataList = getPlayerRecallData(player);
         
@@ -180,8 +165,6 @@ public class RecallDataManager extends PersistentState {
     
     /**
      * プレイヤーのリコールデータの最後を取り出し、削除する
-     *
-     * @param player
      */
     public static RecallData getLastRecallData(PlayerEntity player) {
         LinkedList<RecallData> recallDataList = getPlayerRecallData(player);
@@ -189,5 +172,33 @@ public class RecallDataManager extends PersistentState {
             return null;
         }
         return recallDataList.removeLast();
+    }
+    
+    /**
+     * プレイヤーのリコールデータをクリアする
+     */
+    public static void clearRecallData(PlayerEntity player) {
+        if (player.getServer() == null) {
+            return;
+        }
+        // LinkedListは参照型なので、直接操作する
+        LinkedList<RecallData> recallDataList = getPlayerRecallData(player);
+        
+        // 記録をクリア
+        recallDataList.clear();
+        
+        // マルチスレッド環境でのデータ競合を避けるために、サーバーの状態をマークする
+        RecallDataManager.getServerState(player.getServer()).markDirty();
+    }
+    
+    public static void register() {
+        ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
+            if (entity instanceof PlayerEntity player) {
+                // プレイヤーが死亡したとき記録を消去
+                // これだけだと死亡後HP0のデータが残ってしまうので、
+                // HP0のデータはそもそも保存しないようにすること
+                RecallDataManager.clearRecallData(player);
+            }
+        });
     }
 }

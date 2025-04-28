@@ -5,7 +5,6 @@ import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.NotNull;
-import org.kgcc.fantalmod.FantalMod;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -13,9 +12,6 @@ import java.util.Set;
 import static org.kgcc.fantalmod.test.RecallDataManager.getPlayerRecallData;
 
 public class Recall {
-    // リコールの最大tick数
-    private static final int MAX_RECORD_NUM = 40;
-    
     /**
      * リコール用のデータを保持する
      * Firstが一番古く、Lastが一番新しい
@@ -47,6 +43,8 @@ public class Recall {
     
     /**
      * リコールを行う
+     * サーバーにそこそこの処理速度が無いとカクカクになる。
+     * 毎tick実行だからしょうがないかなぁ
      *
      * @param playerEntity サーバーサイドのプレイヤーのみ
      */
@@ -57,28 +55,28 @@ public class Recall {
         // todo: 死んだら履歴リセットしよう
         // todo: もしかしてFantalPollutionオーバーワールドでしか機能してない？
         // todo: リコールを滑らかにしたい tp以外の方法ないかな
-        // todo: 一旦動いたけどめっちゃ重かったな ラズパイ鯖だと特に。MSPTとか計るべき？
+        // todo: ->トレーサーのリコールは座標だけ追従で、視点は現在の視点からリコール後の視点まで移動するだけ。leapで実装できそう
         
         var world = playerEntity.getWorld();
         // クライアントサイドでは処理しない
         if (world.isClient()) {
             return;
         }
-        if(isRecalling) {
-            FantalMod.LOGGER.info("Already recalling...");
+        if (isRecalling) {
+//            FantalMod.LOGGER.info("Already recalling...");
             return;
         }
         
         isRecalling = true;
-        FantalMod.LOGGER.info("Recalling...");
+//        FantalMod.LOGGER.info("Recalling...");
         TickHandler.startTask(getPlayerRecallData(playerEntity).size(), () -> {
             var data = RecallDataManager.getLastRecallData(playerEntity);
-            FantalMod.LOGGER.info("Recalling... {}", data);
+//            FantalMod.LOGGER.info("Recalling... {}", data);
             if (data == null) {
                 return;
             }
             
-            /**
+            /*
              * 参考：https://www.youtube.com/watch?v=Wiufoa-BSCM&list=WL&index=28&t=1s
              * ----- by GitHub Copilot -----
              * 同じワールド内のテレポート (requestTeleport)
@@ -110,10 +108,5 @@ public class Recall {
             playerEntity.setHealth(data.health); // HPを復元
             
         });
-//        Vec3d pos = new Vec3d(0, 30, 0);
-//        player.teleport(pos.x, pos.y, pos.z); // 座標だけ移動
-//        var world = player.getEntityWorld();
-//        Set<PositionFlag> flags = EnumSet.noneOf(PositionFlag.class);
-//        player.teleport((ServerWorld) world, pos.x, pos.y, pos.z, flags, 0, 0); // 座標と視点を移動
     }
 }
