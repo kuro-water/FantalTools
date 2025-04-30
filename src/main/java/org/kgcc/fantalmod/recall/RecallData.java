@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.test;
+package org.kgcc.fantalmod.recall;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;

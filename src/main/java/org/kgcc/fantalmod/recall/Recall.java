@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.test;
+package org.kgcc.fantalmod.recall;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
@@ -10,6 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+import org.kgcc.fantalmod.util.ServerTickHandler;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -18,8 +19,8 @@ public class Recall {
     private Boolean isRecalling = false;
     
     /**
-     * プレイヤーの位置、角度、体力を記録
-     * 該当アイテムのinventoryTickで呼び出す
+     * <p>プレイヤーの位置、角度、体力を記録</p>
+     * <p>該当アイテムのinventoryTickで呼び出す</p>
      */
     public void record(PlayerEntity playerEntity) {
         // 記録が無くなっていればリコールを終了
@@ -35,11 +36,11 @@ public class Recall {
     }
     
     /**
-     * テレポート先が安全かどうか（窒息するかどうか）を確認する
+     * <p>テレポート先が安全かどうか（窒息するかどうか）を確認する</p>
      *
      * @param world ワールド
      * @param pos   テレポート先の位置
-     * @return 安全な場合はtrue
+     * @return <p>安全な場合はtrue</p>
      */
     private boolean isSafeLocation(World world, BlockPos pos) {
         // プレイヤーの体が入る2ブロック分の空間をチェック
@@ -55,25 +56,18 @@ public class Recall {
     
     
     /**
-     * リコールを行う
-     * サーバーにそこそこの処理速度が無いとカクカクになる。
-     * 毎tick実行だからしょうがないかなぁ
+     * <p>リコールを行う</p>
+     * <p>サーバーにそこそこの処理速度が無いとカクカクになる。</p>
+     * <p>毎tick実行だからしょうがないかなぁ</p>
      *
      * @param server       サーバー
      * @param playerEntity サーバーサイドのプレイヤーのみ
-     * @return リコールする回数
+     * @return <p>リコールする回数</p>
      */
     public int recall(@NotNull MinecraftServer server, PlayerEntity playerEntity) {
         // todo: FantalStateManagerもリファクタしたい。名前とか。
-        // todo: 耐久値ガンガン削っていこう
         // todo: 松明設置じゃなくて独自の光源ほしいな。光るクリスタル
         // todo: もしかしてFantalPollutionオーバーワールドでしか機能してない？
-        // todo: リコールを滑らかにしたい tp以外の方法ないかな
-        // todo: ->トレーサーのリコールは座標だけ追従で、視点は現在の視点からリコール後の視点まで移動するだけ。leapで実装できそう
-        // todo: インデント直さねば
-        // todo: requireNonNullよりもif文でnullチェックしたほうが良いかも
-        // todo: ただしサーバサイドでnullでない場合にはrequireNonNullのほうが良い？
-        // todo: 地面に埋まりそう
         // todo: 連打してるとリコールできなくなるバグある？
         // todo: リコール時間の調整
         
@@ -89,7 +83,7 @@ public class Recall {
         var targetNum = RecallDataManager.size(playerEntity);
 
 //        FantalMod.LOGGER.info("Recalling...");
-        TickHandler.startTask(targetNum, () -> {
+        ServerTickHandler.startTask(targetNum, () -> {
             var data = RecallDataManager.removeLast(playerEntity);
 //            RecallDataManager.removeLast(playerEntity);
 //            FantalMod.LOGGER.info("Recalling... {}", data);

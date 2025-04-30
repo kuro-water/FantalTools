@@ -8,7 +8,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import org.kgcc.fantalmod.test.Recall;
+import org.kgcc.fantalmod.recall.Recall;
 
 import java.util.Objects;
 

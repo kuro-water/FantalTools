@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.test;
+package org.kgcc.fantalmod.recall;
 
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -24,8 +24,8 @@ public class RecallDataManager extends PersistentState {
     private static final int MAX_RECORD_NUM = 40;
     
     /**
-     * プレイヤーごとのリコールデータ
-     * UUIDをキーにして、リコールデータ（RecallData）を管理する
+     * <p>プレイヤーごとのリコールデータ</p>
+     * <p>UUIDをキーにして、リコールデータ（RecallData）を管理する</p>
      */
     public final HashMap<UUID, LinkedList<RecallData>> players = new HashMap<>();
     
@@ -48,7 +48,7 @@ public class RecallDataManager extends PersistentState {
     }
     
     /**
-     * NBTから読み込み
+     * <p>NBTから読み込み</p>
      */
     public static RecallDataManager createFromNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
         RecallDataManager state = new RecallDataManager();
@@ -68,9 +68,9 @@ public class RecallDataManager extends PersistentState {
     }
     
     /**
-     * サーバーの状態を取得
-     * RecallDataManagerのserver情報を保持したインスタンスを取得する？
-     * プレイヤーごとのRecallDataしか情報が無いので、あまり使うことは多くないと思う
+     * <p>サーバーの状態を取得</p>
+     * <p>RecallDataManagerのserver情報を保持したインスタンスを取得する？</p>
+     * <p>プレイヤーごとのRecallDataしか情報が無いので、あまり使うことは多くないと思う</p>
      */
     public static RecallDataManager getServerState(MinecraftServer server) {
         var world = server.getWorld(World.OVERWORLD);
@@ -91,8 +91,8 @@ public class RecallDataManager extends PersistentState {
     }
     
     /**
-     * プレイヤーのリコールデータを取得する
-     * markDirty()を呼び出す必要があるのでprivateにしている
+     * <p>プレイヤーのリコールデータを取得する</p>
+     * <p>markDirty()を呼び出す必要があるのでprivateにしている</p>
      */
     private static LinkedList<RecallData> getPlayerRecallData(LivingEntity player) {
         var world = player.getWorld().getServer();
@@ -106,9 +106,9 @@ public class RecallDataManager extends PersistentState {
     }
     
     /**
-     * LinkedList<RecallData>をクライアントサイドに送信する
+     * <p>LinkedList&lt;RecallData&gt;をクライアントサイドに送信する</p>
      * <p>テレポート処理はサーバーサイドなので、使うことはないと思う</p>
-     * <pre>{@code // 受信はClientのinitializeメソッドでこんな感じでする
+     * <pre>{@code // 受信はClientのinitializeメソッドで
      * ClientPlayNetworking.registerGlobalReceiver(FantalMod.FANTAL_POLLUTION, (client, handler, buf, responseSender) -> {
      *     // データを読み取る
      *     int totalFantalPollution = buf.readInt();
@@ -143,7 +143,7 @@ public class RecallDataManager extends PersistentState {
     }
     
     /**
-     * プレイヤーのリコールデータを追加する
+     * <p>プレイヤーのリコールデータを追加する</p>
      */
     public static void add(PlayerEntity player, RecallData recallData) {
         if (player.getServer() == null) {
@@ -169,7 +169,7 @@ public class RecallDataManager extends PersistentState {
     }
     
     /**
-     * プレイヤーのリコールデータの最後を取り出し、削除する
+     * <p>プレイヤーのリコールデータの最後を取り出し、削除する</p>
      */
     public static RecallData removeLast(PlayerEntity player) {
         LinkedList<RecallData> recallDataList = getPlayerRecallData(player);
@@ -184,7 +184,7 @@ public class RecallDataManager extends PersistentState {
     }
     
     /**
-     * プレイヤーのリコールデータをクリアする
+     * <p>プレイヤーのリコールデータをクリアする</p>
      */
     public static void clear(PlayerEntity player) {
         if (player.getServer() == null) {

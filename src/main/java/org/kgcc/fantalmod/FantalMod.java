@@ -11,8 +11,8 @@ import net.minecraft.world.gen.feature.PlacedFeature;
 import org.kgcc.fantalmod.armor.FantalArmorEffect;
 import org.kgcc.fantalmod.registry.FantalModCommand;
 import org.kgcc.fantalmod.registry.FantalModItems;
-import org.kgcc.fantalmod.test.RecallDataManager;
-import org.kgcc.fantalmod.test.TickHandler;
+import org.kgcc.fantalmod.recall.RecallDataManager;
+import org.kgcc.fantalmod.util.ServerTickHandler;
 import org.kgcc.fantalmod.util.FantalStateManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +54,7 @@ public class FantalMod implements ModInitializer {
                 GenerationStep.Feature.UNDERGROUND_ORES,
                 FANTAL_ORE_PLACED_KEY);
         
-        TickHandler.register();
+        ServerTickHandler.register();
         RecallDataManager.register();
     }
 }
