@@ -1,5 +1,6 @@
 package org.kgcc.fantalmod.test;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.server.MinecraftServer;
@@ -34,7 +35,7 @@ public class Recall {
     }
     
     /**
-     * テレポート先が安全かどうかを確認する
+     * テレポート先が安全かどうか（窒息するかどうか）を確認する
      *
      * @param world ワールド
      * @param pos   テレポート先の位置
@@ -44,9 +45,12 @@ public class Recall {
         // プレイヤーの体が入る2ブロック分の空間をチェック
         BlockPos headPos = pos.up();
         
-        // 足元と頭の位置のブロックが通過可能かチェック
-        return world.getBlockState(pos).getCollisionShape(world, pos).isEmpty() &&
-                world.getBlockState(headPos).getCollisionShape(world, headPos).isEmpty();
+        BlockState footState = world.getBlockState(pos);
+        BlockState headState = world.getBlockState(headPos);
+        
+        // 窒息するブロックかどうか
+        return !(footState.shouldSuffocate(world, pos) ||
+                headState.shouldSuffocate(world, headPos));
     }
     
     
@@ -72,7 +76,6 @@ public class Recall {
         // todo: 地面に埋まりそう
         // todo: 連打してるとリコールできなくなるバグある？
         // todo: リコール時間の調整
-        // todo: ドアとかの隙間に入れない
         
         var world = playerEntity.getWorld();
         // クライアントサイドでは処理しない
@@ -104,7 +107,6 @@ public class Recall {
             
             
             var delta = (float) (targetNum - RecallDataManager.size(playerEntity)) / targetNum;
-//            FantalMod.LOGGER.info(String.valueOf(MathHelper.lerp(delta, startData.yaw, targetData.yaw)));
             
             /*
              * 参考：https://www.youtube.com/watch?v=Wiufoa-BSCM&list=WL&index=28&t=1s

@@ -93,8 +93,6 @@ public class RecallDataManager extends PersistentState {
     /**
      * プレイヤーのリコールデータを取得する
      * markDirty()を呼び出す必要があるのでprivateにしている
-     * @param player
-     * @return
      */
     private static LinkedList<RecallData> getPlayerRecallData(LivingEntity player) {
         var world = player.getWorld().getServer();
