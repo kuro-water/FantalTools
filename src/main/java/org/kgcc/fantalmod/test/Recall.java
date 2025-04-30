@@ -4,77 +4,107 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.EnumSet;
 import java.util.Set;
 
-import static org.kgcc.fantalmod.test.RecallDataManager.getPlayerRecallData;
-
 public class Recall {
-    /**
-     * リコール用のデータを保持する
-     * Firstが一番古く、Lastが一番新しい
-     */
-//    private final LinkedList<RecallData> recallDataList = new LinkedList<>();
-    
     private Boolean isRecalling = false;
     
     /**
      * プレイヤーの位置、角度、体力を記録
-     * 2tickに1回記録
+     * 該当アイテムのinventoryTickで呼び出す
      */
     public void record(PlayerEntity playerEntity) {
         // 記録が無くなっていればリコールを終了
-        if (getPlayerRecallData(playerEntity).isEmpty()) {
+        if (RecallDataManager.isEmpty(playerEntity)) {
             isRecalling = false;
         }
         // リコール中は記録を行わない
-        if (isRecalling) {
-            return;
-        }
-        if (playerEntity.getServer() == null) {
+        if (isRecalling || playerEntity.getServer() == null) {
             return;
         }
         
-        RecallDataManager.addRecallData(playerEntity, new RecallData(playerEntity));
-//        FantalMod.LOGGER.info("Recorded: {}", getPlayerRecallData(playerEntity).getLast());
+        RecallDataManager.add(playerEntity, new RecallData(playerEntity));
     }
+    
+    /**
+     * テレポート先が安全かどうかを確認する
+     *
+     * @param world ワールド
+     * @param pos   テレポート先の位置
+     * @return 安全な場合はtrue
+     */
+    private boolean isSafeLocation(World world, BlockPos pos) {
+        // プレイヤーの体が入る2ブロック分の空間をチェック
+        BlockPos headPos = pos.up();
+        
+        // 足元と頭の位置のブロックが通過可能かチェック
+        return world.getBlockState(pos).getCollisionShape(world, pos).isEmpty() &&
+                world.getBlockState(headPos).getCollisionShape(world, headPos).isEmpty();
+    }
+    
     
     /**
      * リコールを行う
      * サーバーにそこそこの処理速度が無いとカクカクになる。
      * 毎tick実行だからしょうがないかなぁ
      *
+     * @param server       サーバー
      * @param playerEntity サーバーサイドのプレイヤーのみ
+     * @return リコールする回数
      */
-    public void recall(@NotNull MinecraftServer server, PlayerEntity playerEntity) {
+    public int recall(@NotNull MinecraftServer server, PlayerEntity playerEntity) {
         // todo: FantalStateManagerもリファクタしたい。名前とか。
         // todo: 耐久値ガンガン削っていこう
         // todo: 松明設置じゃなくて独自の光源ほしいな。光るクリスタル
-        // todo: 死んだら履歴リセットしよう
         // todo: もしかしてFantalPollutionオーバーワールドでしか機能してない？
         // todo: リコールを滑らかにしたい tp以外の方法ないかな
         // todo: ->トレーサーのリコールは座標だけ追従で、視点は現在の視点からリコール後の視点まで移動するだけ。leapで実装できそう
+        // todo: インデント直さねば
+        // todo: requireNonNullよりもif文でnullチェックしたほうが良いかも
+        // todo: ただしサーバサイドでnullでない場合にはrequireNonNullのほうが良い？
+        // todo: 地面に埋まりそう
+        // todo: 連打してるとリコールできなくなるバグある？
+        // todo: リコール時間の調整
+        // todo: ドアとかの隙間に入れない
         
         var world = playerEntity.getWorld();
         // クライアントサイドでは処理しない
-        if (world.isClient()) {
-            return;
-        }
-        if (isRecalling) {
-//            FantalMod.LOGGER.info("Already recalling...");
-            return;
+        if (world.isClient() || isRecalling) {
+            return 0;
         }
         
         isRecalling = true;
+        var startData = new RecallData(playerEntity);
+        var targetData = RecallDataManager.getFirst(playerEntity);
+        var targetNum = RecallDataManager.size(playerEntity);
+
 //        FantalMod.LOGGER.info("Recalling...");
-        TickHandler.startTask(getPlayerRecallData(playerEntity).size(), () -> {
-            var data = RecallDataManager.getLastRecallData(playerEntity);
+        TickHandler.startTask(targetNum, () -> {
+            var data = RecallDataManager.removeLast(playerEntity);
+//            RecallDataManager.removeLast(playerEntity);
 //            FantalMod.LOGGER.info("Recalling... {}", data);
             if (data == null) {
                 return;
             }
+            
+            if (!isSafeLocation(data.getWorld(server), BlockPos.ofFloored(data.pos))) {
+                // プレイヤーに警告メッセージを送信
+                if (playerEntity instanceof ServerPlayerEntity serverPlayer) {
+                    serverPlayer.sendMessage(Text.literal("テレポート先が安全ではありません！"), false);
+                }
+                return;
+            }
+            
+            
+            var delta = (float) (targetNum - RecallDataManager.size(playerEntity)) / targetNum;
+//            FantalMod.LOGGER.info(String.valueOf(MathHelper.lerp(delta, startData.yaw, targetData.yaw)));
             
             /*
              * 参考：https://www.youtube.com/watch?v=Wiufoa-BSCM&list=WL&index=28&t=1s
@@ -91,8 +121,8 @@ public class Recall {
                         data.pos.x,
                         data.pos.y,
                         data.pos.z,
-                        data.yaw,
-                        data.pitch);
+                        startData.yaw + delta * MathHelper.wrapDegrees(targetData.yaw - startData.yaw), // lerpみたいな感じで補間
+                        MathHelper.lerp(delta, startData.pitch, targetData.pitch));
             } else {
                 // よくわからんけどフラグが必要なので用意
                 Set<PositionFlag> flags = EnumSet.noneOf(PositionFlag.class);
@@ -102,11 +132,11 @@ public class Recall {
                         data.pos.y,
                         data.pos.z,
                         flags,
-                        data.yaw,
-                        data.pitch);
+                        startData.yaw + delta * MathHelper.wrapDegrees(targetData.yaw - startData.yaw), // lerpみたいな感じで補間
+                        MathHelper.lerp(delta, startData.pitch, targetData.pitch));
             }
             playerEntity.setHealth(data.health); // HPを復元
-            
         });
+        return RecallDataManager.size(playerEntity);
     }
 }

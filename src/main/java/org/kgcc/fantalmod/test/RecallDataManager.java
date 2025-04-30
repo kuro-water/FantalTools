@@ -22,6 +22,7 @@ import java.util.UUID;
 public class RecallDataManager extends PersistentState {
     private static final String RECALL_DATA_LIST_KEY = "recallDataList";
     private static final int MAX_RECORD_NUM = 40;
+    
     /**
      * プレイヤーごとのリコールデータ
      * UUIDをキーにして、リコールデータ（RecallData）を管理する
@@ -89,7 +90,13 @@ public class RecallDataManager extends PersistentState {
         return state;
     }
     
-    public static LinkedList<RecallData> getPlayerRecallData(LivingEntity player) {
+    /**
+     * プレイヤーのリコールデータを取得する
+     * markDirty()を呼び出す必要があるのでprivateにしている
+     * @param player
+     * @return
+     */
+    private static LinkedList<RecallData> getPlayerRecallData(LivingEntity player) {
         var world = player.getWorld().getServer();
         if (world == null) {
             throw new IllegalStateException("World is null");
@@ -140,7 +147,7 @@ public class RecallDataManager extends PersistentState {
     /**
      * プレイヤーのリコールデータを追加する
      */
-    public static void addRecallData(PlayerEntity player, RecallData recallData) {
+    public static void add(PlayerEntity player, RecallData recallData) {
         if (player.getServer() == null) {
             return;
         }
@@ -166,18 +173,22 @@ public class RecallDataManager extends PersistentState {
     /**
      * プレイヤーのリコールデータの最後を取り出し、削除する
      */
-    public static RecallData getLastRecallData(PlayerEntity player) {
+    public static RecallData removeLast(PlayerEntity player) {
         LinkedList<RecallData> recallDataList = getPlayerRecallData(player);
-        if (recallDataList.isEmpty()) {
+        if (recallDataList.isEmpty() || player.getServer() == null) {
             return null;
         }
-        return recallDataList.removeLast();
+        
+        var data = recallDataList.removeLast();
+        // マルチスレッド環境でのデータ競合を避けるために、サーバーの状態をマークする
+        RecallDataManager.getServerState(player.getServer()).markDirty();
+        return data;
     }
     
     /**
      * プレイヤーのリコールデータをクリアする
      */
-    public static void clearRecallData(PlayerEntity player) {
+    public static void clear(PlayerEntity player) {
         if (player.getServer() == null) {
             return;
         }
@@ -191,13 +202,30 @@ public class RecallDataManager extends PersistentState {
         RecallDataManager.getServerState(player.getServer()).markDirty();
     }
     
+    public static boolean isEmpty(LivingEntity player) {
+        // プレイヤーのリコールデータが空かどうかを確認する
+        return getPlayerRecallData(player).isEmpty();
+    }
+    
+    public static RecallData getFirst(LivingEntity player) {
+        // プレイヤーのリコールデータの最初の要素を取得する
+        LinkedList<RecallData> recallDataList = getPlayerRecallData(player);
+        return recallDataList.getFirst();
+    }
+    
+    public static int size(LivingEntity player) {
+        // プレイヤーのリコールデータのサイズを取得する
+        LinkedList<RecallData> recallDataList = getPlayerRecallData(player);
+        return recallDataList.size();
+    }
+    
     public static void register() {
         ServerLivingEntityEvents.AFTER_DEATH.register((entity, source) -> {
             if (entity instanceof PlayerEntity player) {
                 // プレイヤーが死亡したとき記録を消去
                 // これだけだと死亡後HP0のデータが残ってしまうので、
                 // HP0のデータはそもそも保存しないようにすること
-                RecallDataManager.clearRecallData(player);
+                RecallDataManager.clear(player);
             }
         });
     }

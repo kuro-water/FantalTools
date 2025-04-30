@@ -8,7 +8,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.test.Recall;
 
 import java.util.Objects;
@@ -27,7 +26,12 @@ public class FantalHoeItem extends HoeItem {
 //            user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 20 * FantalStateManager.TICK_PAR_SEC, 0));
 //            FantalStateManager.addFantalPollution(server, user,1);
 //            FantalStateManager.sendFantalPollution(server, user);
-            playerState.recall(server, user);
+            int damage = playerState.recall(server, user);
+            if (!user.isCreative()) {
+                // 耐久値を減らす
+                ItemStack stack = user.getStackInHand(hand);
+                stack.damage(damage, user, (e) -> e.sendToolBreakStatus(hand));
+            }
         }
         return super.use(world, user, hand);
     }
@@ -35,8 +39,9 @@ public class FantalHoeItem extends HoeItem {
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
-        if (!world.isClient) {
-            playerState.record((PlayerEntity) entity);
+        if (world.isClient || !(entity instanceof PlayerEntity)) {
+            return;
         }
+        playerState.record((PlayerEntity) entity);
     }
 }
