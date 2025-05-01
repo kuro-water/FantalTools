@@ -25,7 +25,9 @@ import java.util.UUID;
 
 public class FantalStateManager extends PersistentState {
     private int totalFantalPollution = 0;
-    
+
+
+
     public int getTotalFantalPollution() {
         return totalFantalPollution;
     }
@@ -202,5 +204,19 @@ public class FantalStateManager extends PersistentState {
     public static void setServerFantalPollution(MinecraftServer server, int value) {
         FantalStateManager serverState = FantalStateManager.getServerState(server);
         serverState.setTotalFantalPollution(value);
+    }
+
+    //==========================================================================
+    // swordEffectEnabled フラグ
+    private static boolean swordEffectEnabled = false;
+
+    // isSwordEffectEnabled メソッド
+    public static boolean isSwordEffectEnabled() {
+        return swordEffectEnabled;
+    }
+
+    // setSwordEffectEnabled メソッド
+    public static void setSwordEffectEnabled(boolean enabled) {
+        swordEffectEnabled = enabled;
     }
 }

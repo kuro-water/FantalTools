@@ -10,15 +10,32 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.util.FantalStateManager;
 
 public class FantalSwordItem extends SwordItem {
     public FantalSwordItem() {
         super(new FantalToolMaterial(), 3, -2.4f, new Item.Settings().rarity(Rarity.COMMON));
     }
-    
+//一応保管
+//    @Override
+//    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+//        if (!user.getWorld().isClient() && hand == Hand.MAIN_HAND) {
+//            var server = world.getServer();
+//            user.addStatusEffect(
+//                    new StatusEffectInstance(StatusEffects.STRENGTH, 20 * FantalStateManager.TICK_PAR_SEC, 1));
+//            FantalStateManager.addFantalPollution(server, user, 1);
+//            FantalStateManager.sendFantalPollution(server, user);
+//        }
+//        return super.use(world, user, hand);
+//    }
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+
+        if (!FantalStateManager.isSwordEffectEnabled()) {
+            return TypedActionResult.fail(user.getStackInHand(hand));
+        }
+
         if (!user.getWorld().isClient() && hand == Hand.MAIN_HAND) {
             var server = world.getServer();
             user.addStatusEffect(

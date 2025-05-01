@@ -23,7 +23,7 @@ import org.kgcc.fantalmod.registry.FantalBlockEntities;
 
 public class SiroanBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
-
+//おいしいスパゲッティ
     protected final PropertyDelegate propertyDelegate;
     private int progress = 0;
     private int maxProgress = 72;
