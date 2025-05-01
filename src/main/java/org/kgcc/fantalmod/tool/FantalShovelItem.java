@@ -1,51 +1,39 @@
 package org.kgcc.fantalmod.tool;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.ShovelItem;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import org.kgcc.fantalmod.util.FantalStateManager;
+import org.kgcc.fantalmod.test.BaseSkill;
+import org.kgcc.fantalmod.test.PlaceTorch;
 
 public class FantalShovelItem extends ShovelItem {
+    public BaseSkill skill = new PlaceTorch();
+    
     public FantalShovelItem() {
         super(new FantalToolMaterial(), 1.5f, -3f, new Settings().rarity(Rarity.COMMON));
     }
-
+    
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        var result = skill.use(world, user, hand);
+        if (result.getResult() == ActionResult.PASS) {
+            return super.use(world, user, hand);
+        }
+        return result;
+    }
+    
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        World world = context.getWorld();
-        BlockPos pos = context.getBlockPos().offset(context.getSide());
-        Hand hand = context.getHand();
-        PlayerEntity player = context.getPlayer();
-        if (player == null) {
-            return ActionResult.FAIL;
+        var result = skill.useOnBlock(context);
+        if (result == ActionResult.PASS) {
+            return super.useOnBlock(context);
         }
-
-        // 松明を設置
-        if (!world.isClient() && hand == Hand.MAIN_HAND && world.isAir(pos)) {
-            var server = world.getServer();
-            ItemStack torchStack = new ItemStack(Blocks.TORCH);
-            BlockItem blockItem = (BlockItem) torchStack.getItem();
-            BlockHitResult hitResult = new BlockHitResult(
-                    player.getPos(), // Player's position
-                    context.getSide(), // Side of the block that was hit
-                    pos, // Position of the block
-                    false // Whether the hit is inside the block
-            );
-
-            // 設置処理
-            ActionResult result = blockItem.place(new ItemPlacementContext(player, hand, torchStack, hitResult));
-            if (result.isAccepted()) {
-                FantalStateManager.addFantalPollution(server, player, 1);
-                FantalStateManager.sendFantalPollution(server, player);
-                return ActionResult.SUCCESS;
-            }
-        }
-        return ActionResult.FAIL;
+        return result;
     }
 }

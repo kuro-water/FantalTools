@@ -1,30 +1,40 @@
 package org.kgcc.fantalmod.tool;
 
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.kgcc.fantalmod.test.BaseSkill;
+import org.kgcc.fantalmod.test.HealthBoostSkill;
 import org.kgcc.fantalmod.util.FantalStateManager;
 
 public class FantalAxeItem extends AxeItem {
+    public BaseSkill skill = new HealthBoostSkill();
+    
     public FantalAxeItem() {
         super(new FantalToolMaterial(), 5f, -3f, new Settings().rarity(Rarity.COMMON));
     }
     
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (!user.getWorld().isClient() && hand == Hand.MAIN_HAND) {
-            var server = world.getServer();
-            user.addStatusEffect(
-                    new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 20 * FantalStateManager.TICK_PAR_SEC, 1));
-            FantalStateManager.addFantalPollution(server, user, 1);
-            FantalStateManager.sendFantalPollution(server, user);
+        var result = skill.use(world, user, hand);
+        if (result.getResult() == ActionResult.PASS) {
+            return super.use(world, user, hand);
         }
-        return super.use(world, user, hand);
+        return result;
+    }
+    
+    @Override
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        var result = skill.useOnBlock(context);
+        if (result == ActionResult.PASS) {
+            return super.useOnBlock(context);
+        }
+        return result;
     }
 }
