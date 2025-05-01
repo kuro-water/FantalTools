@@ -36,16 +36,16 @@ public class FantalBowItem extends BowItem {
             float pullProgress = getPullProgress(usedTicks);
 
             // チャットメッセージ（Minecraft内）
-            playerEntity.sendMessage(Text.literal("Used Ticks: " + usedTicks + ", Pull Progress: " + pullProgress), false);
+            //playerEntity.sendMessage(Text.literal("Used Ticks: " + usedTicks + ", Pull Progress: " + pullProgress), false);
 
             // Debugging the pull value and model switching condition
-            if (pullProgress >= 0.9) {
+            /*if (pullProgress >= 0.9) {
                 playerEntity.sendMessage(Text.literal("DEBUG - Pulling: Model 2 should be used."), false);
             } else if (pullProgress >= 0.65) {
                 playerEntity.sendMessage(Text.literal("DEBUG - Pulling: Model 1 should be used."), false);
             } else {
                 playerEntity.sendMessage(Text.literal("DEBUG - Pulling: Model 0 should be used."), false);
-            }
+            }*/
         }
 
 

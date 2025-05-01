@@ -38,6 +38,8 @@ public class FantalModItems {
     public static final Item FANTAL_BOW = registerItem(new FantalBowItem(), "fantal_bow");
     public static final Item FANTAL_CROSSBOW = registerItem(new FantalBowItem(), "fantal_crossbow");
 
+    public static final Item FANTAL_TUE= registerItem(new FantalTueItem(), "fantal_tue");
+
     public static final Item FANTAL_HELMET =
             registerItem(new FantalArmorItem(FantalArmorMaterials.FANTAL, ArmorItem.Type.HELMET, new FabricItemSettings()), "fantal_helmet");
     public static final Item FANTAL_CHESTPLATE =
