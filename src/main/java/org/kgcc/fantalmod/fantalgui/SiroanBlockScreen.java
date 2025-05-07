@@ -13,6 +13,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.kgcc.fantalmod.FantalMod;
@@ -52,6 +53,11 @@ public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
                             handler.getSlot(1).getStack().getItem() == FantalModItems.RED_SMALL) {
                         handler.getSlot(1).getStack().decrement(1);
                         FantalStateManager.setSwordEffectEnabled(true);
+                        if (handler.inventory instanceof SiroanBlockEntity siroanBlockEntity) {
+//                            NbtCompound nbt = new NbtCompound();
+//                            siroanBlockEntity.writeNbt(nbt);
+                            siroanBlockEntity.sync();
+                        }
                         FantalMod.LOGGER.info("Sword effect enabled!");
                     } else {
                         FantalMod.LOGGER.info("Failed to enable sword effect.");

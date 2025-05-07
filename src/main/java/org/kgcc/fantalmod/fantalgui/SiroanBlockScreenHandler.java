@@ -12,7 +12,7 @@ import net.minecraft.screen.slot.Slot;
 import org.kgcc.fantalmod.registry.ModScreenHandlers;
 
 public class SiroanBlockScreenHandler extends ScreenHandler {
-    private final Inventory inventory;
+    public final Inventory inventory;
     private final PropertyDelegate propertyDelegate;
 
     public SiroanBlockScreenHandler(int syncId, PlayerInventory inventory) {
@@ -34,7 +34,8 @@ public class SiroanBlockScreenHandler extends ScreenHandler {
         addPlayerHotbar(playerInventory);
 
         addProperties(delegate);
-    }
+   }
+
 
     public boolean isCrafting() {
         return propertyDelegate.get(0) > 0;
@@ -95,4 +96,5 @@ public class SiroanBlockScreenHandler extends ScreenHandler {
     public ItemStack quickMove(PlayerEntity player, int slot){
         return ItemStack.EMPTY;
     }
+
 }

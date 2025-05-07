@@ -1,5 +1,6 @@
 package org.kgcc.fantalmod.fantalgui;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -76,10 +77,10 @@ public class SiroanBlockEntity extends BlockEntity implements NamedScreenHandler
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt) {
+    public void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, inventory);
-        nbt.putInt("siroan_block.progres", progress);
+        nbt.putInt("siroan_block.progress", progress);
     }
 
     @Override
@@ -87,6 +88,11 @@ public class SiroanBlockEntity extends BlockEntity implements NamedScreenHandler
         Inventories.readNbt(nbt, inventory);
         super.readNbt(nbt);
         progress = nbt.getInt("siroan_block.progress");
+    }
+    public void sync() {
+        if (world != null && !world.isClient) {
+            world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_ALL);
+        }
     }
 
     private void resetProgress() {
