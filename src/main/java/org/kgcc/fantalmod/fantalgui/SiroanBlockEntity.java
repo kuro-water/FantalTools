@@ -6,29 +6,27 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.*;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.PropertyDelegate;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
-import org.kgcc.fantalmod.gui.GemInfusingScreenHandler;
+import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.gui.ImplementedInventory;
-import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.registry.FantalBlockEntities;
 
 
 public class SiroanBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
-//おいしいスパゲッティ
+    //おいしいスパゲッティ
     protected final PropertyDelegate propertyDelegate;
     private int progress = 0;
     private int maxProgress = 72;
-
+    
     public SiroanBlockEntity(BlockPos pos, BlockState state) {
         super(FantalBlockEntities.SIROAN_BLOCK, pos, state);
         this.propertyDelegate = new PropertyDelegate() {
@@ -42,7 +40,7 @@ public class SiroanBlockEntity extends BlockEntity implements NamedScreenHandler
                         return 0;
                 }
             }
-
+            
             public void set(int index, int value) {
                 switch (index) {
                     case 0:
@@ -53,102 +51,103 @@ public class SiroanBlockEntity extends BlockEntity implements NamedScreenHandler
                         break;
                 }
             }
-
+            
             public int size() {
                 return 2;
             }
         };
     }
-
+    
     @Override
     public DefaultedList<ItemStack> getItems() {
         return this.inventory;
     }
-
+    
     @Override
     public Text getDisplayName() {
         return Text.literal("Gem Infusing Station");
     }
-
+    
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
         return new SiroanBlockScreenHandler(syncId, inv, this, this.propertyDelegate);
     }
-
+    
     @Override
     public void writeNbt(NbtCompound nbt) {
         super.writeNbt(nbt);
         Inventories.writeNbt(nbt, inventory);
         nbt.putInt("siroan_block.progress", progress);
     }
-
+    
     @Override
     public void readNbt(NbtCompound nbt) {
         Inventories.readNbt(nbt, inventory);
         super.readNbt(nbt);
         progress = nbt.getInt("siroan_block.progress");
     }
+    
     public void sync() {
         if (world != null && !world.isClient) {
             world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_ALL);
         }
     }
 
-    private void resetProgress() {
-        this.progress = 0;
-    }
-
-    public static void tick(World world, BlockPos blockPos, BlockState state, org.kgcc.fantalmod.fantalgui.SiroanBlockEntity entity) {
-        if (world.isClient()) {
-            return;
-        }
-
-        if (hasRecipe(entity)) {
-            entity.progress++;
-            markDirty(world, blockPos, state);
-            if (entity.progress >= entity.maxProgress) {
-                craftItem(entity);
-            }
-        } else {
-            entity.resetProgress();
-            markDirty(world, blockPos, state);
-        }
-    }
-
-    private static void craftItem(org.kgcc.fantalmod.fantalgui.SiroanBlockEntity entity) {
-        SimpleInventory inventory = new SimpleInventory(entity.size());
-        for (int i = 0; i < entity.size(); i++) {
-            inventory.setStack(i, entity.getStack(i));
-        }
-
-        if (hasRecipe(entity)) {
-            entity.removeStack(1, 1);
-            //もとになる素材をから出てくるやつ（多分
-            entity.setStack(2, new ItemStack(FantalModItems.FANTAL_ORE,
-                    entity.getStack(2).getCount() + 1));
-
-            entity.resetProgress();
-        }
-    }
-
-    private static boolean hasRecipe(org.kgcc.fantalmod.fantalgui.SiroanBlockEntity entity) {
-        SimpleInventory inventory = new SimpleInventory(entity.size());
-        for (int i = 0; i < entity.size(); i++) {
-            inventory.setStack(i, entity.getStack(i));
-        }
-        //元になる素材（多分
-        boolean hasRawGemInFirstSlot = entity.getStack(1).getItem() == FantalModItems.ROW_FANTAL;
-
-        return hasRawGemInFirstSlot && canInsertAmountIntoOutputSlot(inventory)
-                && canInsertItemIntoOutputSlot(inventory, FantalModItems.FANTAL_ORE.asItem());
-    }
-
-    private static boolean canInsertItemIntoOutputSlot(SimpleInventory inventory, Item output) {
-        return inventory.getStack(2).getItem() == output || inventory.getStack(2).isEmpty();
-    }
-
-    private static boolean canInsertAmountIntoOutputSlot(SimpleInventory inventory) {
-        return inventory.getStack(2).getMaxCount() > inventory.getStack(2).getCount();
-    }
+//    private void resetProgress() {
+//        this.progress = 0;
+//    }
+//
+//    public static void tick(World world, BlockPos blockPos, BlockState state, org.kgcc.fantalmod.fantalgui.SiroanBlockEntity entity) {
+//        if (world.isClient()) {
+//            return;
+//        }
+//
+//        if (hasRecipe(entity)) {
+//            entity.progress++;
+//            markDirty(world, blockPos, state);
+//            if (entity.progress >= entity.maxProgress) {
+//                craftItem(entity);
+//            }
+//        } else {
+//            entity.resetProgress();
+//            markDirty(world, blockPos, state);
+//        }
+//    }
+//
+//    private static void craftItem(org.kgcc.fantalmod.fantalgui.SiroanBlockEntity entity) {
+//        SimpleInventory inventory = new SimpleInventory(entity.size());
+//        for (int i = 0; i < entity.size(); i++) {
+//            inventory.setStack(i, entity.getStack(i));
+//        }
+//
+//        if (hasRecipe(entity)) {
+//            entity.removeStack(1, 1);
+//            //もとになる素材をから出てくるやつ（多分
+//            entity.setStack(2, new ItemStack(FantalModItems.FANTAL_ORE,
+//                                             entity.getStack(2).getCount() + 1));
+//
+//            entity.resetProgress();
+//        }
+//    }
+//
+//    private static boolean hasRecipe(org.kgcc.fantalmod.fantalgui.SiroanBlockEntity entity) {
+//        SimpleInventory inventory = new SimpleInventory(entity.size());
+//        for (int i = 0; i < entity.size(); i++) {
+//            inventory.setStack(i, entity.getStack(i));
+//        }
+//        //元になる素材（多分
+//        boolean hasRawGemInFirstSlot = entity.getStack(1).getItem() == FantalModItems.ROW_FANTAL;
+//
+//        return hasRawGemInFirstSlot && canInsertAmountIntoOutputSlot(inventory)
+//                && canInsertItemIntoOutputSlot(inventory, FantalModItems.FANTAL_ORE.asItem());
+//    }
+//
+//    private static boolean canInsertItemIntoOutputSlot(SimpleInventory inventory, Item output) {
+//        return inventory.getStack(2).getItem() == output || inventory.getStack(2).isEmpty();
+//    }
+//
+//    private static boolean canInsertAmountIntoOutputSlot(SimpleInventory inventory) {
+//        return inventory.getStack(2).getMaxCount() > inventory.getStack(2).getCount();
+//    }
 }
