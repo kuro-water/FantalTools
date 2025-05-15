@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.test;
+package org.kgcc.fantalmod.skill;
 
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -13,7 +13,7 @@ import org.kgcc.fantalmod.util.FantalStateManager;
 
 public class StrengthSkill implements BaseSkill {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (world.isClient() || hand != Hand.MAIN_HAND) {
+        if (world.isClient()) {
             return TypedActionResult.pass(user.getStackInHand(hand));
         }
         

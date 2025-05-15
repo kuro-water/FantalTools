@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.test;
+package org.kgcc.fantalmod.skill;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

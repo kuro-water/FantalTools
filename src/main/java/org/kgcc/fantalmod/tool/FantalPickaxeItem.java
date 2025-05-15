@@ -9,8 +9,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import org.kgcc.fantalmod.test.BaseSkill;
-import org.kgcc.fantalmod.test.HasteSkill;
+import org.kgcc.fantalmod.skill.BaseSkill;
+import org.kgcc.fantalmod.skill.HasteSkill;
 
 public class FantalPickaxeItem extends PickaxeItem {
     public BaseSkill skill = new HasteSkill();

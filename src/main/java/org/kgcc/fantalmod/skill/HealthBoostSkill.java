@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.test;
+package org.kgcc.fantalmod.skill;
 
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -9,15 +9,15 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.kgcc.fantalmod.util.FantalStateManager;
 
-public class SpeedSkill implements BaseSkill {
+public class HealthBoostSkill implements BaseSkill {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (world.isClient() || hand != Hand.MAIN_HAND) {
+        if (world.isClient()) {
             return TypedActionResult.pass(user.getStackInHand(hand));
         }
         
         user.addStatusEffect(
                 new StatusEffectInstance(
-                        StatusEffects.SPEED,
+                        StatusEffects.HEALTH_BOOST,
                         20 * FantalStateManager.TICK_PAR_SEC,
                         1));
         

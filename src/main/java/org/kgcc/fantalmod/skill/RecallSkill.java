@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.test;
+package org.kgcc.fantalmod.skill;
 
 public class RecallSkill implements BaseSkill {
 }

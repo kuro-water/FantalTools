@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.test;
+package org.kgcc.fantalmod.skill;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,7 +24,7 @@ public class PlaceTorch implements BaseSkill {
         }
         
         // 松明を設置
-        if (!world.isClient() && hand == Hand.MAIN_HAND && world.isAir(pos)) {
+        if (!world.isClient() && world.isAir(pos)) {
             var server = world.getServer();
             ItemStack torchStack = new ItemStack(Blocks.TORCH);
             BlockItem blockItem = (BlockItem) torchStack.getItem();
