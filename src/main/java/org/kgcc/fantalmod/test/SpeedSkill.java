@@ -4,8 +4,6 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -28,9 +26,5 @@ public class SpeedSkill implements BaseSkill {
         FantalStateManager.sendFantalPollution(server, user);
         
         return TypedActionResult.success(user.getStackInHand(hand));
-    }
-    
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        return ActionResult.PASS;
     }
 }

@@ -8,17 +8,12 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.kgcc.fantalmod.util.FantalStateManager;
 
 public class PlaceTorch implements BaseSkill {
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        return TypedActionResult.pass(user.getStackInHand(hand));
-    }
-    
     public ActionResult useOnBlock(ItemUsageContext context) {
         World world = context.getWorld();
         BlockPos pos = context.getBlockPos().offset(context.getSide());
