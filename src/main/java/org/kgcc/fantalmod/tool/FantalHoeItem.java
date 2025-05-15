@@ -11,7 +11,6 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.kgcc.fantalmod.test.BaseSkill;
 import org.kgcc.fantalmod.test.SpeedSkill;
-import org.kgcc.fantalmod.util.FantalStateManager;
 
 public class FantalHoeItem extends HoeItem {
     public BaseSkill skill = new SpeedSkill();
@@ -22,19 +21,25 @@ public class FantalHoeItem extends HoeItem {
     
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        var result = skill.use(world, user, hand);
-        if (result.getResult() == ActionResult.PASS) {
-            return super.use(world, user, hand);
+        // まず基底クラスのuseを呼ぶ
+        // SUCCESSが返ってきたなら、アニメーションとかあるっぽいのでそのまま返す
+        // それ以外はスキルのuseを呼ぶ
+        var result = super.use(world, user, hand);
+        if (result.getResult() == ActionResult.SUCCESS) {
+            return result;
         }
-        return result;
+        return skill.use(world, user, hand);
     }
     
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        var result = skill.useOnBlock(context);
-        if (result == ActionResult.PASS) {
-            return super.useOnBlock(context);
+        // まず基底クラスのuseを呼ぶ
+        // SUCCESSが返ってきたなら、アニメーションとかあるっぽいのでそのまま返す
+        // それ以外はスキルのuseを呼ぶ
+        var result = super.useOnBlock(context);
+        if (result == ActionResult.SUCCESS) {
+            return result;
         }
-        return result;
+        return skill.useOnBlock(context);
     }
 }

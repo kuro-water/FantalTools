@@ -11,7 +11,6 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.kgcc.fantalmod.test.BaseSkill;
 import org.kgcc.fantalmod.test.HasteSkill;
-import org.kgcc.fantalmod.util.FantalStateManager;
 
 public class FantalPickaxeItem extends PickaxeItem {
     public BaseSkill skill = new HasteSkill();
@@ -22,11 +21,25 @@ public class FantalPickaxeItem extends PickaxeItem {
     
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        // まず基底クラスのuseを呼ぶ
+        // SUCCESSが返ってきたなら、アニメーションとかあるっぽいのでそのまま返す
+        // それ以外はスキルのuseを呼ぶ
+        var result = super.use(world, user, hand);
+        if (result.getResult() == ActionResult.SUCCESS) {
+            return result;
+        }
         return skill.use(world, user, hand);
     }
     
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
+        // まず基底クラスのuseを呼ぶ
+        // SUCCESSが返ってきたなら、アニメーションとかあるっぽいのでそのまま返す
+        // それ以外はスキルのuseを呼ぶ
+        var result = super.useOnBlock(context);
+        if (result == ActionResult.SUCCESS) {
+            return result;
+        }
         return skill.useOnBlock(context);
     }
 }
