@@ -10,10 +10,10 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.kgcc.fantalmod.skill.BaseSkill;
-import org.kgcc.fantalmod.skill.PlaceTorch;
+import org.kgcc.fantalmod.skill.PlaceTorchSkill;
 
 public class FantalShovelItem extends ShovelItem {
-    public BaseSkill skill = new PlaceTorch();
+    public BaseSkill skill = new PlaceTorchSkill();
     
     public FantalShovelItem() {
         super(new FantalToolMaterial(), 1.5f, -3f, new Settings().rarity(Rarity.COMMON));

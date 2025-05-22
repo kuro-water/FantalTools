@@ -45,7 +45,7 @@ public class MiningSkill implements BaseSkill {
             return ActionResult.PASS;
         }
         if (blockState.getHardness(world, blockPos) < 0) {// !blockState.isAir()
-            // 岩盤や黒曜石はHardnessが-1
+            // 岩盤やポータルはHardnessが-1
             FantalMod.LOGGER.info("getHardness");
             return ActionResult.PASS;
         }
@@ -54,11 +54,36 @@ public class MiningSkill implements BaseSkill {
         // シルクタッチも考慮されない
 //        var items = Block.getDroppedStacks(blockState, (ServerWorld) world, blockPos, null);
 //        items.forEach(stack -> FantalMod.LOGGER.info(stack.toString()));
-        
+
+//        FantalMod.LOGGER.info(EnchantmentHelper.hasSilkTouch(player.getMainHandStack())
+//                ? "hasSilkTouch"
+//                : "noSilkTouch");
+//
+//        LootContext.Builder builder = new LootContext.Builder((ServerWorld) world)
+//                .parameter(LootContextParameters.ORIGIN, Vec3d.ofCenter(blockPos))
+//                .parameter(LootContextParameters.TOOL, player.getMainHandStack())
+//                .parameter(LootContextParameters.BLOCK_STATE, blockState)
+//                .random(world.getRandom());
+//
+//        // ブロックに対応する LootTable を取得
+//        LootTable lootTable = world.getServer()
+//                                   .getLootManager()
+//                                   .getTable(block.getLootTableId());
+//
+//        lootTable.generateLoot(builder.build(LootContextTypes.BLOCK)).forEach(stack -> {
+//             FantalMod.LOGGER.info(stack.toString());
+//            // ドロップアイテムをワールドにスポーン
+//            if (!stack.isEmpty()) {
+//                // FantalMod.LOGGER.info(stack.toString());
+//                Block.dropStack(world, blockPos, stack);
+//            }
+//        });
         var result = world.breakBlock(context.getBlockPos(), true, player);
+        
         if (!result) {
             return ActionResult.FAIL;
         }
+        
         // Block.onBrokenとafterBreakは本来は自動で（バニラ側で）呼び出されるぽい
         // でもworld.breakBlockでは呼ばれないので呼んどいた方がよさそう？
         // onBrokenの説明には「可能な限りAbstractBlock.onStateReplacedまたはAbstractBlock.onStacksDroppedを使うべき」と書いてあるが、それらは非推奨となっている。説明によると「非推奨メソッドは、AbstractBlock.AbstractBlockState の対応するメソッドまたはこのクラスのサブクラスからのみ呼び出されるべきであることを意味します。」らしい。

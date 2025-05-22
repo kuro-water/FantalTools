@@ -13,7 +13,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.kgcc.fantalmod.util.FantalStateManager;
 
-public class PlaceTorch implements BaseSkill {
+public class PlaceTorchSkill implements BaseSkill {
     public ActionResult useOnBlock(ItemUsageContext context) {
         World world = context.getWorld();
         BlockPos pos = context.getBlockPos().offset(context.getSide());
