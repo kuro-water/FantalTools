@@ -7,7 +7,8 @@
   ],
   "client": [
     "ExampleMixin",
-    "GridWidgetAccessor"
+    "GridWidgetAccessor",
+    "InGameHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1
