@@ -4,12 +4,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
+import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.registry.ModScreenHandlers;
 
 public class SiroanBlockScreenHandler extends ScreenHandler {
@@ -37,44 +39,6 @@ public class SiroanBlockScreenHandler extends ScreenHandler {
         addProperties(delegate);
     }
 
-
-//    public boolean isCrafting() {
-//        return propertyDelegate.get(0) > 0;
-//    }
-//
-//    public int getScaledProgress() {
-//        int progress = this.propertyDelegate.get(0);
-//        int maxProgress = this.propertyDelegate.get(1);  // Max Progress
-//        int progressArrowSize = 26; // This is the width in pixels of your arrow
-//
-//        return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
-//    }
-//
-//
-//    public ItemStack transferSlot(PlayerEntity player, int invSlot) {
-//        ItemStack newStack = ItemStack.EMPTY;
-//        Slot slot = this.slots.get(invSlot);
-//        if (slot != null && slot.hasStack()) {
-//            ItemStack originalStack = slot.getStack();
-//            newStack = originalStack.copy();
-//            if (invSlot < this.inventory.size()) {
-//                if (!this.insertItem(originalStack, this.inventory.size(), this.slots.size(), true)) {
-//                    return ItemStack.EMPTY;
-//                }
-//            } else if (!this.insertItem(originalStack, 0, this.inventory.size(), false)) {
-//                return ItemStack.EMPTY;
-//            }
-//
-//            if (originalStack.isEmpty()) {
-//                slot.setStack(ItemStack.EMPTY);
-//            } else {
-//                slot.markDirty();
-//            }
-//        }
-//
-//        return newStack;
-//    }
-    
     @Override
     public boolean canUse(PlayerEntity player) {
         return this.inventory.canPlayerUse(player);
@@ -95,11 +59,43 @@ public class SiroanBlockScreenHandler extends ScreenHandler {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 144));
         }
     }
-    
-    public ItemStack quickMove(PlayerEntity player, int slot) {
+
+    @Override
+    public ItemStack quickMove(PlayerEntity player, int slotIndex) {
+        Slot slot = this.slots.get(slotIndex);
+        if (slot != null && slot.hasStack()) {
+            ItemStack stack = slot.getStack();
+            ItemStack newStack = stack.copy();
+
+            // 特定のアイテムのみスロットに移動可能
+            if (stack.getItem() == FantalModItems.RED_SMALL) {
+                if (!this.insertItem(stack, 1, 2, false)) { // スロット1に移動
+                    return ItemStack.EMPTY;
+                }
+            } else if (stack.getItem() == FantalModItems.FANTAL_SWORD
+                    || stack.getItem() == FantalModItems.FANTAL_AXE
+                    || stack.getItem() == FantalModItems.FANTAL_PICKAXE
+                    || stack.getItem() == FantalModItems.FANTAL_SHOVEL
+                    || stack.getItem() == FantalModItems.FANTAL_HOE) {
+                if (!this.insertItem(stack, 0, 1, false)) { // スロット0に移動
+                    return ItemStack.EMPTY;
+                }
+            } else {
+                // 特定のアイテム以外はスロットに移動不可
+                return ItemStack.EMPTY;
+            }
+
+            if (stack.isEmpty()) {
+                slot.setStack(ItemStack.EMPTY);
+            } else {
+                slot.markDirty();
+            }
+
+            return newStack;
+        }
         return ItemStack.EMPTY;
     }
-    
+
     @Override
     public boolean onButtonClick(PlayerEntity player, int id) {
         if (id == 0) {
@@ -113,4 +109,5 @@ public class SiroanBlockScreenHandler extends ScreenHandler {
         }
         return true;
     }
+
 }

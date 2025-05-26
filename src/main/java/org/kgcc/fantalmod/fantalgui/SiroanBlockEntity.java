@@ -22,7 +22,7 @@ import org.kgcc.fantalmod.registry.FantalBlockEntities;
 
 public class SiroanBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
-    //おいしいスパゲッティ
+
     protected final PropertyDelegate propertyDelegate;
     private int progress = 0;
     private int maxProgress = 72;
@@ -93,61 +93,4 @@ public class SiroanBlockEntity extends BlockEntity implements NamedScreenHandler
             world.updateListeners(pos, getCachedState(), getCachedState(), Block.NOTIFY_ALL);
         }
     }
-
-//    private void resetProgress() {
-//        this.progress = 0;
-//    }
-//
-//    public static void tick(World world, BlockPos blockPos, BlockState state, org.kgcc.fantalmod.fantalgui.SiroanBlockEntity entity) {
-//        if (world.isClient()) {
-//            return;
-//        }
-//
-//        if (hasRecipe(entity)) {
-//            entity.progress++;
-//            markDirty(world, blockPos, state);
-//            if (entity.progress >= entity.maxProgress) {
-//                craftItem(entity);
-//            }
-//        } else {
-//            entity.resetProgress();
-//            markDirty(world, blockPos, state);
-//        }
-//    }
-//
-//    private static void craftItem(org.kgcc.fantalmod.fantalgui.SiroanBlockEntity entity) {
-//        SimpleInventory inventory = new SimpleInventory(entity.size());
-//        for (int i = 0; i < entity.size(); i++) {
-//            inventory.setStack(i, entity.getStack(i));
-//        }
-//
-//        if (hasRecipe(entity)) {
-//            entity.removeStack(1, 1);
-//            //もとになる素材をから出てくるやつ（多分
-//            entity.setStack(2, new ItemStack(FantalModItems.FANTAL_ORE,
-//                                             entity.getStack(2).getCount() + 1));
-//
-//            entity.resetProgress();
-//        }
-//    }
-//
-//    private static boolean hasRecipe(org.kgcc.fantalmod.fantalgui.SiroanBlockEntity entity) {
-//        SimpleInventory inventory = new SimpleInventory(entity.size());
-//        for (int i = 0; i < entity.size(); i++) {
-//            inventory.setStack(i, entity.getStack(i));
-//        }
-//        //元になる素材（多分
-//        boolean hasRawGemInFirstSlot = entity.getStack(1).getItem() == FantalModItems.ROW_FANTAL;
-//
-//        return hasRawGemInFirstSlot && canInsertAmountIntoOutputSlot(inventory)
-//                && canInsertItemIntoOutputSlot(inventory, FantalModItems.FANTAL_ORE.asItem());
-//    }
-//
-//    private static boolean canInsertItemIntoOutputSlot(SimpleInventory inventory, Item output) {
-//        return inventory.getStack(2).getItem() == output || inventory.getStack(2).isEmpty();
-//    }
-//
-//    private static boolean canInsertAmountIntoOutputSlot(SimpleInventory inventory) {
-//        return inventory.getStack(2).getMaxCount() > inventory.getStack(2).getCount();
-//    }
 }
