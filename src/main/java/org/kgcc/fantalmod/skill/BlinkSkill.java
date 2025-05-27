@@ -20,8 +20,8 @@ public class BlinkSkill implements BaseSkill {
         var x = Math.sin(yaw) * (1 - y);
         var z = Math.cos(yaw) * (1 - y);
         
-        FantalMod.LOGGER.info("x:{} y:{} z:{}", x, y, z);
-        FantalMod.LOGGER.info("yaw:{} pitch:{}", yaw, pitch);
+//        FantalMod.LOGGER.info("x:{} y:{} z:{}", x, y, z);
+//        FantalMod.LOGGER.info("yaw:{} pitch:{}", yaw, pitch);
         
         // deltaY = y*1.75/2だと、真上使用3ブロック、ジャンプ+真上使用で最大9ブロックほど飛べる
         // deltaY = y*1.5/2だと、真上使用2.5ブロック（ギリダメージ受けない）、ジャンプ+真上使用で最大8ブロックほど飛べる
