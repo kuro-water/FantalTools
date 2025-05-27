@@ -15,7 +15,7 @@ import org.kgcc.fantalmod.armor.FantalArmorMaterials;
 import org.kgcc.fantalmod.block.FantalBlock;
 import org.kgcc.fantalmod.block.FantalOreBlock;
 
-import org.kgcc.fantalmod.fantalgui.SiroanBlock;
+import org.kgcc.fantalmod.gui.SiroanBlock;
 import org.kgcc.fantalmod.item.FantalIngotItem;
 import org.kgcc.fantalmod.item.FantalNuggetItem;
 import org.kgcc.fantalmod.item.RowFantalItem;

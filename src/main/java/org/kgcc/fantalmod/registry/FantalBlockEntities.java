@@ -6,7 +6,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.kgcc.fantalmod.FantalMod;
-import org.kgcc.fantalmod.fantalgui.SiroanBlockEntity;
+import org.kgcc.fantalmod.gui.SiroanBlockEntity;
 
 public class FantalBlockEntities {
     public static BlockEntityType<SiroanBlockEntity> SIROAN_BLOCK;

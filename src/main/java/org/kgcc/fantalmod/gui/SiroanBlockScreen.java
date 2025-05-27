@@ -5,7 +5,7 @@
 //
 //
 //===========================================================
-package org.kgcc.fantalmod.fantalgui;
+package org.kgcc.fantalmod.gui;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -14,12 +14,14 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.registry.FantalModItems;
-import org.kgcc.fantalmod.util.FantalStateManager;
+import org.kgcc.fantalmod.skill.BlinkSkill;
+import org.kgcc.fantalmod.tool.FantalSwordItem;
 
 public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
     private static final Identifier TEXTURE =
@@ -33,22 +35,26 @@ public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
     protected void init() {
         super.init();
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
-
+        
         addDrawableChild(
                 ButtonWidget.builder(Text.of("Enable Sword Effect"), button -> {
                                 Slot slot = handler.getSlot(1);
                                 if (slot.hasStack() &&
                                         slot.getStack().getItem() == FantalModItems.RED_SMALL) {
-                                    FantalStateManager.setSwordEffectEnabled(true);
                                     // サーバーにデータを送信（SiroanBlockScreenHandler.OnButtonClickが作動する。idは0）
                                     client.interactionManager.clickButton(handler.syncId, 0);
+                                    Item item = handler.getSlot(0).getStack().getItem();
+                                    // todo:nbtにしないと。
+                                    if (item instanceof FantalSwordItem) {
+                                        ((FantalSwordItem) item).skill = new BlinkSkill();
+                                    }
                                     FantalMod.LOGGER.info("Sword effect enabled!");
                                 } else {
                                     FantalMod.LOGGER.info("Failed to enable sword effect.");
                                 }
                             }).size(8, 10)
                             .width(80)
-                            .tooltip(Tooltip.of(Text.of("このボタンを押すとred_smallを消費します")))
+                            .tooltip(Tooltip.of(Text.of("red_smallを消費して特殊効果を有効化")))
                             .position(200, 60)
                             .build());
     }

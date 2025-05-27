@@ -4,7 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.text.Text;
-import org.kgcc.fantalmod.fantalgui.SiroanBlockScreen;
+import org.kgcc.fantalmod.gui.SiroanBlockScreen;
 import org.kgcc.fantalmod.registry.ModScreenHandlers;
 
 public class FantalModClient implements ClientModInitializer {

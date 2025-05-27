@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.fantalgui;
+package org.kgcc.fantalmod.gui;
 
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockRenderType;

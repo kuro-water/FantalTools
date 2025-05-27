@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.fantalgui;
+package org.kgcc.fantalmod.gui;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -15,8 +15,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
-import org.kgcc.fantalmod.FantalMod;
-import org.kgcc.fantalmod.gui.ImplementedInventory;
 import org.kgcc.fantalmod.registry.FantalBlockEntities;
 
 
@@ -33,9 +31,9 @@ public class SiroanBlockEntity extends BlockEntity implements NamedScreenHandler
             public int get(int index) {
                 switch (index) {
                     case 0:
-                        return org.kgcc.fantalmod.fantalgui.SiroanBlockEntity.this.progress;
+                        return org.kgcc.fantalmod.gui.SiroanBlockEntity.this.progress;
                     case 1:
-                        return org.kgcc.fantalmod.fantalgui.SiroanBlockEntity.this.maxProgress;
+                        return org.kgcc.fantalmod.gui.SiroanBlockEntity.this.maxProgress;
                     default:
                         return 0;
                 }
@@ -44,10 +42,10 @@ public class SiroanBlockEntity extends BlockEntity implements NamedScreenHandler
             public void set(int index, int value) {
                 switch (index) {
                     case 0:
-                        org.kgcc.fantalmod.fantalgui.SiroanBlockEntity.this.progress = value;
+                        org.kgcc.fantalmod.gui.SiroanBlockEntity.this.progress = value;
                         break;
                     case 1:
-                        org.kgcc.fantalmod.fantalgui.SiroanBlockEntity.this.maxProgress = value;
+                        org.kgcc.fantalmod.gui.SiroanBlockEntity.this.maxProgress = value;
                         break;
                 }
             }

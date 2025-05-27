@@ -11,10 +11,10 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.kgcc.fantalmod.skill.BaseSkill;
-import org.kgcc.fantalmod.skill.StrengthSkill;
+import org.kgcc.fantalmod.skill.NoneSkill;
 
 public class FantalSwordItem extends SwordItem {
-    public BaseSkill skill = new StrengthSkill();
+    public BaseSkill skill = new NoneSkill();
     
     public FantalSwordItem() {
         super(new FantalToolMaterial(), 3, -2.4f, new Item.Settings().rarity(Rarity.COMMON));

@@ -10,10 +10,10 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.kgcc.fantalmod.skill.BaseSkill;
-import org.kgcc.fantalmod.skill.HasteSkill;
+import org.kgcc.fantalmod.skill.NoneSkill;
 
 public class FantalPickaxeItem extends PickaxeItem {
-    public BaseSkill skill = new HasteSkill();
+    public BaseSkill skill = new NoneSkill();
     
     public FantalPickaxeItem() {
         super(new FantalToolMaterial(), 1, -2.8f, new Settings().rarity(Rarity.COMMON));
