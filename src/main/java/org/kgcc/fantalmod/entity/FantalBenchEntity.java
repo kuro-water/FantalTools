@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.gui;
+package org.kgcc.fantalmod.entity;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,13 +13,15 @@ import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
+import org.kgcc.fantalmod.screen.FantalBenchScreenHandler;
+import org.kgcc.fantalmod.screen.ImplementedInventory;
 import org.kgcc.fantalmod.registry.FantalBlockEntities;
 
 
-public class SiroanBlockEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
+public class FantalBenchEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     
-    public SiroanBlockEntity(BlockPos pos, BlockState state) {
+    public FantalBenchEntity(BlockPos pos, BlockState state) {
         super(FantalBlockEntities.SIROAN_BLOCK, pos, state);
     }
     
@@ -37,7 +39,7 @@ public class SiroanBlockEntity extends BlockEntity implements NamedScreenHandler
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new SiroanBlockScreenHandler(syncId, inv, this);
+        return new FantalBenchScreenHandler(syncId, inv, this);
     }
     
     @Override

@@ -4,7 +4,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.text.Text;
-import org.kgcc.fantalmod.gui.SiroanBlockScreen;
+import org.kgcc.fantalmod.screen.FantalBenchScreen;
 import org.kgcc.fantalmod.registry.ModScreenHandlers;
 
 public class FantalModClient implements ClientModInitializer {
@@ -33,6 +33,6 @@ public class FantalModClient implements ClientModInitializer {
                     FantalMod.LOGGER.info("{}の侵食度：{}", name,
                             playerSpecificDirtBlocksBroken);
                 });
-        HandledScreens.register(ModScreenHandlers.SIROAN_BLOCK_SCREEN_HANDLER, SiroanBlockScreen::new);
+        HandledScreens.register(ModScreenHandlers.SIROAN_BLOCK_SCREEN_HANDLER, FantalBenchScreen::new);
     }
 }

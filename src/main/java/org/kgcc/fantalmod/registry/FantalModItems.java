@@ -15,7 +15,7 @@ import org.kgcc.fantalmod.armor.FantalArmorMaterials;
 import org.kgcc.fantalmod.block.FantalBlock;
 import org.kgcc.fantalmod.block.FantalOreBlock;
 
-import org.kgcc.fantalmod.gui.SiroanBlock;
+import org.kgcc.fantalmod.block.FantalBench;
 import org.kgcc.fantalmod.item.FantalIngotItem;
 import org.kgcc.fantalmod.item.FantalNuggetItem;
 import org.kgcc.fantalmod.item.RowFantalItem;
@@ -38,7 +38,7 @@ public class FantalModItems {
 
     public static final Block FANTAL_BLOCK = registerBlock(new FantalBlock(), "fantal_block");
     public static final Block SIROAN_BLOCK= registerBlock(
-            new SiroanBlock(FabricBlockSettings.of(Material.METAL).strength(4f).requiresTool().nonOpaque()),"siroan_block");
+            new FantalBench(FabricBlockSettings.of(Material.METAL).strength(4f).requiresTool().nonOpaque()), "siroan_block");
 
 
 

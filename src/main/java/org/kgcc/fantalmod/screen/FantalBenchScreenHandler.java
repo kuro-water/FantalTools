@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.gui;
+package org.kgcc.fantalmod.screen;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -8,17 +8,18 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import org.kgcc.fantalmod.entity.FantalBenchEntity;
 import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.registry.ModScreenHandlers;
 
-public class SiroanBlockScreenHandler extends ScreenHandler {
+public class FantalBenchScreenHandler extends ScreenHandler {
     public final Inventory inventory;
     
-    public SiroanBlockScreenHandler(int syncId, PlayerInventory inventory) {
+    public FantalBenchScreenHandler(int syncId, PlayerInventory inventory) {
         this(syncId, inventory, new SimpleInventory(3));
     }
     
-    public SiroanBlockScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
+    public FantalBenchScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
         super(ModScreenHandlers.SIROAN_BLOCK_SCREEN_HANDLER, syncId);
         checkSize(inventory, 3);
         this.inventory = inventory;
@@ -93,11 +94,11 @@ public class SiroanBlockScreenHandler extends ScreenHandler {
     public boolean onButtonClick(PlayerEntity player, int id) {
         if (id == 0) {
             // 剣の効果を有効にするボタンが押されたときの処理
-            if (this.inventory instanceof SiroanBlockEntity siroanBlockEntity) {
-                siroanBlockEntity.getStack(1).decrement(1);
-                siroanBlockEntity.markDirty();
+            if (this.inventory instanceof FantalBenchEntity fantalBenchEntity) {
+                fantalBenchEntity.getStack(1).decrement(1);
+                fantalBenchEntity.markDirty();
                 var nbt = new NbtCompound();
-                siroanBlockEntity.writeNbt(nbt);
+                fantalBenchEntity.writeNbt(nbt);
             }
         }
         return true;

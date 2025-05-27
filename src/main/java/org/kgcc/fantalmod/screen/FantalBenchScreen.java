@@ -5,7 +5,7 @@
 //
 //
 //===========================================================
-package org.kgcc.fantalmod.gui;
+package org.kgcc.fantalmod.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
@@ -22,11 +22,11 @@ import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.skill.BlinkSkill;
 import org.kgcc.fantalmod.tool.FantalTool;
 
-public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
+public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
     private static final Identifier TEXTURE =
             new Identifier(FantalMod.MODID, "textures/gui/siroan_block.png");
     
-    public SiroanBlockScreen(SiroanBlockScreenHandler handler, PlayerInventory inventory, Text title) {
+    public FantalBenchScreen(FantalBenchScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
     

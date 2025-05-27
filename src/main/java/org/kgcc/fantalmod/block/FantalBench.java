@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.gui;
+package org.kgcc.fantalmod.block;
 
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockRenderType;
@@ -14,9 +14,10 @@ import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import org.kgcc.fantalmod.entity.FantalBenchEntity;
 
-public class SiroanBlock extends BlockWithEntity implements BlockEntityProvider {
-    public SiroanBlock(Settings settings) {
+public class FantalBench extends BlockWithEntity implements BlockEntityProvider {
+    public FantalBench(Settings settings) {
         super(settings);
     }
     /* BLOCK ENTITY */
@@ -30,8 +31,8 @@ public class SiroanBlock extends BlockWithEntity implements BlockEntityProvider 
     public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof SiroanBlockEntity) {
-                ItemScatterer.spawn(world, pos, (SiroanBlockEntity) blockEntity);
+            if (blockEntity instanceof FantalBenchEntity) {
+                ItemScatterer.spawn(world, pos, (FantalBenchEntity) blockEntity);
                 world.updateComparators(pos, this);
             }
             super.onStateReplaced(state, world, pos, newState, moved);
@@ -54,6 +55,6 @@ public class SiroanBlock extends BlockWithEntity implements BlockEntityProvider 
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new SiroanBlockEntity(pos, state);
+        return new FantalBenchEntity(pos, state);
     }
 }
