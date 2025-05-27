@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.mizuchi;
+package org.kgcc.fantalmod.test;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
