@@ -12,11 +12,19 @@ import net.minecraft.world.World;
 import org.kgcc.fantalmod.skill.BaseSkill;
 import org.kgcc.fantalmod.skill.NoneSkill;
 
-public class FantalPickaxeItem extends PickaxeItem {
-    public BaseSkill skill = new NoneSkill();
-    
+public class FantalPickaxeItem extends PickaxeItem implements FantalTool {
     public FantalPickaxeItem() {
         super(new FantalToolMaterial(), 1, -2.8f, new Settings().rarity(Rarity.COMMON));
+    }
+    
+    private BaseSkill skill = new NoneSkill();
+    
+    public void setSkill(BaseSkill skill) {
+        this.skill = skill;
+    }
+    
+    public BaseSkill getSkill() {
+        return skill;
     }
     
     @Override

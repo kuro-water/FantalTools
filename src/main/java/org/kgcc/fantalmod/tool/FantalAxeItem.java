@@ -10,14 +10,21 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.kgcc.fantalmod.skill.BaseSkill;
-import org.kgcc.fantalmod.skill.HealthBoostSkill;
 import org.kgcc.fantalmod.skill.NoneSkill;
 
-public class FantalAxeItem extends AxeItem {
-    public BaseSkill skill = new NoneSkill();
-    
+public class FantalAxeItem extends AxeItem implements FantalTool {
     public FantalAxeItem() {
         super(new FantalToolMaterial(), 5f, -3f, new Settings().rarity(Rarity.COMMON));
+    }
+    
+    private BaseSkill skill = new NoneSkill();
+    
+    public void setSkill(BaseSkill skill) {
+        this.skill = skill;
+    }
+    
+    public BaseSkill getSkill() {
+        return skill;
     }
     
     @Override

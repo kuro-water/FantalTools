@@ -12,11 +12,19 @@ import net.minecraft.world.World;
 import org.kgcc.fantalmod.skill.BaseSkill;
 import org.kgcc.fantalmod.skill.NoneSkill;
 
-public class FantalShovelItem extends ShovelItem {
-    public BaseSkill skill = new NoneSkill();
-    
+public class FantalShovelItem extends ShovelItem implements FantalTool {
     public FantalShovelItem() {
         super(new FantalToolMaterial(), 1.5f, -3f, new Settings().rarity(Rarity.COMMON));
+    }
+    
+    private BaseSkill skill = new NoneSkill();
+    
+    public void setSkill(BaseSkill skill) {
+        this.skill = skill;
+    }
+    
+    public BaseSkill getSkill() {
+        return skill;
     }
     
     @Override

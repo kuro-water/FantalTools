@@ -15,13 +15,12 @@ import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
-import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.skill.BlinkSkill;
-import org.kgcc.fantalmod.tool.FantalSwordItem;
+import org.kgcc.fantalmod.tool.FantalTool;
 
 public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
     private static final Identifier TEXTURE =
@@ -37,26 +36,35 @@ public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
         
         addDrawableChild(
-                ButtonWidget.builder(Text.of("Enable Sword Effect"), button -> {
-                                Slot slot = handler.getSlot(1);
-                                if (slot.hasStack() &&
-                                        slot.getStack().getItem() == FantalModItems.RED_SMALL) {
-                                    // サーバーにデータを送信（SiroanBlockScreenHandler.OnButtonClickが作動する。idは0）
-                                    client.interactionManager.clickButton(handler.syncId, 0);
-                                    Item item = handler.getSlot(0).getStack().getItem();
-                                    // todo:nbtにしないと。
-                                    if (item instanceof FantalSwordItem) {
-                                        ((FantalSwordItem) item).skill = new BlinkSkill();
-                                    }
-                                    FantalMod.LOGGER.info("Sword effect enabled!");
-                                } else {
-                                    FantalMod.LOGGER.info("Failed to enable sword effect.");
-                                }
-                            }).size(8, 10)
-                            .width(80)
-                            .tooltip(Tooltip.of(Text.of("red_smallを消費して特殊効果を有効化")))
-                            .position(200, 60)
-                            .build());
+                ButtonWidget
+                        .builder(Text.of("Enable Sword Effect"), button -> {
+                            if (client == null || client.interactionManager == null) {
+                                FantalMod.LOGGER.error("Client or interaction manager is null.");
+                                return;
+                            }
+                            
+                            Item item = handler.getSlot(0).getStack().getItem();
+                            if (!(item instanceof FantalTool fantalItem)) {
+                                FantalMod.LOGGER.error("Item is not a FantalTool.");
+                                return;
+                            }
+                            
+                            if (!(handler.getSlot(1).getStack().getItem() == FantalModItems.RED_SMALL)) {
+                                FantalMod.LOGGER.info("Need red_small.");
+                                return;
+                            }
+                            
+                            // サーバーにデータを送信（SiroanBlockScreenHandler.OnButtonClickが作動する。idは0）
+                            client.interactionManager.clickButton(handler.syncId, 0);
+                            // todo:どのスキルを設定するか
+                            fantalItem.setSkill(new BlinkSkill());
+                            FantalMod.LOGGER.info("Skill enabled!");
+                        })
+                        .size(8, 10)
+                        .width(80)
+                        .tooltip(Tooltip.of(Text.of("red_smallを消費して特殊効果を有効化")))
+                        .position(200, 60)
+                        .build());
     }
     
     @Override

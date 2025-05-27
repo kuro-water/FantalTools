@@ -9,15 +9,22 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import org.kgcc.fantalmod.skill.BlinkSkill;
 import org.kgcc.fantalmod.skill.BaseSkill;
 import org.kgcc.fantalmod.skill.NoneSkill;
 
-public class FantalHoeItem extends HoeItem {
-    public BaseSkill skill = new NoneSkill();
-    
+public class FantalHoeItem extends HoeItem implements FantalTool {
     public FantalHoeItem() {
         super(new FantalToolMaterial(), -3, 0, new Settings().rarity(Rarity.COMMON));
+    }
+    
+    private BaseSkill skill = new NoneSkill();
+    
+    public void setSkill(BaseSkill skill) {
+        this.skill = skill;
+    }
+    
+    public BaseSkill getSkill() {
+        return skill;
     }
     
     @Override
