@@ -9,12 +9,12 @@ import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.entity.FantalBenchEntity;
 
 public class FantalBlockEntities {
-    public static BlockEntityType<FantalBenchEntity> SIROAN_BLOCK;
-
+    public static BlockEntityType<FantalBenchEntity> FANTAL_BENCH;
+    
     public static void registerBlockEntities() {
-        SIROAN_BLOCK = Registry.register(Registries.BLOCK_ENTITY_TYPE,
-                new Identifier(FantalMod.MODID, "siroan_block"),
-                FabricBlockEntityTypeBuilder.create(FantalBenchEntity::new,
-                                                    FantalModItems.SIROAN_BLOCK).build(null));
+        FANTAL_BENCH = Registry.register(
+                Registries.BLOCK_ENTITY_TYPE,
+                new Identifier(FantalMod.MODID, "siroan_block"), // todo: Localize this string
+                FabricBlockEntityTypeBuilder.create(FantalBenchEntity::new, FantalModItems.FANTAL_BENCH).build(null));
     }
 }

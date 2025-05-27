@@ -33,6 +33,6 @@ public class FantalModClient implements ClientModInitializer {
                     FantalMod.LOGGER.info("{}の侵食度：{}", name,
                             playerSpecificDirtBlocksBroken);
                 });
-        HandledScreens.register(ModScreenHandlers.SIROAN_BLOCK_SCREEN_HANDLER, FantalBenchScreen::new);
+        HandledScreens.register(ModScreenHandlers.FANTAL_BENCH_SCREEN_HANDLER, FantalBenchScreen::new);
     }
 }

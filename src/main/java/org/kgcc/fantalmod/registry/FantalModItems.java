@@ -28,16 +28,12 @@ public class FantalModItems {
     public static final Item ROW_FANTAL = registerItem(new RowFantalItem(), "row_fantal");
     public static final Item FANTAL_NUGGET = registerItem(new FantalNuggetItem(), "fantal_nugget");
     public static final Item RED_SMALL = registerItem(new FantalNuggetItem(), "red_small");
-
-
+    
     public static final Block FANTAL_ORE = registerBlock(new FantalOreBlock(3.0f), "fantal_ore");
     public static final Block DEEP_FANTAL_ORE = registerBlock(new FantalOreBlock(4.5f), "deepslate_fantal_ore");
 
-
-
-
     public static final Block FANTAL_BLOCK = registerBlock(new FantalBlock(), "fantal_block");
-    public static final Block SIROAN_BLOCK= registerBlock(
+    public static final Block FANTAL_BENCH = registerBlock( // todo: FantalBenchに置き換える
             new FantalBench(FabricBlockSettings.of(Material.METAL).strength(4f).requiresTool().nonOpaque()), "siroan_block");
 
 

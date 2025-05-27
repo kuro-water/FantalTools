@@ -22,7 +22,7 @@ public class FantalBenchEntity extends BlockEntity implements NamedScreenHandler
     private final DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
     
     public FantalBenchEntity(BlockPos pos, BlockState state) {
-        super(FantalBlockEntities.SIROAN_BLOCK, pos, state);
+        super(FantalBlockEntities.FANTAL_BENCH, pos, state);
     }
     
     @Override

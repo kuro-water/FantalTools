@@ -21,7 +21,7 @@ public class FantalBenchScreenHandler extends ScreenHandler {
     }
     
     public FantalBenchScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
-        super(ModScreenHandlers.SIROAN_BLOCK_SCREEN_HANDLER, syncId);
+        super(ModScreenHandlers.FANTAL_BENCH_SCREEN_HANDLER, syncId);
         checkSize(inventory, 3);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
