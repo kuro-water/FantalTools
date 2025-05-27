@@ -21,21 +21,30 @@ public class SiroanBlockScreenHandler extends ScreenHandler {
     public SiroanBlockScreenHandler(int syncId, PlayerInventory inventory) {
         this(syncId, inventory, new SimpleInventory(3), new ArrayPropertyDelegate(2));
     }
-    
+
     public SiroanBlockScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate) {
         super(ModScreenHandlers.SIROAN_BLOCK_SCREEN_HANDLER, syncId);
         checkSize(inventory, 3);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
         this.propertyDelegate = delegate;
-        //スロットの位置
-        this.addSlot(new Slot(inventory, 0, 12, 15));//入力
-        
-        this.addSlot(new Slot(inventory, 1, 12, 60));//出力
-        
+
+        // スロットの位置と制限
+        this.addSlot(new RestrictedSlot(inventory, 0, 12, 15, stack ->
+                stack.getItem() == FantalModItems.FANTAL_SWORD ||
+                        stack.getItem() == FantalModItems.FANTAL_AXE ||
+                        stack.getItem() == FantalModItems.FANTAL_PICKAXE ||
+                        stack.getItem() == FantalModItems.FANTAL_SHOVEL ||
+                        stack.getItem() == FantalModItems.FANTAL_HOE
+        )); // tool slot
+
+        this.addSlot(new RestrictedSlot(inventory, 1, 12, 60, stack ->
+                stack.getItem() == FantalModItems.RED_SMALL
+        )); // red_small slot
+
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
-        
+
         addProperties(delegate);
     }
 
