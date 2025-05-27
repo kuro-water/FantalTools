@@ -11,6 +11,7 @@ import net.minecraft.screen.slot.Slot;
 import org.kgcc.fantalmod.entity.FantalBenchEntity;
 import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.registry.ModScreenHandlers;
+import org.kgcc.fantalmod.tool.FantalTool;
 
 public class FantalBenchScreenHandler extends ScreenHandler {
     public final Inventory inventory;
@@ -24,10 +25,14 @@ public class FantalBenchScreenHandler extends ScreenHandler {
         checkSize(inventory, 3);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
-        //スロットの位置
-        this.addSlot(new Slot(inventory, 0, 12, 15));//入力
         
-        this.addSlot(new Slot(inventory, 1, 12, 60));//出力
+        // スロットの位置と制限
+        this.addSlot(new RestrictedSlot(inventory, 0, 12, 15, stack ->
+                stack.getItem() instanceof FantalTool
+        )); // tool slot
+        this.addSlot(new RestrictedSlot(inventory, 1, 12, 60, stack ->
+                stack.getItem() == FantalModItems.RED_SMALL
+        )); // red_small slot
         
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
@@ -56,6 +61,7 @@ public class FantalBenchScreenHandler extends ScreenHandler {
     
     @Override
     public ItemStack quickMove(PlayerEntity player, int slotIndex) {
+        // todo: スロットにあるアイテムをシフトクリックしたときバグる
         Slot slot = this.slots.get(slotIndex);
         if (slot.hasStack()) {
             ItemStack stack = slot.getStack();
