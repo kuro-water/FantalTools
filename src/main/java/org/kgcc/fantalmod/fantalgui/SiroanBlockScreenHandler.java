@@ -76,22 +76,28 @@ public class SiroanBlockScreenHandler extends ScreenHandler {
             ItemStack stack = slot.getStack();
             ItemStack newStack = stack.copy();
 
-            // 特定のアイテムのみスロットに移動可能
-            if (stack.getItem() == FantalModItems.RED_SMALL) {
-                if (!this.insertItem(stack, 1, 2, false)) { // スロット1に移動
-                    return ItemStack.EMPTY;
-                }
-            } else if (stack.getItem() == FantalModItems.FANTAL_SWORD
-                    || stack.getItem() == FantalModItems.FANTAL_AXE
-                    || stack.getItem() == FantalModItems.FANTAL_PICKAXE
-                    || stack.getItem() == FantalModItems.FANTAL_SHOVEL
-                    || stack.getItem() == FantalModItems.FANTAL_HOE) {
-                if (!this.insertItem(stack, 0, 1, false)) { // スロット0に移動
+            if (slotIndex == 0 || slotIndex == 1) {
+                // スロット0または1からプレイヤーインベントリに移動
+                if (!this.insertItem(stack, 2, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
             } else {
-                // 特定のアイテム以外はスロットに移動不可
-                return ItemStack.EMPTY;
+                // プレイヤーインベントリからスロット0または1に移動
+                if (stack.getItem() == FantalModItems.RED_SMALL) {
+                    if (!this.insertItem(stack, 1, 2, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else if (stack.getItem() == FantalModItems.FANTAL_SWORD
+                        || stack.getItem() == FantalModItems.FANTAL_AXE
+                        || stack.getItem() == FantalModItems.FANTAL_PICKAXE
+                        || stack.getItem() == FantalModItems.FANTAL_SHOVEL
+                        || stack.getItem() == FantalModItems.FANTAL_HOE) {
+                    if (!this.insertItem(stack, 0, 1, false)) {
+                        return ItemStack.EMPTY;
+                    }
+                } else {
+                    return ItemStack.EMPTY;
+                }
             }
 
             if (stack.isEmpty()) {
@@ -100,6 +106,7 @@ public class SiroanBlockScreenHandler extends ScreenHandler {
                 slot.markDirty();
             }
 
+            slot.onTakeItem(player, stack);
             return newStack;
         }
         return ItemStack.EMPTY;
