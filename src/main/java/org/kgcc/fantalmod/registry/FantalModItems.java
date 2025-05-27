@@ -15,7 +15,6 @@ import org.kgcc.fantalmod.armor.FantalArmorMaterials;
 import org.kgcc.fantalmod.block.FantalBlock;
 import org.kgcc.fantalmod.block.FantalOreBlock;
 
-import org.kgcc.fantalmod.gui.GemInfusingStationBlock;
 import org.kgcc.fantalmod.fantalgui.SiroanBlock;
 import org.kgcc.fantalmod.item.FantalIngotItem;
 import org.kgcc.fantalmod.item.FantalNuggetItem;
@@ -38,9 +37,6 @@ public class FantalModItems {
 
 
     public static final Block FANTAL_BLOCK = registerBlock(new FantalBlock(), "fantal_block");
-    public static final Block GEM_INFUSING_STATION = registerBlock(
-            new GemInfusingStationBlock(FabricBlockSettings.of(Material.METAL).strength(4f).requiresTool().nonOpaque()),"gem_infusing_station");
-
     public static final Block SIROAN_BLOCK= registerBlock(
             new SiroanBlock(FabricBlockSettings.of(Material.METAL).strength(4f).requiresTool().nonOpaque()),"siroan_block");
 
@@ -77,7 +73,6 @@ public class FantalModItems {
             entries.addAfter(FantalModItems.FANTAL_SHOVEL, FantalModItems.FANTAL_PICKAXE);
             entries.addAfter(FantalModItems.FANTAL_PICKAXE, FantalModItems.FANTAL_AXE);
             entries.addAfter(FantalModItems.FANTAL_AXE, FantalModItems.FANTAL_HOE);
-            entries.add(GEM_INFUSING_STATION);
             // 他のツールがあれば、ここに追加する
         });
 
