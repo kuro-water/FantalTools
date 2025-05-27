@@ -14,6 +14,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -24,33 +25,45 @@ import org.kgcc.fantalmod.util.FantalStateManager;
 public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
     private static final Identifier TEXTURE =
             new Identifier(FantalMod.MODID, "textures/gui/siroan_block.png");
-    
+
     public SiroanBlockScreen(SiroanBlockScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
-    
+
     @Override
     protected void init() {
         super.init();
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
 
-        addDrawableChild(
-                ButtonWidget.builder(Text.of("Enable Sword Effect"), button -> {
-                                Slot slot = handler.getSlot(1);
-                                if (slot.hasStack() &&
-                                        slot.getStack().getItem() == FantalModItems.RED_SMALL) {
-                                    FantalStateManager.setSwordEffectEnabled(true);
-                                    // サーバーにデータを送信（SiroanBlockScreenHandler.OnButtonClickが作動する。idは0）
-                                    client.interactionManager.clickButton(handler.syncId, 0);
-                                    FantalMod.LOGGER.info("Sword effect enabled!");
-                                } else {
-                                    FantalMod.LOGGER.info("Failed to enable sword effect.");
-                                }
-                            }).size(8, 10)
-                            .width(80)
-                            .tooltip(Tooltip.of(Text.of("このボタンを押すとred_smallを消費します")))
-                            .position(200, 60)
-                            .build());
+//        addDrawableChild(
+//                ButtonWidget.builder(Text.of("Enable Sword Effect"), button -> {
+//                                Slot slot = handler.getSlot(1);
+//                                if (slot.hasStack() &&
+//                                        slot.getStack().getItem() == FantalModItems.RED_SMALL) {
+//                                    FantalStateManager.setSwordEffectEnabled(true);
+//                                    // サーバーにデータを送信（SiroanBlockScreenHandler.OnButtonClickが作動する。idは0）
+//                                    client.interactionManager.clickButton(handler.syncId, 0);
+//                                    FantalMod.LOGGER.info("Sword effect enabled!");
+//                                } else {
+//                                    FantalMod.LOGGER.info("Failed to enable sword effect.");
+//                                }
+//                            }).size(8, 10)
+//                            .width(80)
+//                            .tooltip(Tooltip.of(Text.of("このボタンを押すとred_smallを消費します")))
+//                            .position(200, 60)
+//                            .build());
+        ScrollableButtonListWidget buttonList = new ScrollableButtonListWidget(
+                client, 100, 80, this.y + 20, this.y + 100, 20
+        );
+        for (int i = 0; i < 10; i++) {
+            int idx = i;
+            buttonList.addButton(ButtonWidget.builder(Text.of("Button " + i), btn -> {
+                // ボタン押下時の処理
+            }).size(80, 20).build());
+        }
+        addDrawableChild(buttonList);
+
+
     }
     
     @Override
@@ -63,4 +76,5 @@ public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
         drawTexture(matrices, x, y, 0, 0, backgroundWidth, backgroundHeight);
         
     }
+
 }
