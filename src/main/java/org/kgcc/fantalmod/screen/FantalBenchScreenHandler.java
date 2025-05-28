@@ -61,7 +61,6 @@ public class FantalBenchScreenHandler extends ScreenHandler {
     
     @Override
     public ItemStack quickMove(PlayerEntity player, int slotIndex) {
-        // todo: スロットにあるアイテムをシフトクリックしたときバグる
         Slot slot = this.slots.get(slotIndex);
         if (slot.hasStack()) {
             ItemStack stack = slot.getStack();
