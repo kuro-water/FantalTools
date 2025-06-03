@@ -33,7 +33,7 @@ public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
     protected void init() {
         super.init();
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
-
+        
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
         allButtons.clear();
@@ -75,7 +75,7 @@ public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
         int maxOffset = Math.max(0, allButtons.size() - VISIBLE_COUNT);
-        scrollOffset = MathHelper.clamp(scrollOffset - (int)amount, 0, maxOffset);
+        scrollOffset = MathHelper.clamp(scrollOffset - (int) amount, 0, maxOffset);
         updateVisibleButtons();
         return true;
     }
@@ -95,7 +95,8 @@ public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
     
     private void drawScrollbar(MatrixStack matrices) {
         int contentSize = allButtons.size();
-        if (contentSize <= VISIBLE_COUNT) return;
+        if (contentSize <= VISIBLE_COUNT)
+            return;
         
         scrollbarHeight = 120;  // 全体の高さ
         scrollbarTop = y + 20;  // スクロールバーの起点位置
@@ -115,11 +116,13 @@ public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
         }
         return super.mouseClicked(mouseX, mouseY, button);
     }
+    
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         isDraggingScrollbar = false;
         return super.mouseReleased(mouseX, mouseY, button);
     }
+    
     @Override
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
         if (isDraggingScrollbar) {
@@ -128,13 +131,14 @@ public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
             
             double mouseRelative = mouseY - scrollbarTop;
             double ratio = mouseRelative / (scrollbarHeight - scrollbarBarHeight);
-            scrollOffset = MathHelper.clamp((int)(ratio * maxScroll), 0, maxScroll);
+            scrollOffset = MathHelper.clamp((int) (ratio * maxScroll), 0, maxScroll);
             
             updateVisibleButtons();
             return true;
         }
         return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
     }
+    
     private boolean isMouseOverScrollbar(double mouseX, double mouseY) {
         return mouseX >= x + 120 && mouseX <= x + 125 &&
                 mouseY >= scrollbarTop && mouseY <= scrollbarTop + scrollbarHeight;
