@@ -29,29 +29,16 @@ public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
         super(handler, inventory, title);
     }
     
-    @Override
-    protected void init() {
-        super.init();
-        titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
-        
-        int x = (width - backgroundWidth) / 2;
-        int y = (height - backgroundHeight) / 2;
-        allButtons.clear();
-        
-        // 仮の50個のボタンを作成
-        for (int i = 0; i < 50; i++) {
-            int index = i;
-            ButtonWidget btn = ButtonWidget.builder(Text.literal("Button #" + i), b -> {
-                System.out.println("Clicked: " + index);
-            }).dimensions(x + 10, y + 20 + i * BUTTON_HEIGHT, 100, BUTTON_HEIGHT).build();
-            allButtons.add(btn);
-        }
-        
-        updateVisibleButtons();  // 最初に表示する分だけ追加
+    private static final int BUTTON_HEIGHT = 10;
+    private static final int VISIBLE_NUM = 5;
+    
+    private int listX() {
+        return x + 45;// todo: 位置調整
     }
     
-    private static final int BUTTON_HEIGHT = 20;
-    private static final int VISIBLE_COUNT = 6;
+    private int listY() {
+        return y;
+    }
     
     private final List<ButtonWidget> allButtons = new ArrayList<>();
     private int scrollOffset = 0;
@@ -59,22 +46,62 @@ public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
     private int scrollbarTop, scrollbarHeight, scrollbarBarHeight;
     
     
+    @Override
+    protected void init() {
+        super.init();
+        titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
+
+//        addDrawableChild(
+//                ButtonWidget.builder(Text.of("Enable Sword Effect"), button -> {
+//                                Slot slot = handler.getSlot(1);
+//                                if (slot.hasStack() &&
+//                                        slot.getStack().getItem() == FantalModItems.RED_SMALL) {
+//                                    FantalStateManager.setSwordEffectEnabled(true);
+//                                    // サーバーにデータを送信（SiroanBlockScreenHandler.OnButtonClickが作動する。idは0）
+//                                    client.interactionManager.clickButton(handler.syncId, 0);
+//                                    FantalMod.LOGGER.info("Sword effect enabled!");
+//                                } else {
+//                                    FantalMod.LOGGER.info("Failed to enable sword effect.");
+//                                }
+//                            }).size(8, 10)
+//                            .width(80)
+//                            .tooltip(Tooltip.of(Text.of("このボタンを押すとred_smallを消費します")))
+//                            .position(200, 60)
+//                            .build());
+        
+        allButtons.clear();
+        
+        // 仮の50個のボタンを作成
+        for (int i = 0; i < 15; i++) {
+            int index = i;
+            ButtonWidget btn = ButtonWidget.builder(Text.literal("Button #" + i), b -> {
+                FantalMod.LOGGER.info("Clicked: {}", index);
+            }).dimensions(listX() + 10, listY() + 20 + i * BUTTON_HEIGHT, 100, BUTTON_HEIGHT).build();
+            allButtons.add(btn);
+        }
+        
+        updateVisibleButtons();  // 最初に表示する分だけ追加
+    }
+    
+    
     private void updateVisibleButtons() {
         this.clearChildren(); // remove old buttons
         int start = scrollOffset;
-        int end = Math.min(scrollOffset + VISIBLE_COUNT, allButtons.size());
+        int end = Math.min(scrollOffset + VISIBLE_NUM, allButtons.size());
         
         for (int i = start; i < end; i++) {
             ButtonWidget button = allButtons.get(i);
             int visualIndex = i - scrollOffset;
-            button.setY(y + 20 + visualIndex * BUTTON_HEIGHT);
-            this.addDrawableChild(button);
+            button.setY(listY() + 20 + visualIndex * BUTTON_HEIGHT);
+            this.addDrawableChild(button); // これで描画っぽい
         }
+//        FantalMod.LOGGER.info("x:{},y:{}", x, y);
     }
     
     @Override
     public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-        int maxOffset = Math.max(0, allButtons.size() - VISIBLE_COUNT);
+        int maxOffset = Math.max(0, allButtons.size() - VISIBLE_NUM);
+        // offsetをamount（引数、スクロール量）に応じて変更し、0~maxOffsetの範囲に収める
         scrollOffset = MathHelper.clamp(scrollOffset - (int) amount, 0, maxOffset);
         updateVisibleButtons();
         return true;
@@ -95,17 +122,24 @@ public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
     
     private void drawScrollbar(MatrixStack matrices) {
         int contentSize = allButtons.size();
-        if (contentSize <= VISIBLE_COUNT)
+        if (contentSize <= VISIBLE_NUM)
             return;
         
-        scrollbarHeight = 120;  // 全体の高さ
-        scrollbarTop = y + 20;  // スクロールバーの起点位置
-        scrollbarBarHeight = scrollbarHeight * VISIBLE_COUNT / contentSize;
+        scrollbarHeight = BUTTON_HEIGHT * VISIBLE_NUM;  // 全体の高さ
+        scrollbarTop = listY() + 20;  // スクロールバーの起点位置
         
-        int barY = scrollbarTop + scrollOffset * (scrollbarHeight - scrollbarBarHeight) / (contentSize - VISIBLE_COUNT);
+        double scrollbarRatio =
+                VISIBLE_NUM < contentSize ? (1 - (contentSize - VISIBLE_NUM) / (double) contentSize) : 1;
+        // スクロールバーの高さを計算
+        scrollbarBarHeight = MathHelper.clamp((int) (scrollbarHeight * scrollbarRatio), 3, scrollbarHeight);
+        
+        int barY = scrollbarTop + scrollOffset * (scrollbarHeight - scrollbarBarHeight) / (contentSize - VISIBLE_NUM);
+        int scrollbarBottom =
+                scrollbarTop + contentSize * (scrollbarHeight - scrollbarBarHeight) / (contentSize - VISIBLE_NUM);
         
         // 描画
-        fill(matrices, x + 120, barY, x + 125, barY + scrollbarBarHeight, 0xFFAAAAAA);
+        fill(matrices, listX() + 120, scrollbarTop, listX() + 125, scrollbarBottom, 0xFF777777);
+        fill(matrices, listX() + 120, barY, listX() + 125, barY + scrollbarBarHeight + 1, 0xFFAAAAAA);
     }
     
     @Override
@@ -127,7 +161,7 @@ public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
     public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
         if (isDraggingScrollbar) {
             int contentSize = allButtons.size();
-            int maxScroll = contentSize - VISIBLE_COUNT;
+            int maxScroll = contentSize - VISIBLE_NUM;
             
             double mouseRelative = mouseY - scrollbarTop;
             double ratio = mouseRelative / (scrollbarHeight - scrollbarBarHeight);
@@ -140,7 +174,7 @@ public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
     }
     
     private boolean isMouseOverScrollbar(double mouseX, double mouseY) {
-        return mouseX >= x + 120 && mouseX <= x + 125 &&
+        return mouseX >= listX() + 120 && mouseX <= listX() + 125 &&
                 mouseY >= scrollbarTop && mouseY <= scrollbarTop + scrollbarHeight;
     }
     
