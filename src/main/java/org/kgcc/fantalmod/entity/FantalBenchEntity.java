@@ -14,8 +14,8 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
 import org.kgcc.fantalmod.screen.FantalBenchScreenHandler;
-import org.kgcc.fantalmod.screen.ImplementedInventory;
 import org.kgcc.fantalmod.registry.FantalBlockEntities;
+import org.kgcc.fantalmod.screen.ImplementedInventory;
 
 
 public class FantalBenchEntity extends BlockEntity implements NamedScreenHandlerFactory, ImplementedInventory {
@@ -33,13 +33,13 @@ public class FantalBenchEntity extends BlockEntity implements NamedScreenHandler
     @Override
     public Text getDisplayName() {
         // todo: Localize this string
-        return Text.literal("Siroan Block");
+        return Text.literal("Fantal Bench");
     }
     
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new FantalBenchScreenHandler(syncId, inv, this);
+        return new FantalBenchScreenHandler(syncId, inv);
     }
     
     @Override

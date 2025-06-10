@@ -13,8 +13,18 @@ import net.minecraft.world.World;
 import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BaseSkill;
 
-public class FantalPickaxeItem extends PickaxeItem {
+public class FantalPickaxeItem extends PickaxeItem implements FantalTool {
     public BaseSkill skill = FantalModSkills.HASTE;
+    
+    @Override
+    public void setSkill(BaseSkill skill) {
+        this.skill = skill;
+    }
+    
+    @Override
+    public BaseSkill getSkill() {
+        return skill;
+    }
     
     public FantalPickaxeItem() {
         super(new FantalToolMaterial(), 1, -2.8f, new Settings().rarity(Rarity.COMMON));

@@ -14,8 +14,18 @@ import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BaseSkill;
 import org.kgcc.fantalmod.skill.HealthBoostSkill;
 
-public class FantalAxeItem extends AxeItem {
-    public BaseSkill skill = FantalModSkills.HEALTH_BOOST;
+public class FantalAxeItem extends AxeItem implements FantalTool {
+    private BaseSkill skill = FantalModSkills.HEALTH_BOOST;
+    
+    @Override
+    public void setSkill(BaseSkill skill) {
+        this.skill = skill;
+    }
+    
+    @Override
+    public BaseSkill getSkill() {
+        return skill;
+    }
     
     public FantalAxeItem() {
         super(new FantalToolMaterial(), 5f, -3f, new Settings().rarity(Rarity.COMMON));

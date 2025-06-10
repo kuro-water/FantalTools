@@ -14,8 +14,18 @@ import net.minecraft.world.World;
 import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BaseSkill;
 
-public class FantalSwordItem extends SwordItem {
+public class FantalSwordItem extends SwordItem implements FantalTool{
     public BaseSkill skill = FantalModSkills.STRENGTH;
+    
+    @Override
+    public void setSkill(BaseSkill skill) {
+        this.skill = skill;
+    }
+    
+    @Override
+    public BaseSkill getSkill() {
+        return skill;
+    }
     
     public FantalSwordItem() {
         super(new FantalToolMaterial(), 3, -2.4f, new Item.Settings().rarity(Rarity.COMMON));

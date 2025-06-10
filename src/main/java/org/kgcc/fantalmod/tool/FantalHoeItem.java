@@ -13,8 +13,18 @@ import net.minecraft.world.World;
 import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BaseSkill;
 
-public class FantalHoeItem extends HoeItem {
+public class FantalHoeItem extends HoeItem implements FantalTool{
     public BaseSkill skill = FantalModSkills.RECALL;
+    
+    @Override
+    public void setSkill(BaseSkill skill) {
+        this.skill = skill;
+    }
+    
+    @Override
+    public BaseSkill getSkill() {
+        return skill;
+    }
     
     public FantalHoeItem() {
         super(new FantalToolMaterial(), -3, 0, new Settings().rarity(Rarity.COMMON));

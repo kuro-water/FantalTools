@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.fantalgui;
+package org.kgcc.fantalmod.screen;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -10,19 +10,24 @@ import net.minecraft.screen.ArrayPropertyDelegate;
 import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
+import org.kgcc.fantalmod.FantalMod;
+import org.kgcc.fantalmod.entity.FantalBenchEntity;
 import org.kgcc.fantalmod.registry.FantalModItems;
+import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.registry.ModScreenHandlers;
+import org.kgcc.fantalmod.skill.BaseSkill;
+import org.kgcc.fantalmod.tool.FantalTool;
 
-public class SiroanBlockScreenHandler extends ScreenHandler {
+public class FantalBenchScreenHandler extends ScreenHandler {
     public final Inventory inventory;
     private final PropertyDelegate propertyDelegate;
     
-    public SiroanBlockScreenHandler(int syncId, PlayerInventory inventory) {
+    public FantalBenchScreenHandler(int syncId, PlayerInventory inventory) {
         this(syncId, inventory, new SimpleInventory(3), new ArrayPropertyDelegate(2));
     }
     
-    public SiroanBlockScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate) {
-        super(ModScreenHandlers.SIROAN_BLOCK_SCREEN_HANDLER, syncId);
+    public FantalBenchScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate) {
+        super(ModScreenHandlers.FANTAL_BENCH_SCREEN_HANDLER, syncId);
         checkSize(inventory, 3);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
@@ -113,19 +118,27 @@ public class SiroanBlockScreenHandler extends ScreenHandler {
     
     @Override
     public boolean onButtonClick(PlayerEntity player, int id) {
-        if (!(this.inventory instanceof SiroanBlockEntity siroanBlockEntity)) {
-            // ほぼない。コンパイラを黙らせるためのチェック
+//        if (!(this.inventory instanceof FantalBenchEntity fantalBenchEntity)) {
+//            FantalMod.LOGGER.error("Inventory is not an instance of FantalBenchEntity.");
+//            // ほぼない。コンパイラを黙らせるためのチェック
+//            return false;
+//        }
+        
+        var item = this.inventory.getStack(0);
+        if (!(item.getItem() instanceof FantalTool tool)) {
+            FantalMod.LOGGER.info("No valid tool in slot 0.");
             return false;
         }
+        BaseSkill skill = FantalModSkills.SKILLS.values().stream().toList().get(id); // リスト化することでindexアクセス
+        FantalMod.LOGGER.info("Found skill: {}", FantalModSkills.SKILLS.keySet().stream().toList().get(id));
+        tool.setSkill(skill);
+        
         // アイテム減らしたりNBTの処理
-        siroanBlockEntity.getStack(1).decrement(1);
-        siroanBlockEntity.markDirty();
+        this.inventory.getStack(1).decrement(1);
+        this.inventory.markDirty();
         var nbt = new NbtCompound();
-        siroanBlockEntity.writeNbt(nbt);
-        
-        
+//        this.inventory.writeNbt(nbt);
         
         return true;
     }
-    
 }

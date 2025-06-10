@@ -13,7 +13,7 @@ public class FantalModSkills {
     public static final Map<String, BaseSkill> SKILLS = new LinkedHashMap<>();
     
     public static final BaseSkill BLINK = registerSkill("Blink", new BlinkSkill());
-    public static final BaseSkill HASTE = registerSkill("Haste", new HealthBoostSkill());
+    public static final BaseSkill HASTE = registerSkill("Haste", new HasteSkill());
     public static final BaseSkill HEALTH_BOOST = registerSkill("HealthBoost", new HealthBoostSkill());
     public static final BaseSkill MINING = registerSkill("Mining", new MiningSkill());
     public static final BaseSkill PLACE_TORCH = registerSkill("PlaceTorch", new PlaceTorchSkill());

@@ -20,15 +20,16 @@ import net.minecraft.util.math.MathHelper;
 import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.registry.FantalModSkills;
+import org.kgcc.fantalmod.screen.FantalBenchScreenHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
+public class SiroanBlockScreen extends HandledScreen<FantalBenchScreenHandler> {
     private static final Identifier TEXTURE =
             new Identifier(FantalMod.MODID, "textures/gui/siroan_block.png");
     
-    public SiroanBlockScreen(SiroanBlockScreenHandler handler, PlayerInventory inventory, Text title) {
+    public SiroanBlockScreen(FantalBenchScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
     

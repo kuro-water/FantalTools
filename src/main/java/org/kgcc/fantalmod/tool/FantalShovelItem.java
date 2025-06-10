@@ -13,8 +13,18 @@ import net.minecraft.world.World;
 import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BaseSkill;
 
-public class FantalShovelItem extends ShovelItem {
+public class FantalShovelItem extends ShovelItem implements FantalTool{
     public BaseSkill skill = FantalModSkills.PLACE_TORCH;
+    
+    @Override
+    public void setSkill(BaseSkill skill) {
+        this.skill = skill;
+    }
+    
+    @Override
+    public BaseSkill getSkill() {
+        return skill;
+    }
     
     public FantalShovelItem() {
         super(new FantalToolMaterial(), 1.5f, -3f, new Settings().rarity(Rarity.COMMON));
