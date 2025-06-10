@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.gui;
+package org.kgcc.fantalmod.screen;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;
