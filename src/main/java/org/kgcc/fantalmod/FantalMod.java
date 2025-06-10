@@ -9,7 +9,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import org.kgcc.fantalmod.armor.FantalArmorEffect;
-import org.kgcc.fantalmod.mizuchi.ModBros;
+import org.kgcc.fantalmod.test.ModBros;
 import org.kgcc.fantalmod.registry.FantalBlockEntities;
 import org.kgcc.fantalmod.registry.ModScreenHandlers;
 import org.kgcc.fantalmod.registry.FantalModCommand;

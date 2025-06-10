@@ -1,4 +1,4 @@
-package org.kgcc.fantalmod.mizuchi;
+package org.kgcc.fantalmod.test;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
