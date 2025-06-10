@@ -13,8 +13,8 @@ import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
-import org.kgcc.fantalmod.screen.FantalBenchScreenHandler;
 import org.kgcc.fantalmod.registry.FantalBlockEntities;
+import org.kgcc.fantalmod.screen.FantalBenchScreenHandler;
 import org.kgcc.fantalmod.screen.ImplementedInventory;
 
 
@@ -39,7 +39,7 @@ public class FantalBenchEntity extends BlockEntity implements NamedScreenHandler
     @Nullable
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
-        return new FantalBenchScreenHandler(syncId, inv);
+        return new FantalBenchScreenHandler(syncId, inv, this);
     }
     
     @Override

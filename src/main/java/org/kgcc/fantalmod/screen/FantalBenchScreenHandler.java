@@ -5,13 +5,9 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.screen.ArrayPropertyDelegate;
-import net.minecraft.screen.PropertyDelegate;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import org.kgcc.fantalmod.FantalMod;
-import org.kgcc.fantalmod.entity.FantalBenchEntity;
 import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.registry.ModScreenHandlers;
@@ -20,18 +16,16 @@ import org.kgcc.fantalmod.tool.FantalTool;
 
 public class FantalBenchScreenHandler extends ScreenHandler {
     public final Inventory inventory;
-    private final PropertyDelegate propertyDelegate;
     
     public FantalBenchScreenHandler(int syncId, PlayerInventory inventory) {
-        this(syncId, inventory, new SimpleInventory(3), new ArrayPropertyDelegate(2));
+        this(syncId, inventory, new SimpleInventory(3));
     }
     
-    public FantalBenchScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate) {
+    public FantalBenchScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
         super(ModScreenHandlers.FANTAL_BENCH_SCREEN_HANDLER, syncId);
         checkSize(inventory, 3);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
-        this.propertyDelegate = delegate;
         
         // スロットの位置と制限
         this.addSlot(new RestrictedSlot(inventory, 0, 12, 15, stack ->
@@ -48,8 +42,6 @@ public class FantalBenchScreenHandler extends ScreenHandler {
         
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
-        
-        addProperties(delegate);
     }
     
     @Override
@@ -118,12 +110,6 @@ public class FantalBenchScreenHandler extends ScreenHandler {
     
     @Override
     public boolean onButtonClick(PlayerEntity player, int id) {
-//        if (!(this.inventory instanceof FantalBenchEntity fantalBenchEntity)) {
-//            FantalMod.LOGGER.error("Inventory is not an instance of FantalBenchEntity.");
-//            // ほぼない。コンパイラを黙らせるためのチェック
-//            return false;
-//        }
-        
         var item = this.inventory.getStack(0);
         if (!(item.getItem() instanceof FantalTool tool)) {
             FantalMod.LOGGER.info("No valid tool in slot 0.");
@@ -136,8 +122,6 @@ public class FantalBenchScreenHandler extends ScreenHandler {
         // アイテム減らしたりNBTの処理
         this.inventory.getStack(1).decrement(1);
         this.inventory.markDirty();
-        var nbt = new NbtCompound();
-//        this.inventory.writeNbt(nbt);
         
         return true;
     }
