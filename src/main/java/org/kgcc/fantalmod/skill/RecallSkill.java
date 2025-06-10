@@ -1,7 +1,7 @@
 package org.kgcc.fantalmod.skill;
 
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.minecraft.block.BlockState;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
@@ -18,24 +18,23 @@ import org.kgcc.fantalmod.recall.RecallData;
 import org.kgcc.fantalmod.recall.RecallDataManager;
 import org.kgcc.fantalmod.util.ServerTickHandler;
 
-import java.util.EnumSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class RecallSkill implements BaseSkill {
-    private Boolean isRecalling = false;
+    private static final Set<UUID> isRecallingSet = new HashSet<>();
     
     /**
      * <p>プレイヤーの位置、角度、体力を記録</p>
      * <p>該当アイテムのinventoryTickで呼び出す</p>
      */
-    public void record(PlayerEntity playerEntity) {
+    public static void record(PlayerEntity playerEntity) {
+        UUID uuid = playerEntity.getUuid();
         // 記録が無くなっていればリコールを終了
         if (RecallDataManager.isEmpty(playerEntity)) {
-            isRecalling = false;
+            isRecallingSet.remove(uuid);
         }
         // リコール中は記録を行わない
-        if (isRecalling || playerEntity.getServer() == null) {
+        if ( playerEntity.getServer() == null || isRecallingSet.contains(uuid)) {
             return;
         }
         
@@ -49,7 +48,7 @@ public class RecallSkill implements BaseSkill {
      * @param pos   テレポート先の位置
      * @return <p>安全な場合はtrue</p>
      */
-    private boolean isSafeLocation(World world, BlockPos pos) {
+    private static boolean isSafeLocation(World world, BlockPos pos) {
         // プレイヤーの体が入る2ブロック分の空間をチェック
         BlockPos headPos = pos.up();
         
@@ -71,25 +70,24 @@ public class RecallSkill implements BaseSkill {
      * @param playerEntity サーバーサイドのプレイヤーのみ
      * @return <p>リコールする回数</p>
      */
-    public int recall(@NotNull MinecraftServer server, PlayerEntity playerEntity) {
+    public static int recall(@NotNull MinecraftServer server, PlayerEntity playerEntity) {
         // todo: FantalStateManagerもリファクタしたい。名前とか。
         // todo: 松明設置じゃなくて独自の光源ほしいな。光るクリスタル
         // todo: もしかしてFantalPollutionオーバーワールドでしか機能してない？
-        // todo: 連打してるとリコールできなくなるバグある？
         // todo: リコール時間の調整
+        // todo: 落下ダメの蓄積
         
         var world = playerEntity.getWorld();
         // クライアントサイドでは処理しない
-        if (world.isClient() || isRecalling) {
+        if (world.isClient() ||  isRecallingSet.contains(playerEntity.getUuid())) {
             return 0;
         }
         
-        isRecalling = true;
+        isRecallingSet.add(playerEntity.getUuid());
         var startData = new RecallData(playerEntity);
         var targetData = RecallDataManager.getFirst(playerEntity);
         var targetNum = RecallDataManager.size(playerEntity);
 
-//        FantalMod.LOGGER.info("Recalling...");
         ServerTickHandler.startTask(targetNum, () -> {
             var data = RecallDataManager.removeLast(playerEntity);
 //            RecallDataManager.removeLast(playerEntity);
@@ -162,12 +160,12 @@ public class RecallSkill implements BaseSkill {
         return TypedActionResult.success(user.getStackInHand(hand));
     }
     
-    @Override
-    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-        // todo:インベントリ内に二つとかあると、そのぶん重複して記録されてしまう
-        if (world.isClient || !(entity instanceof PlayerEntity)) {
-            return;
-        }
-        record((PlayerEntity) entity);
+    public static void register() {
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            // サーバー上のすべてのプレイヤーに対して処理
+            for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+                record(player);
+            }
+        });
     }
 }

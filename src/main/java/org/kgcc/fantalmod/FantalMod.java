@@ -12,6 +12,7 @@ import org.kgcc.fantalmod.armor.FantalArmorEffect;
 import org.kgcc.fantalmod.registry.FantalModCommand;
 import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.recall.RecallDataManager;
+import org.kgcc.fantalmod.skill.RecallSkill;
 import org.kgcc.fantalmod.util.ServerTickHandler;
 import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.util.FantalStateManager;
@@ -59,5 +60,6 @@ public class FantalMod implements ModInitializer {
         
         ServerTickHandler.register();
         RecallDataManager.register();
+        RecallSkill.register();
     }
 }
