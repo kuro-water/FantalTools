@@ -1,5 +1,6 @@
 package org.kgcc.fantalmod.tool;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
@@ -42,5 +43,11 @@ public class FantalAxeItem extends AxeItem {
             return result;
         }
         return skill.useOnBlock(context);
+    }
+    
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        super.inventoryTick(stack, world, entity, slot, selected);
+        skill.inventoryTick(stack, world, entity, slot, selected);
     }
 }

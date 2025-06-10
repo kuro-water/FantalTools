@@ -1,5 +1,6 @@
 package org.kgcc.fantalmod.skill;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
@@ -17,5 +18,8 @@ public interface BaseSkill {
     
     default ActionResult useOnBlock(ItemUsageContext context) {
         return ActionResult.PASS;
+    }
+    
+    default void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
     }
 }
