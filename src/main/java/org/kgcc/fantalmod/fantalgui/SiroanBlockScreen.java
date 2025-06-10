@@ -13,10 +13,13 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import org.kgcc.fantalmod.FantalMod;
+import org.kgcc.fantalmod.registry.FantalModItems;
+import org.kgcc.fantalmod.registry.FantalModSkills;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,13 +74,29 @@ public class SiroanBlockScreen extends HandledScreen<SiroanBlockScreenHandler> {
         
         allButtons.clear();
         
-        // 仮の50個のボタンを作成
-        for (int i = 0; i < 15; i++) {
-            int index = i;
-            ButtonWidget btn = ButtonWidget.builder(Text.literal("Button #" + i), b -> {
-                FantalMod.LOGGER.info("Clicked: {}", index);
-            }).dimensions(listX() + 10, listY() + 20 + i * BUTTON_HEIGHT, 100, BUTTON_HEIGHT).build();
-            allButtons.add(btn);
+        int idx = 0;
+        for (String name : FantalModSkills.SKILLS.keySet()) {
+            int finalIdx = idx;
+            ButtonWidget button = ButtonWidget.builder(Text.literal(name), b -> {
+                Slot slot = handler.getSlot(1);
+                if (!slot.hasStack() ||
+                        !(slot.getStack().getItem() == FantalModItems.RED_SMALL)) {
+                    FantalMod.LOGGER.info("Failed to change skill.");
+                    return;
+                }
+                // サーバーにデータを送信（SiroanBlockScreenHandler.OnButtonClickが作動する。idはidx）
+                client.interactionManager.clickButton(handler.syncId, finalIdx);
+                
+                Slot toolSlot = handler.getSlot(0);
+                if (!toolSlot.hasStack()) {
+                    FantalMod.LOGGER.info("No valid tool in slot 0.");
+                    return;
+                }
+                
+                FantalMod.LOGGER.info("Skill changed!");
+            }).dimensions(listX() + 10, listY() + 20 + idx * BUTTON_HEIGHT, 100, BUTTON_HEIGHT).build();
+            allButtons.add(button);
+            idx++;
         }
         
         updateVisibleButtons();  // 最初に表示する分だけ追加

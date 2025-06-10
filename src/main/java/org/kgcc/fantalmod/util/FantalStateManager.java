@@ -248,15 +248,15 @@ public class FantalStateManager extends PersistentState {
 
     //==========================================================================
     // swordEffectEnabled フラグ
-    private static boolean swordEffectEnabled = false;
-
-    // isSwordEffectEnabled メソッド
-    public static boolean isSwordEffectEnabled() {
-        return swordEffectEnabled;
-    }
-
-    // setSwordEffectEnabled メソッド
-    public static void setSwordEffectEnabled(boolean enabled) {
-        swordEffectEnabled = enabled;
-    }
+//    private static boolean swordEffectEnabled = false;
+//
+//    // isSwordEffectEnabled メソッド
+//    public static boolean isSwordEffectEnabled() {
+//        return swordEffectEnabled;
+//    }
+//
+//    // setSwordEffectEnabled メソッド
+//    public static void setSwordEffectEnabled(boolean enabled) {
+//        swordEffectEnabled = enabled;
+//    }
 }

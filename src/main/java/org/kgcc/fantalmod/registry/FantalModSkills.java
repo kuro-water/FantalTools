@@ -2,7 +2,7 @@ package org.kgcc.fantalmod.registry;
 
 import org.kgcc.fantalmod.skill.*;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -10,7 +10,7 @@ import java.util.Map;
  * バニラのItemやBlockを参考にした
  */
 public class FantalModSkills {
-    public static final Map<String, BaseSkill> SKILLS = new HashMap<>();
+    public static final Map<String, BaseSkill> SKILLS = new LinkedHashMap<>();
     
     public static final BaseSkill BLINK = registerSkill("Blink", new BlinkSkill());
     public static final BaseSkill HASTE = registerSkill("Haste", new HealthBoostSkill());

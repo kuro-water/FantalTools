@@ -4,7 +4,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SimpleInventory;
-import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ArrayPropertyDelegate;
@@ -21,14 +20,14 @@ public class SiroanBlockScreenHandler extends ScreenHandler {
     public SiroanBlockScreenHandler(int syncId, PlayerInventory inventory) {
         this(syncId, inventory, new SimpleInventory(3), new ArrayPropertyDelegate(2));
     }
-
+    
     public SiroanBlockScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory, PropertyDelegate delegate) {
         super(ModScreenHandlers.SIROAN_BLOCK_SCREEN_HANDLER, syncId);
         checkSize(inventory, 3);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
         this.propertyDelegate = delegate;
-
+        
         // スロットの位置と制限
         this.addSlot(new RestrictedSlot(inventory, 0, 12, 15, stack ->
                 stack.getItem() == FantalModItems.FANTAL_SWORD ||
@@ -37,17 +36,17 @@ public class SiroanBlockScreenHandler extends ScreenHandler {
                         stack.getItem() == FantalModItems.FANTAL_SHOVEL ||
                         stack.getItem() == FantalModItems.FANTAL_HOE
         )); // tool slot
-
+        
         this.addSlot(new RestrictedSlot(inventory, 1, 12, 60, stack ->
                 stack.getItem() == FantalModItems.RED_SMALL
         )); // red_small slot
-
+        
         addPlayerInventory(playerInventory);
         addPlayerHotbar(playerInventory);
-
+        
         addProperties(delegate);
     }
-
+    
     @Override
     public boolean canUse(PlayerEntity player) {
         return this.inventory.canPlayerUse(player);
@@ -68,14 +67,14 @@ public class SiroanBlockScreenHandler extends ScreenHandler {
             this.addSlot(new Slot(playerInventory, i, 8 + i * 18, 144));
         }
     }
-
+    
     @Override
     public ItemStack quickMove(PlayerEntity player, int slotIndex) {
         Slot slot = this.slots.get(slotIndex);
         if (slot != null && slot.hasStack()) {
             ItemStack stack = slot.getStack();
             ItemStack newStack = stack.copy();
-
+            
             if (slotIndex == 0 || slotIndex == 1) {
                 // スロット0または1からプレイヤーインベントリに移動
                 if (!this.insertItem(stack, 2, this.slots.size(), true)) {
@@ -99,31 +98,34 @@ public class SiroanBlockScreenHandler extends ScreenHandler {
                     return ItemStack.EMPTY;
                 }
             }
-
+            
             if (stack.isEmpty()) {
                 slot.setStack(ItemStack.EMPTY);
             } else {
                 slot.markDirty();
             }
-
+            
             slot.onTakeItem(player, stack);
             return newStack;
         }
         return ItemStack.EMPTY;
     }
-
+    
     @Override
     public boolean onButtonClick(PlayerEntity player, int id) {
-        if (id == 0) {
-            // 剣の効果を有効にするボタンが押されたときの処理
-            if (this.inventory instanceof SiroanBlockEntity siroanBlockEntity) {
-                siroanBlockEntity.getStack(1).decrement(1);
-                siroanBlockEntity.markDirty();
-                var nbt = new NbtCompound();
-                siroanBlockEntity.writeNbt(nbt);
-            }
+        if (!(this.inventory instanceof SiroanBlockEntity siroanBlockEntity)) {
+            // ほぼない。コンパイラを黙らせるためのチェック
+            return false;
         }
+        // アイテム減らしたりNBTの処理
+        siroanBlockEntity.getStack(1).decrement(1);
+        siroanBlockEntity.markDirty();
+        var nbt = new NbtCompound();
+        siroanBlockEntity.writeNbt(nbt);
+        
+        
+        
         return true;
     }
-
+    
 }
