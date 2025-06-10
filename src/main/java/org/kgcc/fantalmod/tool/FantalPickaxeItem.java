@@ -9,11 +9,12 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BaseSkill;
 import org.kgcc.fantalmod.skill.HasteSkill;
 
 public class FantalPickaxeItem extends PickaxeItem {
-    public BaseSkill skill = new HasteSkill();
+    public BaseSkill skill = FantalModSkills.HASTE;
     
     public FantalPickaxeItem() {
         super(new FantalToolMaterial(), 1, -2.8f, new Settings().rarity(Rarity.COMMON));

@@ -10,11 +10,12 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BaseSkill;
 import org.kgcc.fantalmod.skill.StrengthSkill;
 
 public class FantalSwordItem extends SwordItem {
-    public BaseSkill skill = new StrengthSkill();
+    public BaseSkill skill = FantalModSkills.STRENGTH;
     
     public FantalSwordItem() {
         super(new FantalToolMaterial(), 3, -2.4f, new Item.Settings().rarity(Rarity.COMMON));

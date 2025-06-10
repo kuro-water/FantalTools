@@ -9,11 +9,12 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BlinkSkill;
 import org.kgcc.fantalmod.skill.BaseSkill;
 
 public class FantalHoeItem extends HoeItem {
-    public BaseSkill skill = new BlinkSkill();
+    public BaseSkill skill = FantalModSkills.BLINK;
     
     public FantalHoeItem() {
         super(new FantalToolMaterial(), -3, 0, new Settings().rarity(Rarity.COMMON));
