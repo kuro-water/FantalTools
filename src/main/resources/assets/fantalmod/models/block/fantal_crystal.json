@@ -1,0 +1,6 @@
+{
+  "parent" : "block/cross",
+  "textures" : {
+    "cross" : "fantalmod:block/fantal_crystal"
+  }
+}
