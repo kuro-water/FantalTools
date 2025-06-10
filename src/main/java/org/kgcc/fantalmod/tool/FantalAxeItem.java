@@ -1,30 +1,53 @@
 package org.kgcc.fantalmod.tool;
 
-import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import org.kgcc.fantalmod.util.FantalStateManager;
+import org.kgcc.fantalmod.registry.FantalModSkills;
+import org.kgcc.fantalmod.skill.BaseSkill;
+import org.kgcc.fantalmod.skill.HealthBoostSkill;
 
 public class FantalAxeItem extends AxeItem {
+    public BaseSkill skill = FantalModSkills.HEALTH_BOOST;
+    
     public FantalAxeItem() {
         super(new FantalToolMaterial(), 5f, -3f, new Settings().rarity(Rarity.COMMON));
     }
     
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (!user.getWorld().isClient() && hand == Hand.MAIN_HAND) {
-            var server = world.getServer();
-            user.addStatusEffect(
-                    new StatusEffectInstance(StatusEffects.HEALTH_BOOST, 20 * FantalStateManager.TICK_PAR_SEC, 1));
-            FantalStateManager.addFantalPollution(server, user, 1);
-            FantalStateManager.sendFantalPollution(server, user);
+        // まず基底クラスのuseを呼ぶ
+        // SUCCESSが返ってきたなら、アニメーションとかあるっぽいのでそのまま返す
+        // それ以外はスキルのuseを呼ぶ
+        var result = super.use(world, user, hand);
+        if (result.getResult() == ActionResult.SUCCESS) {
+            return result;
         }
-        return super.use(world, user, hand);
+        return skill.use(world, user, hand);
+    }
+    
+    @Override
+    public ActionResult useOnBlock(ItemUsageContext context) {
+        // まず基底クラスのuseを呼ぶ
+        // SUCCESSが返ってきたなら、アニメーションとかあるっぽいのでそのまま返す
+        // それ以外はスキルのuseを呼ぶ
+        var result = super.useOnBlock(context);
+        if (result == ActionResult.SUCCESS) {
+            return result;
+        }
+        return skill.useOnBlock(context);
+    }
+    
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        super.inventoryTick(stack, world, entity, slot, selected);
+        skill.inventoryTick(stack, world, entity, slot, selected);
     }
 }
