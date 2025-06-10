@@ -10,7 +10,7 @@ import net.minecraft.screen.slot.Slot;
 import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.registry.FantalModSkills;
-import org.kgcc.fantalmod.registry.ModScreenHandlers;
+import org.kgcc.fantalmod.registry.FantalModScreenHandlers;
 import org.kgcc.fantalmod.skill.BaseSkill;
 import org.kgcc.fantalmod.tool.FantalTool;
 
@@ -22,7 +22,7 @@ public class FantalBenchScreenHandler extends ScreenHandler {
     }
     
     public FantalBenchScreenHandler(int syncId, PlayerInventory playerInventory, Inventory inventory) {
-        super(ModScreenHandlers.FANTAL_BENCH_SCREEN_HANDLER, syncId);
+        super(FantalModScreenHandlers.FANTAL_BENCH_SCREEN_HANDLER, syncId);
         checkSize(inventory, 3);
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);

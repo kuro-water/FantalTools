@@ -54,27 +54,8 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
     protected void init() {
         super.init();
         titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
-
-//        addDrawableChild(
-//                ButtonWidget.builder(Text.of("Enable Sword Effect"), button -> {
-//                                Slot slot = handler.getSlot(1);
-//                                if (slot.hasStack() &&
-//                                        slot.getStack().getItem() == FantalModItems.RED_SMALL) {
-//                                    FantalStateManager.setSwordEffectEnabled(true);
-//                                    // サーバーにデータを送信（SiroanBlockScreenHandler.OnButtonClickが作動する。idは0）
-//                                    client.interactionManager.clickButton(handler.syncId, 0);
-//                                    FantalMod.LOGGER.info("Sword effect enabled!");
-//                                } else {
-//                                    FantalMod.LOGGER.info("Failed to enable sword effect.");
-//                                }
-//                            }).size(8, 10)
-//                            .width(80)
-//                            .tooltip(Tooltip.of(Text.of("このボタンを押すとred_smallを消費します")))
-//                            .position(200, 60)
-//                            .build());
         
         allButtons.clear();
-        
         int idx = 0;
         for (BaseSkill skill : FantalModSkills.SKILLS) {
             int finalIdx = idx;
@@ -87,13 +68,6 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
                 }
                 // サーバーにデータを送信（SiroanBlockScreenHandler.OnButtonClickが作動する。idはidx）
                 client.interactionManager.clickButton(handler.syncId, finalIdx);
-
-//                Slot toolSlot = handler.getSlot(0);
-//                if (!toolSlot.hasStack() || !(toolSlot.getStack().getItem() instanceof FantalTool tool)) {
-//                    FantalMod.LOGGER.info("No valid tool in slot 0.");
-//                    return;
-//                }
-//                tool.setSkill(name);  // ツールのスキルを変更
                 
                 FantalMod.LOGGER.info("Skill changed!");
             }).dimensions(listX() + 10, listY() + 20 + idx * BUTTON_HEIGHT, 100, BUTTON_HEIGHT).build();
@@ -104,7 +78,8 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
         updateVisibleButtons();  // 最初に表示する分だけ追加
     }
     
-    
+    // === 描画関連（スクロールが主）===
+    // スクロールはchatGPTとともに自力実装したので参考資料がありません
     private void updateVisibleButtons() {
         this.clearChildren(); // remove old buttons
         int start = scrollOffset;
