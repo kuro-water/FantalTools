@@ -168,4 +168,10 @@ public class RecallSkill implements BaseSkill {
             }
         });
     }
+
+    @Override
+    public String getName() {
+        return "recall";
+    }
 }
+

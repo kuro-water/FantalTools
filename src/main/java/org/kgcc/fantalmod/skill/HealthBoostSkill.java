@@ -27,4 +27,9 @@ public class HealthBoostSkill implements BaseSkill {
         
         return TypedActionResult.success(user.getStackInHand(hand));
     }
+    
+    @Override
+    public String getName() {
+        return "health boost";
+    }
 }

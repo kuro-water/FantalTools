@@ -12,6 +12,8 @@ import net.minecraft.world.World;
 public interface BaseSkill {
     // todo: 汚染度をどこで変更するか
     
+    String getName();
+    
     default TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         return TypedActionResult.pass(user.getStackInHand(hand));
     }

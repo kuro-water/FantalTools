@@ -20,7 +20,7 @@ import net.minecraft.util.math.MathHelper;
 import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.registry.FantalModSkills;
-import org.kgcc.fantalmod.tool.FantalTool;
+import org.kgcc.fantalmod.skill.BaseSkill;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,9 +76,9 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
         allButtons.clear();
         
         int idx = 0;
-        for (String name : FantalModSkills.SKILLS.keySet()) {
+        for (BaseSkill skill : FantalModSkills.SKILLS) {
             int finalIdx = idx;
-            ButtonWidget button = ButtonWidget.builder(Text.literal(name), b -> {
+            ButtonWidget button = ButtonWidget.builder(Text.literal(skill.getName()), b -> {
                 Slot slot = handler.getSlot(1);
                 if (!slot.hasStack() ||
                         !(slot.getStack().getItem() == FantalModItems.RED_SMALL)) {
@@ -87,7 +87,7 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
                 }
                 // サーバーにデータを送信（SiroanBlockScreenHandler.OnButtonClickが作動する。idはidx）
                 client.interactionManager.clickButton(handler.syncId, finalIdx);
-                
+
 //                Slot toolSlot = handler.getSlot(0);
 //                if (!toolSlot.hasStack() || !(toolSlot.getStack().getItem() instanceof FantalTool tool)) {
 //                    FantalMod.LOGGER.info("No valid tool in slot 0.");

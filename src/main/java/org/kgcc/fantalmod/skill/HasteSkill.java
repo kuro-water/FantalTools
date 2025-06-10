@@ -10,6 +10,11 @@ import net.minecraft.world.World;
 import org.kgcc.fantalmod.util.FantalStateManager;
 
 public class HasteSkill implements BaseSkill {
+    @Override
+    public String getName() {
+        return "haste";
+    }
+    
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (world.isClient()) {
             return TypedActionResult.pass(user.getStackInHand(hand));

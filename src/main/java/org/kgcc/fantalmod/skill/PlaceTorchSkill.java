@@ -45,4 +45,9 @@ public class PlaceTorchSkill implements BaseSkill {
         }
         return ActionResult.FAIL;
     }
+
+    @Override
+    public String getName() {
+        return "place torch";
+    }
 }

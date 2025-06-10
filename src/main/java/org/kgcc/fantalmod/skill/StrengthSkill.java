@@ -33,4 +33,9 @@ public class StrengthSkill implements BaseSkill {
     public ActionResult useOnBlock(ItemUsageContext context) {
         return ActionResult.PASS;
     }
+    
+    @Override
+    public String getName() {
+        return "strength";
+    }
 }

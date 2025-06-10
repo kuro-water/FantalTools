@@ -115,8 +115,8 @@ public class FantalBenchScreenHandler extends ScreenHandler {
             FantalMod.LOGGER.info("No valid tool in slot 0.");
             return false;
         }
-        BaseSkill skill = FantalModSkills.SKILLS.values().stream().toList().get(id); // リスト化することでindexアクセス
-        FantalMod.LOGGER.info("Found skill: {}", FantalModSkills.SKILLS.keySet().stream().toList().get(id));
+        BaseSkill skill = FantalModSkills.SKILLS.get(id);
+        FantalMod.LOGGER.info("Found skill: {}", skill.getName());
         tool.setSkill(skill);
         
         // アイテム減らしたりNBTの処理

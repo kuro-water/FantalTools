@@ -8,7 +8,10 @@ public interface FantalTool {
     void setSkill(BaseSkill skill);
     
     default void setSkill(String skillName) {
-        setSkill(FantalModSkills.SKILLS.get(skillName));
+        setSkill(FantalModSkills.SKILLS.stream()
+                                       .filter(s -> s.getName().equals(skillName))
+                                       .findFirst()
+                                       .orElse(FantalModSkills.NONE));
     }
     
     // todo:ツールチップか何かに表示したい

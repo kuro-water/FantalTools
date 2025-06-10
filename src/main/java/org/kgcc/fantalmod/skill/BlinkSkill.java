@@ -8,6 +8,11 @@ import net.minecraft.world.World;
 import org.kgcc.fantalmod.FantalMod;
 
 public class BlinkSkill implements BaseSkill {
+    @Override
+    public String getName() {
+        return "blink";
+    }
+    
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (world.isClient()) {
             return TypedActionResult.pass(user.getStackInHand(hand));

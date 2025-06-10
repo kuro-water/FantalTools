@@ -21,6 +21,7 @@ import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.screen.FantalBenchScreenHandler;
+import org.kgcc.fantalmod.skill.BaseSkill;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,9 +77,9 @@ public class SiroanBlockScreen extends HandledScreen<FantalBenchScreenHandler> {
         allButtons.clear();
         
         int idx = 0;
-        for (String name : FantalModSkills.SKILLS.keySet()) {
+        for (BaseSkill skill : FantalModSkills.SKILLS) {
             int finalIdx = idx;
-            ButtonWidget button = ButtonWidget.builder(Text.literal(name), b -> {
+            ButtonWidget button = ButtonWidget.builder(Text.literal(skill.getName()), b -> {
                 Slot slot = handler.getSlot(1);
                 if (!slot.hasStack() ||
                         !(slot.getStack().getItem() == FantalModItems.RED_SMALL)) {

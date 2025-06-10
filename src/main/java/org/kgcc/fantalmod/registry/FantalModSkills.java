@@ -2,27 +2,28 @@ package org.kgcc.fantalmod.registry;
 
 import org.kgcc.fantalmod.skill.*;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * 自作スキルの管理用クラス
  * バニラのItemやBlockを参考にした
  */
 public class FantalModSkills {
-    public static final Map<String, BaseSkill> SKILLS = new LinkedHashMap<>();
+    public static final List<BaseSkill> SKILLS = new LinkedList<>();
     
-    public static final BaseSkill BLINK = registerSkill("Blink", new BlinkSkill());
-    public static final BaseSkill HASTE = registerSkill("Haste", new HasteSkill());
-    public static final BaseSkill HEALTH_BOOST = registerSkill("HealthBoost", new HealthBoostSkill());
-    public static final BaseSkill MINING = registerSkill("Mining", new MiningSkill());
-    public static final BaseSkill PLACE_TORCH = registerSkill("PlaceTorch", new PlaceTorchSkill());
-    public static final BaseSkill RECALL = registerSkill("Recall", new RecallSkill());
-    public static final BaseSkill STRENGTH = registerSkill("Strength", new StrengthSkill());
+    public static final BaseSkill BLINK = registerSkill(new BlinkSkill());
+    public static final BaseSkill HASTE = registerSkill(new HasteSkill());
+    public static final BaseSkill HEALTH_BOOST = registerSkill(new HealthBoostSkill());
+    public static final BaseSkill MINING = registerSkill(new MiningSkill());
+    public static final BaseSkill PLACE_TORCH = registerSkill(new PlaceTorchSkill());
+    public static final BaseSkill RECALL = registerSkill(new RecallSkill());
+    public static final BaseSkill STRENGTH = registerSkill(new StrengthSkill());
+    public static final BaseSkill NONE = registerSkill(new NoneSkill());
     
     
-    private static BaseSkill registerSkill(String name, BaseSkill skill) {
-        SKILLS.put(name, skill);
+    private static BaseSkill registerSkill(BaseSkill skill) {
+        SKILLS.add(skill);
         return skill;
     }
     

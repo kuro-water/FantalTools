@@ -71,4 +71,9 @@ public class MiningSkill implements BaseSkill {
         
         return ActionResult.SUCCESS;
     }
+    
+    @Override
+    public String getName() {
+        return "mining";
+    }
 }
