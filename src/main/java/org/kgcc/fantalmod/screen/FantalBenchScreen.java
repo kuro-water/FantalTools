@@ -193,5 +193,10 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
         return mouseX >= listX() + 120 && mouseX <= listX() + 125 &&
                 mouseY >= scrollbarTop && mouseY <= scrollbarTop + scrollbarHeight;
     }
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        super.render(matrices, mouseX, mouseY, delta);
+        this.drawMouseoverTooltip(matrices, mouseX, mouseY);
+    }
     
 }
