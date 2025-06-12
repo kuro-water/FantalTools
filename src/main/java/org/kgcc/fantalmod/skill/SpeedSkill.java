@@ -4,12 +4,24 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.kgcc.fantalmod.util.FantalStateManager;
 
 public class SpeedSkill implements BaseSkill {
+    @Override
+    public String getTranslationKey() {
+        return "speed";
+    }
+    
+    @Override
+    public MutableText getName() {
+        return Text.translatable("skill.fantalmod.speed");
+    }
+    
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (world.isClient()) {
             return TypedActionResult.pass(user.getStackInHand(hand));
@@ -26,10 +38,5 @@ public class SpeedSkill implements BaseSkill {
         FantalStateManager.sendFantalPollution(server, user);
         
         return TypedActionResult.success(user.getStackInHand(hand));
-    }
-    
-    @Override
-    public String getName() {
-        return "speed";
     }
 }

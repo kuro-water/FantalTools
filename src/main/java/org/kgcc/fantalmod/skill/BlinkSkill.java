@@ -2,15 +2,21 @@ package org.kgcc.fantalmod.skill;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import org.kgcc.fantalmod.FantalMod;
 
 public class BlinkSkill implements BaseSkill {
     @Override
-    public String getName() {
+    public String getTranslationKey() {
         return "blink";
+    }
+    
+    @Override
+    public MutableText getName() {
+        return Text.translatable("skill.fantalmod.blink");
     }
     
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
@@ -24,7 +30,7 @@ public class BlinkSkill implements BaseSkill {
         var y = Math.sin(pitch);
         var x = Math.sin(yaw) * (1 - y);
         var z = Math.cos(yaw) * (1 - y);
-        
+
 //        FantalMod.LOGGER.info("x:{} y:{} z:{}", x, y, z);
 //        FantalMod.LOGGER.info("yaw:{} pitch:{}", yaw, pitch);
         

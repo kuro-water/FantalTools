@@ -11,7 +11,7 @@ public interface FantalTool {
     
     default void setSkill(String skillName) {
         setSkill(FantalModSkills.SKILLS.stream()
-                                       .filter(s -> s.getName().equals(skillName))
+                                       .filter(s -> s.getName().getString().equals(skillName))
                                        .findFirst()
                                        .orElse(FantalModSkills.NONE));
     }

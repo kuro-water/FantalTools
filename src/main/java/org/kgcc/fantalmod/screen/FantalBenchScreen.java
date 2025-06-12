@@ -9,6 +9,7 @@ package org.kgcc.fantalmod.screen;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -37,7 +38,7 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
     private static final int VISIBLE_NUM = 5;
     
     private int listX() {
-        return x + 45;// todo: 位置調整
+        return x + 45;
     }
     
     private int listY() {
@@ -50,6 +51,33 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
     private int scrollbarTop, scrollbarHeight, scrollbarBarHeight;
     
     
+    /**
+     * {@link #init()}で生成する、ボタンの押下時のアクションを取得する関数<br>
+     * idxをラムダ式のスコープに入れるために、変数ではなく関数で実装する。
+     *
+     * @param idx ボタンのインデックス
+     * @return ボタンが押下時のアクション
+     */
+    private ButtonWidget.PressAction getPressAction(int idx) {
+        // サーバーにデータを送信（FantalBenchScreenHandler.OnButtonClickが作動する。idはidx）
+        return b -> {
+            Slot slot = handler.getSlot(1);
+            if (!slot.hasStack() ||
+                    !(slot.getStack().getItem() == FantalModItems.RED_SMALL)) {
+                FantalMod.LOGGER.info("No red small item in slot 1.");
+                return;
+            }
+            if (client == null || client.interactionManager == null) {
+                FantalMod.LOGGER.error("Client or interaction manager is null.");
+                return;
+            }
+            // サーバーにデータを送信（FantalBenchScreenHandler.OnButtonClickが作動する。idはidx）
+            client.interactionManager.clickButton(handler.syncId, idx);
+            
+            FantalMod.LOGGER.info("Skill changed!");
+        };
+    }
+    
     @Override
     protected void init() {
         super.init();
@@ -58,19 +86,11 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
         allButtons.clear();
         int idx = 0;
         for (BaseSkill skill : FantalModSkills.SKILLS) {
-            int finalIdx = idx;
-            ButtonWidget button = ButtonWidget.builder(Text.literal(skill.getName()), b -> {
-                Slot slot = handler.getSlot(1);
-                if (!slot.hasStack() ||
-                        !(slot.getStack().getItem() == FantalModItems.RED_SMALL)) {
-                    FantalMod.LOGGER.info("Failed to change skill.");
-                    return;
-                }
-                // サーバーにデータを送信（SiroanBlockScreenHandler.OnButtonClickが作動する。idはidx）
-                client.interactionManager.clickButton(handler.syncId, finalIdx);
-                
-                FantalMod.LOGGER.info("Skill changed!");
-            }).dimensions(listX() + 10, listY() + 20 + idx * BUTTON_HEIGHT, 100, BUTTON_HEIGHT).build();
+            ButtonWidget button = ButtonWidget
+                    .builder(skill.getName(), getPressAction(idx))
+                    .dimensions(listX() + 10, listY() + 20 + idx * BUTTON_HEIGHT, 100, BUTTON_HEIGHT)
+                    .tooltip(Tooltip.of(skill.getTooltip()))
+                    .build();
             allButtons.add(button);
             idx++;
         }

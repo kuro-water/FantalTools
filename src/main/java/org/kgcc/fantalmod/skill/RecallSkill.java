@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
@@ -21,8 +22,18 @@ import org.kgcc.fantalmod.util.ServerTickHandler;
 import java.util.*;
 
 public class RecallSkill implements BaseSkill {
+    @Override
+    public String getTranslationKey() {
+        return "recall";
+    }
+
+    @Override
+    public MutableText getName() {
+        return Text.translatable("skill.fantalmod.recall");
+    }
+
     private static final Set<UUID> isRecallingSet = new HashSet<>();
-    
+
     /**
      * <p>プレイヤーの位置、角度、体力を記録</p>
      * <p>該当アイテムのinventoryTickで呼び出す</p>
@@ -37,10 +48,10 @@ public class RecallSkill implements BaseSkill {
         if ( playerEntity.getServer() == null || isRecallingSet.contains(uuid)) {
             return;
         }
-        
+
         RecallDataManager.add(playerEntity, new RecallData(playerEntity));
     }
-    
+
     /**
      * <p>テレポート先が安全かどうか（窒息するかどうか）を確認する</p>
      *
@@ -51,16 +62,16 @@ public class RecallSkill implements BaseSkill {
     private static boolean isSafeLocation(World world, BlockPos pos) {
         // プレイヤーの体が入る2ブロック分の空間をチェック
         BlockPos headPos = pos.up();
-        
+
         BlockState footState = world.getBlockState(pos);
         BlockState headState = world.getBlockState(headPos);
-        
+
         // 窒息するブロックかどうか
         return !(footState.shouldSuffocate(world, pos) ||
                 headState.shouldSuffocate(world, headPos));
     }
-    
-    
+
+
     /**
      * <p>リコールを行う</p>
      * <p>サーバーにそこそこの処理速度が無いとカクカクになる。</p>
@@ -76,13 +87,13 @@ public class RecallSkill implements BaseSkill {
         // todo: もしかしてFantalPollutionオーバーワールドでしか機能してない？
         // todo: リコール時間の調整
         // todo: 落下ダメの蓄積
-        
+
         var world = playerEntity.getWorld();
         // クライアントサイドでは処理しない
         if (world.isClient() ||  isRecallingSet.contains(playerEntity.getUuid())) {
             return 0;
         }
-        
+
         isRecallingSet.add(playerEntity.getUuid());
         var startData = new RecallData(playerEntity);
         var targetData = RecallDataManager.getFirst(playerEntity);
@@ -95,7 +106,7 @@ public class RecallSkill implements BaseSkill {
             if (data == null) {
                 return;
             }
-            
+
             if (!isSafeLocation(data.getWorld(server), BlockPos.ofFloored(data.pos))) {
                 // プレイヤーに警告メッセージを送信
                 if (playerEntity instanceof ServerPlayerEntity serverPlayer) {
@@ -103,10 +114,10 @@ public class RecallSkill implements BaseSkill {
                 }
                 return;
             }
-            
-            
+
+
             var delta = (float) (targetNum - RecallDataManager.size(playerEntity)) / targetNum;
-            
+
             /*
              * 参考：https://www.youtube.com/watch?v=Wiufoa-BSCM&list=WL&index=28&t=1s
              * ----- by GitHub Copilot -----
@@ -140,7 +151,7 @@ public class RecallSkill implements BaseSkill {
         });
         return RecallDataManager.size(playerEntity);
     }
-    
+
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (world.isClient()) {
@@ -149,17 +160,17 @@ public class RecallSkill implements BaseSkill {
         var server = Objects.requireNonNull(world.getServer());
 //            user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 20 * FantalStateManager.TICK_PAR_SEC, 0));
 //            FantalStateManager.addFantalPollution(server, user,1);
-//            FantalStateManager.sendFantalPollution(server, user);
+//            FantalStateManager.sendFantalPollution(server);
         int damage = recall(server, user);
         if (!user.isCreative()) {
             // 耐久値を減らす
             ItemStack stack = user.getStackInHand(hand);
             stack.damage(damage, user, (e) -> e.sendToolBreakStatus(hand));
         }
-        
+
         return TypedActionResult.success(user.getStackInHand(hand));
     }
-    
+
     public static void register() {
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             // サーバー上のすべてのプレイヤーに対して処理
@@ -168,10 +179,4 @@ public class RecallSkill implements BaseSkill {
             }
         });
     }
-
-    @Override
-    public String getName() {
-        return "recall";
-    }
 }
-

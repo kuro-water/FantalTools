@@ -6,6 +6,8 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -14,6 +16,15 @@ import net.minecraft.world.World;
 import org.kgcc.fantalmod.util.FantalStateManager;
 
 public class PlaceTorchSkill implements BaseSkill {
+    @Override
+    public String getTranslationKey() {
+        return "place_torch";
+    }
+    
+    @Override
+    public MutableText getName() {
+        return Text.translatable("skill.fantalmod.place_torch");
+    }
     public ActionResult useOnBlock(ItemUsageContext context) {
         World world = context.getWorld();
         BlockPos pos = context.getBlockPos().offset(context.getSide());
@@ -44,10 +55,5 @@ public class PlaceTorchSkill implements BaseSkill {
             }
         }
         return ActionResult.FAIL;
-    }
-
-    @Override
-    public String getName() {
-        return "place torch";
     }
 }

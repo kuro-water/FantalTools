@@ -4,6 +4,8 @@ import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
@@ -11,8 +13,13 @@ import org.kgcc.fantalmod.util.FantalStateManager;
 
 public class HasteSkill implements BaseSkill {
     @Override
-    public String getName() {
+    public String getTranslationKey() {
         return "haste";
+    }
+    
+    @Override
+    public MutableText getName() {
+        return Text.translatable("skill.fantalmod.haste");
     }
     
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {

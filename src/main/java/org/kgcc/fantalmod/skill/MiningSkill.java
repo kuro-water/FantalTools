@@ -7,6 +7,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.network.ServerPlayerInteractionManager;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.GameMode;
@@ -14,6 +16,16 @@ import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.util.FantalStateManager;
 
 public class MiningSkill implements BaseSkill {
+    @Override
+    public String getTranslationKey() {
+        return "mining";
+    }
+
+    @Override
+    public MutableText getName() {
+        return Text.translatable("skill.fantalmod.mining");
+    }
+    
     /**
      * <p>スキルの使用</p>
      * <p>ブロック破壊時の挙動は{@linkplain ServerPlayerInteractionManager#tryBreakBlock}を参考にしている</p>
@@ -70,10 +82,5 @@ public class MiningSkill implements BaseSkill {
         player.getItemCooldownManager().set(player.getMainHandStack().getItem(), 20);
         
         return ActionResult.SUCCESS;
-    }
-    
-    @Override
-    public String getName() {
-        return "mining";
     }
 }
