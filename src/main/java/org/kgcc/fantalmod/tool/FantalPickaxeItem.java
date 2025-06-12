@@ -1,10 +1,12 @@
 package org.kgcc.fantalmod.tool;
 
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.PickaxeItem;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
@@ -58,5 +60,11 @@ public class FantalPickaxeItem extends PickaxeItem implements FantalTool {
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
         skill.inventoryTick(stack, world, entity, slot, selected);
+    }
+    
+    @Override
+    public void appendTooltip(ItemStack stack, World world, java.util.List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
+        skill.appendTooltip(stack, world, tooltip, context);
     }
 }
