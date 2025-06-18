@@ -7,6 +7,7 @@ import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
@@ -15,11 +16,22 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.kgcc.fantalmod.entity.FantalBenchEntity;
+import net.minecraft.state.StateManager;
 
 public class FantalBench extends BlockWithEntity implements BlockEntityProvider {
+
+    public static final IntProperty APPEARANCE = IntProperty.of("appearance", 0, 3);
+
     public FantalBench(Settings settings) {
         super(settings);
+        setDefaultState(this.stateManager.getDefaultState().with(APPEARANCE, 0));
     }
+
+    @Override
+    protected void appendProperties(StateManager.Builder<net.minecraft.block.Block, BlockState> builder) {
+        builder.add(APPEARANCE);
+    }
+
     /* BLOCK ENTITY */
     
     @Override

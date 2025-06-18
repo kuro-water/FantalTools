@@ -1,7 +1,8 @@
 {
-  "variants" : {
-    "" : {
-      "model" : "fantalmod:block/siroan_block"
-    }
+  "variants": {
+    "appearance=0": { "model": "fantalmod:block/siroan_block" },
+    "appearance=1": { "model": "fantalmod:block/siroan_block_pickaxe" },
+    "appearance=2": { "model": "fantalmod:block/siroan_block_axe" },
+    "appearance=3": { "model": "fantalmod:block/siroan_block_sword" }
   }
 }
