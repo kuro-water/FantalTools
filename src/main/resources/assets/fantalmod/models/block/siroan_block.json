@@ -3,7 +3,7 @@
 	"texture_size": [64, 64],
 	"textures": {
 		"0": "fantalmod:block/siroan_block",
-		"particle": "fantal_bench"
+		"particle": "fantalmod:block/siroan_block"
 	},
 	"elements": [
 		{
