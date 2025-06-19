@@ -34,9 +34,8 @@ public class FantalStateManager extends PersistentState {
      * ただ、減らす処理とか同期とか抜けてるかも。計算合わない気がしてきた
      */
     private int totalFantalPollution = 0;
-
-
-
+    
+    
     public int getTotalFantalPollution() {
         return totalFantalPollution;
     }
@@ -192,11 +191,12 @@ public class FantalStateManager extends PersistentState {
         }
         PersistentStateManager persistentStateManager = world.getPersistentStateManager();
         
-        FantalStateManager state = persistentStateManager.getOrCreate(nbt -> createFromNbt(nbt, null),
-                                                                      // Create from NBT
-                                                                      FantalStateManager::new,
-                                                                      // Create new if not present
-                                                                      FantalMod.MODID + "_fantal_state_manager");
+        FantalStateManager state = persistentStateManager.getOrCreate(
+                nbt -> createFromNbt(nbt, null),
+                // Create from NBT
+                FantalStateManager::new,
+                // Create new if not present
+                FantalMod.MODID + "_fantal_state_manager");
         
         state.markDirty();
         return state;
@@ -245,18 +245,4 @@ public class FantalStateManager extends PersistentState {
         FantalStateManager serverState = FantalStateManager.getServerState(server);
         serverState.setTotalFantalPollution(value);
     }
-
-    //==========================================================================
-    // swordEffectEnabled フラグ
-//    private static boolean swordEffectEnabled = false;
-//
-//    // isSwordEffectEnabled メソッド
-//    public static boolean isSwordEffectEnabled() {
-//        return swordEffectEnabled;
-//    }
-//
-//    // setSwordEffectEnabled メソッド
-//    public static void setSwordEffectEnabled(boolean enabled) {
-//        swordEffectEnabled = enabled;
-//    }
 }

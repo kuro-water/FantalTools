@@ -4,13 +4,14 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.text.Text;
-import org.kgcc.fantalmod.screen.FantalBenchScreen;
 import org.kgcc.fantalmod.registry.FantalModScreenHandlers;
+import org.kgcc.fantalmod.screen.FantalBenchScreen;
 
 public class FantalModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        ClientPlayNetworking.registerGlobalReceiver(FantalMod.FANTAL_POLLUTION,
+        ClientPlayNetworking.registerGlobalReceiver(
+                FantalMod.FANTAL_POLLUTION,
                 (client, handler, buf, responseSender) -> {
                     var totalFantalPollution = buf.readInt();
                     var playerSpecificDirtBlocksBroken = buf.readInt();
@@ -19,7 +20,7 @@ public class FantalModClient implements ClientModInitializer {
                         return;
                     }
                     var name = player.getDisplayName().getString();
-
+                    
                     client.execute(() -> {
                         if (client.player != null) {
 //                                                                client.player.sendMessage(Text.literal(
@@ -28,10 +29,9 @@ public class FantalModClient implements ClientModInitializer {
                                     name + "の侵食度：" + playerSpecificDirtBlocksBroken));
                         }
                     });
-
+                    
                     FantalMod.LOGGER.info("全体の侵食度：{}", totalFantalPollution);
-                    FantalMod.LOGGER.info("{}の侵食度：{}", name,
-                            playerSpecificDirtBlocksBroken);
+                    FantalMod.LOGGER.info("{}の侵食度：{}", name, playerSpecificDirtBlocksBroken);
                 });
         HandledScreens.register(FantalModScreenHandlers.FANTAL_BENCH_SCREEN_HANDLER, FantalBenchScreen::new);
     }

@@ -48,8 +48,13 @@ public class FantalModItems {
                     new FantalArmorItem(FantalArmorMaterials.FANTAL, ArmorItem.Type.HELMET, new FabricItemSettings()),
                     "fantal_helmet");
     public static final Item FANTAL_CHESTPLATE =
-            registerItem(new FantalArmorItem(FantalArmorMaterials.FANTAL, ArmorItem.Type.CHESTPLATE,
-                                             new FabricItemSettings()), "fantal_chestplate");
+            registerItem(
+                    new FantalArmorItem(
+                            FantalArmorMaterials.FANTAL,
+                            ArmorItem.Type.CHESTPLATE,
+                            new FabricItemSettings()),
+                    "fantal_chestplate"
+                        );
     public static final Item FANTAL_LEGGINGS =
             registerItem(
                     new FantalArmorItem(FantalArmorMaterials.FANTAL, ArmorItem.Type.LEGGINGS, new FabricItemSettings()),

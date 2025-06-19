@@ -42,10 +42,12 @@ public class FantalModCommand {
             FantalStateManager.addFantalPollution(player.world.getServer(), player, value);
             
             var playerState = FantalStateManager.getPlayerState(player);
-            notifyAllPlayers(Objects.requireNonNull(player.world.getServer()),
-                             "%sが%sの侵食度を%sに設定しました".formatted(context.getSource().getName(),
-                                                                          player.getName().getString(),
-                                                                          playerState.getFantalPollution()));
+            notifyAllPlayers(
+                    Objects.requireNonNull(player.world.getServer()),
+                    "%sが%sの侵食度を%sに設定しました".formatted(
+                            context.getSource().getName(),
+                            player.getName().getString(),
+                            playerState.getFantalPollution()));
             return 1;
         }));
         
@@ -60,10 +62,12 @@ public class FantalModCommand {
             for (PlayerEntity player : players) {
                 FantalStateManager.addFantalPollution(player.world.getServer(), player, value);
                 var playerState = FantalStateManager.getPlayerState(player);
-                notifyAllPlayers(Objects.requireNonNull(player.world.getServer()),
-                                 "%sが%sの侵食度を%sに設定しました".formatted(context.getSource().getName(),
-                                                                              player.getName().getString(),
-                                                                              playerState.getFantalPollution()));
+                notifyAllPlayers(
+                        Objects.requireNonNull(player.world.getServer()),
+                        "%sが%sの侵食度を%sに設定しました".formatted(
+                                context.getSource().getName(),
+                                player.getName().getString(),
+                                playerState.getFantalPollution()));
             }
             return 1;
         })));
@@ -80,10 +84,12 @@ public class FantalModCommand {
             FantalStateManager.setFantalPollution(player, value);
             
             var playerState = FantalStateManager.getPlayerState(player);
-            notifyAllPlayers(Objects.requireNonNull(player.world.getServer()),
-                             "%sが%sの侵食度を%sに設定しました".formatted(context.getSource().getName(),
-                                                                          player.getName().getString(),
-                                                                          playerState.getFantalPollution()));
+            notifyAllPlayers(
+                    Objects.requireNonNull(player.world.getServer()),
+                    "%sが%sの侵食度を%sに設定しました".formatted(
+                            context.getSource().getName(),
+                            player.getName().getString(),
+                            playerState.getFantalPollution()));
             return 1;
         }));
         
@@ -96,10 +102,12 @@ public class FantalModCommand {
             for (PlayerEntity player : players) {
                 FantalStateManager.setFantalPollution(player, value);
                 var playerState = FantalStateManager.getPlayerState(player);
-                notifyAllPlayers(Objects.requireNonNull(player.world.getServer()),
-                                 "%sが%sの侵食度を%sに設定しました".formatted(context.getSource().getName(),
-                                                                              player.getName().getString(),
-                                                                              playerState.getFantalPollution()));
+                notifyAllPlayers(
+                        Objects.requireNonNull(player.world.getServer()),
+                        "%sが%sの侵食度を%sに設定しました".formatted(
+                                context.getSource().getName(),
+                                player.getName().getString(),
+                                playerState.getFantalPollution()));
             }
             return 1;
         })));
@@ -111,9 +119,11 @@ public class FantalModCommand {
             }
             
             var playerState = FantalStateManager.getPlayerState(player);
-            notifyAllPlayers(Objects.requireNonNull(player.world.getServer()),
-                             "%sの侵食度： %s".formatted(player.getName().getString(),
-                                                        playerState.getFantalPollution()));
+            notifyAllPlayers(
+                    Objects.requireNonNull(player.world.getServer()),
+                    "%sの侵食度： %s".formatted(
+                            player.getName().getString(),
+                            playerState.getFantalPollution()));
             return 1;
         });
         
@@ -123,9 +133,11 @@ public class FantalModCommand {
                     
                     for (PlayerEntity player : players) {
                         final var playerState = FantalStateManager.getPlayerState(player);
-                        notifyAllPlayers(Objects.requireNonNull(player.world.getServer()),
-                                         "%sの侵食度： %s".formatted(player.getName().getString(),
-                                                                    playerState.getFantalPollution()));
+                        notifyAllPlayers(
+                                Objects.requireNonNull(player.world.getServer()),
+                                "%sの侵食度： %s".formatted(
+                                        player.getName().getString(),
+                                        playerState.getFantalPollution()));
                     }
                     return 1;
                 }));

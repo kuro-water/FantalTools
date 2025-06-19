@@ -9,16 +9,12 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import org.kgcc.fantalmod.armor.FantalArmorEffect;
-import org.kgcc.fantalmod.test.ModBros;
-import org.kgcc.fantalmod.registry.FantalBlockEntities;
-import org.kgcc.fantalmod.registry.FantalModScreenHandlers;
-import org.kgcc.fantalmod.registry.FantalModCommand;
-import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.recall.RecallDataManager;
+import org.kgcc.fantalmod.registry.*;
 import org.kgcc.fantalmod.skill.RecallSkill;
-import org.kgcc.fantalmod.util.ServerTickHandler;
-import org.kgcc.fantalmod.registry.FantalModSkills;
+import org.kgcc.fantalmod.test.ModBros;
 import org.kgcc.fantalmod.util.FantalStateManager;
+import org.kgcc.fantalmod.util.ServerTickHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,7 +50,7 @@ public class FantalMod implements ModInitializer {
         FantalModCommand.registerCommands();
         
         FantalModSkills.initialize();
-
+        
         FantalBlockEntities.registerBlockEntities();
         ModBros.registerBlocks();
         // バイオームに機能を追加する 鉱石追加用
@@ -66,7 +62,10 @@ public class FantalMod implements ModInitializer {
         ServerTickHandler.register();
         RecallDataManager.register();
         RecallSkill.register();
-        BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, FANTAL_ORE_PLACED_KEY);
+        BiomeModifications.addFeature(
+                BiomeSelectors.foundInOverworld(),
+                GenerationStep.Feature.UNDERGROUND_ORES,
+                FANTAL_ORE_PLACED_KEY);
         FantalModScreenHandlers.initialize();
     }
 }

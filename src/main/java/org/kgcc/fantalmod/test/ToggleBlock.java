@@ -13,20 +13,26 @@ import net.minecraft.world.World;
 
 public class ToggleBlock extends Block {
     public static final BooleanProperty TOGGLED = BooleanProperty.of("toggled");
-
+    
     public ToggleBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(TOGGLED, false));
     }
-
+    
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
         builder.add(TOGGLED);
     }
-
+    
     @Override
-    public ActionResult onUse(BlockState state, World world, BlockPos pos,
-                              PlayerEntity player, Hand hand, BlockHitResult hit) {
+    public ActionResult onUse(
+            BlockState state,
+            World world,
+            BlockPos pos,
+            PlayerEntity player,
+            Hand hand,
+            BlockHitResult hit
+                             ) {
         if (!world.isClient) {
             boolean toggled = state.get(TOGGLED);
             world.setBlockState(pos, state.with(TOGGLED, !toggled), 3);
