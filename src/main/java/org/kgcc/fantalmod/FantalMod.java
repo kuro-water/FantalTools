@@ -40,7 +40,6 @@ public class FantalMod implements ModInitializer {
     
     @Override
     public void onInitialize() {
-        // todo:ワールド生成時にクラッシュするバグあり
         // このコードは、Minecraftがモッドロード準備完了状態になったときに実行されます。
         // ただし、リソースなどの一部のものはまだ初期化されていない場合があります。
         // 注意して進めてください。
@@ -66,10 +65,6 @@ public class FantalMod implements ModInitializer {
         ServerTickHandler.register();
         RecallDataManager.register();
         RecallSkill.register();
-        BiomeModifications.addFeature(
-                BiomeSelectors.foundInOverworld(),
-                GenerationStep.Feature.UNDERGROUND_ORES,
-                FANTAL_ORE_PLACED_KEY);
         FantalModScreenHandlers.initialize();
         
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
