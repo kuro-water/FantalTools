@@ -85,8 +85,6 @@ public class RecallSkill implements BaseSkill {
         // todo: FantalStateManagerもリファクタしたい。名前とか。
         // todo: 松明設置じゃなくて独自の光源ほしいな。光るクリスタル
         // todo: もしかしてFantalPollutionオーバーワールドでしか機能してない？
-        // todo: リコール時間の調整
-        // todo: 落下ダメの蓄積
 
         var world = playerEntity.getWorld();
         // クライアントサイドでは処理しない
@@ -109,9 +107,9 @@ public class RecallSkill implements BaseSkill {
 
             if (!isSafeLocation(data.getWorld(server), BlockPos.ofFloored(data.pos))) {
                 // プレイヤーに警告メッセージを送信
-                if (playerEntity instanceof ServerPlayerEntity serverPlayer) {
-                    serverPlayer.sendMessage(Text.literal("テレポート先が安全ではありません！"), false);
-                }
+//                if (playerEntity instanceof ServerPlayerEntity serverPlayer) {
+//                    serverPlayer.sendMessage(Text.literal("テレポート先が安全ではありません！"), false);
+//                }
                 return;
             }
 
@@ -148,6 +146,7 @@ public class RecallSkill implements BaseSkill {
                         MathHelper.lerp(delta, startData.pitch, targetData.pitch));
             }
             playerEntity.setHealth(data.health); // HPを復元
+            playerEntity.fallDistance = 0;
         });
         return RecallDataManager.size(playerEntity);
     }
