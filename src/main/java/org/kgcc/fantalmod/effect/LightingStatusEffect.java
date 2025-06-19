@@ -32,57 +32,59 @@ public class LightingStatusEffect extends StatusEffect {
     // このメソッドは、ステータス効果が適用されたときに呼び出されます。ここでカスタム機能を実装します
     @Override
     public void applyUpdateEffect(LivingEntity entity, int amplifier) {
-        // todo:マルチで出入りしたとき大丈夫？
-        if (!entity.world.isClient()) {
-            BlockPos pos = entity.getBlockPos().up();
-            
-            // 高さ制限をチェック
-            if (!entity.world.isInBuildLimit(pos)) {
-                return; // 高さ制限外の場合は処理を中断
-            }
-            
-            if (!entity.world.getBlockState(pos).isAir()) {
-                // 空気でなければ
-                return;
-            }
-            if (preBlockPos != null && preBlockPos.equals(pos)) {
-                // 前回設置した場所と同じなら
-                return;
-            }
-            
-            World world = entity.world;
-            
-            if (preBlockPos != null
-                    && preBlockState != null
-                    && world.getBlockState(preBlockPos).equals(Blocks.LIGHT.getDefaultState())) {
-                // 一つ前の場所を元に戻す
-                // Blocks.LIGHT.getDefaultState()と一致しない場合、ラグやコマンドなどでブロックが設置されているということ。
-                // 置き換えてしまうとブロックが消えてしまうので、置き換えない
-                world.setBlockState(preBlockPos, preBlockState);
-            }
-            
-            preBlockPos = pos;
-            preBlockState = world.getBlockState(pos);
-            // 光る空気を設置するっぽい。
-            world.setBlockState(pos, Blocks.LIGHT.getDefaultState());
+        if (entity.world.isClient()) {
+            return;
         }
+        BlockPos pos = entity.getBlockPos().up();
+        
+        // 高さ制限をチェック
+        if (!entity.world.isInBuildLimit(pos)) {
+            return; // 高さ制限外の場合は処理を中断
+        }
+        
+        if (!entity.world.getBlockState(pos).isAir()) {
+            // 空気でなければ処理を中断
+            return;
+        }
+        if (preBlockPos != null && preBlockPos.equals(pos)) {
+            // 前回設置した場所と同じなら処理を中断
+            return;
+        }
+        
+        World world = entity.world;
+        
+        if (preBlockPos != null
+                && preBlockState != null
+                && world.getBlockState(preBlockPos).equals(Blocks.LIGHT.getDefaultState())) {
+            // 一つ前の場所を元に戻す
+            // Blocks.LIGHT.getDefaultState()と一致しない場合、ラグやコマンドなどでブロックが設置されているということ。
+            // 置き換えてしまうとブロックが消えてしまうので、置き換えない
+            world.setBlockState(preBlockPos, preBlockState);
+        }
+        
+        preBlockPos = pos;
+        preBlockState = world.getBlockState(pos);
+        // 光る空気を設置するっぽい。
+        world.setBlockState(pos, Blocks.LIGHT.getDefaultState());
     }
     
     @Override
     public void onRemoved(LivingEntity entity, AttributeContainer attributes, int amplifier) {
         // ステータス効果が削除されたときに呼び出されます
         // ここで、前回のブロックを元に戻す処理を行います
-        if (!entity.world.isClient()) {
-            if (preBlockPos != null
-                    && preBlockState != null
-                    && entity.world.getBlockState(preBlockPos).equals(Blocks.LIGHT.getDefaultState())) {
-                // 一つ前の場所を元に戻す
-                // Blocks.LIGHT.getDefaultState()と一致しない場合、ラグやコマンドなどでブロックが設置されているということ。
-                // 置き換えてしまうとブロックが消えてしまうので、置き換えない
-                entity.world.setBlockState(preBlockPos, preBlockState);
-                preBlockPos = null;
-                preBlockState = null;
-            }
+        if (entity.world.isClient()) {
+            return;
         }
+        if (preBlockPos == null
+                || preBlockState == null
+                || !entity.world.getBlockState(preBlockPos).equals(Blocks.LIGHT.getDefaultState())) {
+            return;
+        }
+        // 一つ前の場所を元に戻す
+        // Blocks.LIGHT.getDefaultState()と一致しない場合、ラグやコマンドなどでブロックが設置されているということ。
+        // 置き換えてしまうとブロックが消えてしまうので、置き換えない
+        entity.world.setBlockState(preBlockPos, preBlockState);
+        preBlockPos = null;
+        preBlockState = null;
     }
 }
