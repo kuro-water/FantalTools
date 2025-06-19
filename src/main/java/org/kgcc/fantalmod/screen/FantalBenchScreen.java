@@ -28,7 +28,8 @@ import java.util.List;
 
 public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
     private static final Identifier TEXTURE =
-            new Identifier(FantalMod.MODID, "textures/gui/siroan_block.png");
+            new Identifier(FantalMod.MODID, "textures/gui/fantal_bench.png");
+    // todo:GUIきれいにしないと。
     
     private static final int BUTTON_HEIGHT = 10;
     private static final int BUTTON_WIDTH = 100;

@@ -1,8 +1,9 @@
 {
     "block.fantalmod.fantal_ore" : "Fantal Ore",
     "block.fantalmod.deepslate_fantal_ore" : "Deepslate Fantal Ore",
-    "item.fantalmod.fantal_ingot" : "Fantal Ingot",
     "block.fantalmod.fantal_block" : "Fantal Block",
+    "block.fantalmod.fantal_bench" : "Fantal Bench",
+    "item.fantalmod.fantal_ingot" : "Fantal Ingot",
     "item.fantalmod.row_fantal" : "Row Fantal",
     "item.fantalmod.fantal_nugget" : "Fantal Nugget",
     "item.fantalmod.fantal_helmet" : "Fantal Helmet",

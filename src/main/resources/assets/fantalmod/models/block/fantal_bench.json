@@ -2,8 +2,8 @@
 	"credit": "Made with Blockbench",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "fantalmod:block/siroan_block",
-		"particle": "fantalmod:block/siroan_block"
+		"0": "fantalmod:block/fantal_bench",
+		"particle": "fantalmod:block/fantal_bench"
 	},
 	"elements": [
 		{

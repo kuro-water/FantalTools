@@ -36,8 +36,7 @@ public class FantalBenchEntity extends BlockEntity implements NamedScreenHandler
     
     @Override
     public Text getDisplayName() {
-        // todo: Localize this string
-        return Text.literal("Fantal Bench");
+        return Text.translatable("block.fantalmod.fantal_bench");
     }
     
     @Nullable
@@ -81,5 +80,4 @@ public class FantalBenchEntity extends BlockEntity implements NamedScreenHandler
             world.setBlockState(pos, state.with(FantalBench.APPEARANCE, appearance), 3);
         }
     }
-    
 }

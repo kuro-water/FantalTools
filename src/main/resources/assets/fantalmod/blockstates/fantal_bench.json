@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "appearance=0": { "model": "fantalmod:block/fantal_bench" },
+    "appearance=1": { "model": "fantalmod:block/fantal_bench_pickaxe" },
+    "appearance=2": { "model": "fantalmod:block/fantal_bench_axe" },
+    "appearance=3": { "model": "fantalmod:block/fantal_bench_sword" }
+  }
+}

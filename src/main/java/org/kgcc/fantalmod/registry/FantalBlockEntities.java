@@ -14,7 +14,7 @@ public class FantalBlockEntities {
     public static void registerBlockEntities() {
         FANTAL_BENCH = Registry.register(
                 Registries.BLOCK_ENTITY_TYPE,
-                new Identifier(FantalMod.MODID, "siroan_block"), // todo: Localize this string
+                new Identifier(FantalMod.MODID, "fantal_bench"),
                 FabricBlockEntityTypeBuilder.create(FantalBenchEntity::new, FantalModItems.FANTAL_BENCH).build(null));
     }
 }
