@@ -12,15 +12,17 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BaseSkill;
 
-public class FantalPickaxeItem extends PickaxeItem implements FantalTool {
+public class FantalPickaxeItem extends PickaxeItem implements FantalToolItem {
     public BaseSkill skill = FantalModSkills.HASTE;
     
     @Override
-    public void setSkill(BaseSkill skill) {
+    public void setSkill(ItemStack stack, @NotNull BaseSkill skill) {
         this.skill = skill;
+        FantalToolItem.writeNbt(stack, skill.getName().getString());
     }
     
     @Override

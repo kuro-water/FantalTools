@@ -12,18 +12,19 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BaseSkill;
 
-public class FantalAxeItem extends AxeItem implements FantalTool {
+public class FantalAxeItem extends AxeItem implements FantalToolItem {
     private BaseSkill skill = FantalModSkills.HEALTH_BOOST;
     
     @Override
-    public void setSkill(BaseSkill skill) {
+    public void setSkill(ItemStack stack, @NotNull BaseSkill skill) {
         this.skill = skill;
+        FantalToolItem.writeNbt(stack, skill.getName().getString());
     }
     
-    @Override
     public BaseSkill getSkill() {
         return skill;
     }

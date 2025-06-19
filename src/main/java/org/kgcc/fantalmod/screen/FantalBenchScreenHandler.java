@@ -9,10 +9,10 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.registry.FantalModItems;
-import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.registry.FantalModScreenHandlers;
+import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BaseSkill;
-import org.kgcc.fantalmod.tool.FantalTool;
+import org.kgcc.fantalmod.tool.FantalToolItem;
 
 public class FantalBenchScreenHandler extends ScreenHandler {
     public final Inventory inventory;
@@ -111,13 +111,13 @@ public class FantalBenchScreenHandler extends ScreenHandler {
     @Override
     public boolean onButtonClick(PlayerEntity player, int id) {
         var item = this.inventory.getStack(0);
-        if (!(item.getItem() instanceof FantalTool tool)) {
+        if (!(item.getItem() instanceof FantalToolItem tool)) {
             FantalMod.LOGGER.info("No valid tool in slot 0.");
             return false;
         }
         BaseSkill skill = FantalModSkills.SKILLS.get(id);
         FantalMod.LOGGER.info("Found skill: {}", skill.getName());
-        tool.setSkill(skill);
+        tool.setSkill(item, skill);
         
         // アイテム減らしたりNBTの処理
         this.inventory.getStack(1).decrement(1);

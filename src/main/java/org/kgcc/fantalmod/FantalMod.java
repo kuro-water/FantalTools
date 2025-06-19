@@ -3,6 +3,8 @@ package org.kgcc.fantalmod;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
@@ -13,6 +15,7 @@ import org.kgcc.fantalmod.recall.RecallDataManager;
 import org.kgcc.fantalmod.registry.*;
 import org.kgcc.fantalmod.skill.RecallSkill;
 import org.kgcc.fantalmod.test.ModBros;
+import org.kgcc.fantalmod.tool.FantalToolItem;
 import org.kgcc.fantalmod.util.FantalStateManager;
 import org.kgcc.fantalmod.util.ServerTickHandler;
 import org.slf4j.Logger;
@@ -37,6 +40,7 @@ public class FantalMod implements ModInitializer {
     
     @Override
     public void onInitialize() {
+        // todo:ワールド生成時にクラッシュするバグあり
         // このコードは、Minecraftがモッドロード準備完了状態になったときに実行されます。
         // ただし、リソースなどの一部のものはまだ初期化されていない場合があります。
         // 注意して進めてください。
@@ -67,5 +71,15 @@ public class FantalMod implements ModInitializer {
                 GenerationStep.Feature.UNDERGROUND_ORES,
                 FANTAL_ORE_PLACED_KEY);
         FantalModScreenHandlers.initialize();
+        
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            for (ItemStack stack : handler.getPlayer().getInventory().main) {
+                if (stack.getItem() instanceof FantalToolItem fantalToolItem) {
+                    String skillName = FantalToolItem.readNbt(stack);
+                    fantalToolItem.setSkill(stack, skillName);
+                }
+            }
+            handler.getPlayer().playerScreenHandler.syncState();
+        });
     }
 }
