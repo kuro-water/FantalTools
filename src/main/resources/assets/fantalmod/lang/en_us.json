@@ -32,5 +32,7 @@
     "skill.fantalmod.speed" : "Speed",
     "skill.fantalmod.speed.description" : "Grants yourself the Speed effect.",
     "skill.fantalmod.strength" : "Strength",
-    "skill.fantalmod.strength.description" : "Grants yourself the Strength effect."
+    "skill.fantalmod.strength.description" : "Grants yourself the Strength effect.",
+    "skill.fantalmod.smelt" : "Smelt",
+    "skill.fantalmod.smelt.description" : "Ores you mine are automatically smelted."
 }

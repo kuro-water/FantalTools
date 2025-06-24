@@ -2,14 +2,23 @@
 package org.kgcc.fantalmod.registry;
 
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
+import net.minecraft.recipe.BlastingRecipe;
+import net.minecraft.recipe.RecipeType;
+import net.minecraft.recipe.SmeltingRecipe;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.skill.SmeltSkill;
+
+import java.util.List;
+import java.util.Optional;
 
 public class OreSmeltEventHandler {
     public static void register() {
@@ -18,23 +27,46 @@ public class OreSmeltEventHandler {
             if (!(world instanceof ServerWorld serverWorld)) return true;
             if (!SmeltSkill.isActive(player)) return true;
 
-            ItemStack drop = ItemStack.EMPTY;
-            if (state.getBlock() == Blocks.IRON_ORE) {
-                drop = new ItemStack(Items.IRON_INGOT);
-            } else if (state.getBlock() == Blocks.GOLD_ORE) {
-                drop = new ItemStack(Items.GOLD_INGOT);
-            } else if (state.getBlock() == Blocks.COPPER_ORE) {
-                drop = new ItemStack(Items.COPPER_INGOT);
+            BlockState blockState = serverWorld.getBlockState(pos);
+
+            List<ItemStack> drops = Block.getDroppedStacks(blockState, serverWorld, pos, blockEntity);
+
+            if(drops.isEmpty()){
+                return true;
             }
 
-            if (!drop.isEmpty()) {
-                // ブロックを手動で壊す
-                serverWorld.setBlockState(pos, net.minecraft.block.Blocks.AIR.getDefaultState());
-                Vec3d vec = Vec3d.ofCenter(pos);
-                serverWorld.spawnEntity(new ItemEntity(serverWorld, vec.x, vec.y, vec.z, drop));
-                return false; // バニラのドロップと破壊をキャンセル
+            ItemStack itemStack = drops.get(0);
+            String translationKey = itemStack.getTranslationKey();
+            int dropCount = drops.size();
+
+            for(ItemStack drop : drops){
+                if(!drop.getTranslationKey().equals(translationKey)){
+                    return true;
+                }
             }
-            return true;
+
+//             精錬レシピを検索
+            Optional<BlastingRecipe> recipeOpt = serverWorld.getRecipeManager()
+                    .getFirstMatch(RecipeType.BLASTING, new SimpleInventory(itemStack), serverWorld);
+
+            if (recipeOpt.isEmpty()) {
+                return true;
+            }
+
+            ItemStack result = recipeOpt.get().getOutput(serverWorld.getRegistryManager());
+            if (result.isEmpty()) {
+                return true;
+            }
+
+            // ブロックを手動で壊す
+            serverWorld.setBlockState(pos, Blocks.AIR.getDefaultState());
+            Vec3d vec = Vec3d.ofCenter(pos);
+            for(int i = 0; i < dropCount; i++) {
+                // ドロップアイテムを生成
+                serverWorld.spawnEntity(new ItemEntity(serverWorld, vec.x, vec.y, vec.z, result.copy()));
+            }
+
+            return false; // バニラのドロップと破壊をキャンセル
         });
     }
 }

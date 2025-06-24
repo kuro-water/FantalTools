@@ -21,35 +21,20 @@ public class SmeltSkill implements BaseSkill {
 
     @Override
     public String getTranslationKey() {
-        return "smelt_mode";
+        return "smelt";
     }
 
     @Override
     public MutableText getName() {
-        return Text.translatable("skill.fantalmod.smelt_mode");
+        return Text.translatable("skill.fantalmod.smelt");
     }
 
-    // ブロック右クリック時
-    @Override
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        PlayerEntity player = context.getPlayer();
-        if (player == null || context.getWorld().isClient()) return ActionResult.PASS;
 
-        toggleMode(player);
-        return ActionResult.SUCCESS;
-    }
 
     // 空中右クリック時
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (user == null || world.isClient()) return TypedActionResult.pass(user.getStackInHand(hand));
-
-        // ブロックに向かって右クリックしたときはスキップ（useOnBlockで処理するため）
-        HitResult hit = user.raycast(5.0D, 0.0F, false);
-        if (hit.getType() == HitResult.Type.BLOCK) {
-            return TypedActionResult.pass(user.getStackInHand(hand));
-        }
-
         // 空中を右クリックしたときだけ切り替え
         toggleMode(user);
         return TypedActionResult.success(user.getStackInHand(hand));
