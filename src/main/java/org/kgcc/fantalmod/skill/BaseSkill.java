@@ -41,4 +41,5 @@ public interface BaseSkill {
     default void appendTooltip(ItemStack stack, World world, java.util.List<Text> tooltip, TooltipContext context) {
         tooltip.add(getName().formatted(Formatting.AQUA));
     }
+
 }

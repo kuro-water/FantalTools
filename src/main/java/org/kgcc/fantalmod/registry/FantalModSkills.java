@@ -19,6 +19,7 @@ public class FantalModSkills {
     public static final BaseSkill PLACE_TORCH = registerSkill(new PlaceTorchSkill());
     public static final BaseSkill RECALL = registerSkill(new RecallSkill());
     public static final BaseSkill STRENGTH = registerSkill(new StrengthSkill());
+    public static final BaseSkill SMELTING = registerSkill(new SmeltSkill());
     public static final BaseSkill NONE = registerSkill(new NoneSkill());
     
     

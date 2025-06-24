@@ -51,9 +51,13 @@ public class FantalMod implements ModInitializer {
         FantalArmorEffect.register();
         FantalStateManager.register();
         FantalModCommand.registerCommands();
-        
+
         FantalModSkills.initialize();
-        
+
+        //====追加
+        OreSmeltEventHandler.register();
+       //===
+
         FantalBlockEntities.registerBlockEntities();
         ModBros.registerBlocks();
         // バイオームに機能を追加する 鉱石追加用

@@ -1,5 +1,7 @@
 package org.kgcc.fantalmod.tool;
 
+import net.minecraft.block.BlockState;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -11,6 +13,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.kgcc.fantalmod.registry.FantalModSkills;
@@ -68,5 +71,8 @@ public class FantalPickaxeItem extends PickaxeItem implements FantalToolItem {
     public void appendTooltip(ItemStack stack, World world, java.util.List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
         skill.appendTooltip(stack, world, tooltip, context);
+    }
+    public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack stack) {
+
     }
 }
