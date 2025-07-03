@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.UUID;
 
 public class SmeltSkill implements BaseSkill {
-
+    // todo:浸食度とテキストメッセージの調整
     private static final HashSet<UUID> ACTIVE_PLAYERS = new HashSet<>();
 
     @Override
