@@ -10,12 +10,9 @@ import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.BlastingRecipe;
 import net.minecraft.recipe.RecipeType;
-import net.minecraft.recipe.SmeltingRecipe;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import org.kgcc.fantalmod.FantalMod;
-import org.kgcc.fantalmod.skill.SmeltSkill;
+import org.kgcc.fantalmod.skill.PickaxeSkill.SmeltSkill;
 
 import java.util.List;
 import java.util.Optional;

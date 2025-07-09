@@ -1,6 +1,8 @@
 package org.kgcc.fantalmod.registry;
 
 import org.kgcc.fantalmod.skill.*;
+import org.kgcc.fantalmod.skill.PickaxeSkill.AreaBreakSkill;
+import org.kgcc.fantalmod.skill.PickaxeSkill.SmeltSkill;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +22,7 @@ public class FantalModSkills {
     public static final BaseSkill RECALL = registerSkill(new RecallSkill());
     public static final BaseSkill STRENGTH = registerSkill(new StrengthSkill());
     public static final BaseSkill SMELTING = registerSkill(new SmeltSkill());
+    public static final BaseSkill AREABREAK = registerSkill(new AreaBreakSkill());
     public static final BaseSkill NONE = registerSkill(new NoneSkill());
     
     
