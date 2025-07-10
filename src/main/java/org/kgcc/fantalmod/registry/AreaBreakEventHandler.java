@@ -22,6 +22,7 @@ public class AreaBreakEventHandler {
             ItemStack mainHand = player.getMainHandStack();
             // ピッケルのみ有効
             if (!(mainHand.getItem() instanceof PickaxeItem)) return true;
+            // ツールの耐久値チェック
 
             // 石系ブロックのみ（例: 石、鉄鉱石など）に限定したい場合はここで判定
             if (!state.isIn(BlockTags.PICKAXE_MINEABLE)) return true;
@@ -42,7 +43,12 @@ public class AreaBreakEventHandler {
                         Block.getDroppedStacks(targetState, serverWorld, target, serverWorld.getBlockEntity(target))
                                 .forEach(stack -> Block.dropStack(serverWorld, target, stack));
                         serverWorld.setBlockState(target, Blocks.AIR.getDefaultState());
+                       // 破壊した分ツールの耐久値を減らす
+                        if (!player.isCreative()) {
+                            mainHand.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
+                        }
                     }
+
                 }
             }
             return true; // 中心ブロックはバニラ処理
