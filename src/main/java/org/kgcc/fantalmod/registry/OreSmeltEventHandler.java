@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.BlastingRecipe;
@@ -17,6 +18,13 @@ import org.kgcc.fantalmod.skill.PickaxeSkill.SmeltSkill;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * OreSmeltEventHandler
+ *
+ * <p>ブロック破壊時に精錬スキルが有効なプレイヤーに対して、
+ * ブロックのドロップを精錬されたアイテムに置き換えるイベントハンドラ</p>
+ * <p>{@link SmeltSkill#isActive(PlayerEntity)}を参照する</p>
+ */
 public class OreSmeltEventHandler {
     public static void register() {
         PlayerBlockBreakEvents.BEFORE.register((world, player, pos, state, blockEntity) -> {

@@ -7,6 +7,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.kgcc.fantalmod.registry.OreSmeltEventHandler;
 import org.kgcc.fantalmod.skill.BaseSkill;
 
 import java.util.HashSet;
@@ -25,19 +26,24 @@ public class SmeltSkill implements BaseSkill {
     public MutableText getName() {
         return Text.translatable("skill.fantalmod.smelt");
     }
-
-
-
-    // 空中右クリック時
+    
+    /**
+     * <p>空中右クリック時に呼び出される。</p>
+     * <p>精錬モードの切り替えを行う。</p>
+     * <p>{@link OreSmeltEventHandler#register()}にてブロック破壊時動作を記述</p>
+     */
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (user == null || world.isClient()) return TypedActionResult.pass(user.getStackInHand(hand));
-        // 空中を右クリックしたときだけ切り替え
         toggleMode(user);
+        // toggleModeによりACTIVE_PLAYERSにUUIDが追加・削除される
+        // registry.OreSmeltingHandlerで、ACTIVE_PLAYERSを参照し、精錬を行う
+        
         return TypedActionResult.success(user.getStackInHand(hand));
     }
 
     private void toggleMode(PlayerEntity player) {
+        
         UUID uuid = player.getUuid();
         boolean enabled = ACTIVE_PLAYERS.contains(uuid);
 
