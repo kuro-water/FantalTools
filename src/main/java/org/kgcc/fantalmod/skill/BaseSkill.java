@@ -16,6 +16,8 @@ import org.kgcc.fantalmod.FantalMod;
 
 public interface BaseSkill {
     // todo: 汚染度をどこで変更するか
+    // todo: ツール別に可不可
+    // todo: コンフィグかなんかで、Shiftで無効にする設定
     
     String getTranslationKey();
     
