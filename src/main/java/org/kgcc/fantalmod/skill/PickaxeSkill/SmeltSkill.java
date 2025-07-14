@@ -7,6 +7,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import org.kgcc.fantalmod.registry.OreSmeltEventHandler;
 import org.kgcc.fantalmod.skill.BaseSkill;
 
@@ -16,12 +17,12 @@ import java.util.UUID;
 public class SmeltSkill implements BaseSkill {
     // todo:浸食度とテキストメッセージの調整
     private static final HashSet<UUID> ACTIVE_PLAYERS = new HashSet<>();
-
+    
     @Override
     public String getTranslationKey() {
         return "smelt";
     }
-
+    
     @Override
     public MutableText getName() {
         return Text.translatable("skill.fantalmod.smelt");
@@ -33,20 +34,22 @@ public class SmeltSkill implements BaseSkill {
      * <p>{@link OreSmeltEventHandler#register()}にてブロック破壊時動作を記述</p>
      */
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (user == null || world.isClient()) return TypedActionResult.pass(user.getStackInHand(hand));
+    public TypedActionResult<ItemStack> use(World world, @NotNull PlayerEntity user, Hand hand) {
+        if (world.isClient()) {
+            return TypedActionResult.pass(user.getStackInHand(hand));
+        }
         toggleMode(user);
         // toggleModeによりACTIVE_PLAYERSにUUIDが追加・削除される
         // registry.OreSmeltingHandlerで、ACTIVE_PLAYERSを参照し、精錬を行う
         
         return TypedActionResult.success(user.getStackInHand(hand));
     }
-
+    
     private void toggleMode(PlayerEntity player) {
         
         UUID uuid = player.getUuid();
         boolean enabled = ACTIVE_PLAYERS.contains(uuid);
-
+        
         if (enabled) {
             ACTIVE_PLAYERS.remove(uuid);
             player.sendMessage(Text.literal("§7[スキル] 精錬モード §c無効"), false);
@@ -55,7 +58,7 @@ public class SmeltSkill implements BaseSkill {
             player.sendMessage(Text.literal("§7[スキル] 精錬モード §a有効"), false);
         }
     }
-
+    
     public static boolean isActive(PlayerEntity player) {
         return ACTIVE_PLAYERS.contains(player.getUuid());
     }
