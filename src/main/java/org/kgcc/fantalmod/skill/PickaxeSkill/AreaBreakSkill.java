@@ -7,6 +7,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.NotNull;
 import org.kgcc.fantalmod.skill.BaseSkill;
 
 import java.util.HashSet;
@@ -14,6 +15,7 @@ import java.util.UUID;
 
 public class AreaBreakSkill implements BaseSkill {
     // todo:浸食度とテキストメッセージの調整
+    // todo:translationKeyの修正
     private static final HashSet<UUID> ACTIVE_PLAYERS = new HashSet<>();
 
     @Override
@@ -25,15 +27,22 @@ public class AreaBreakSkill implements BaseSkill {
     public MutableText getName() {
         return Text.translatable("skill.fantalmod.area_break");
     }
-
-
-
-    // 空中右クリック時
+    
+    
+    /**
+     * <p>空中右クリック時に呼び出される。</p>
+     * <p>範囲破壊モードの切り替えを行う。</p>
+     * <p>{@link org.kgcc.fantalmod.registry.AreaBreakEventHandler#register()}にてブロック破壊時動作を記述</p>
+     */
     @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        if (user == null || world.isClient()) return TypedActionResult.pass(user.getStackInHand(hand));
+    public TypedActionResult<ItemStack> use(World world, @NotNull PlayerEntity user, Hand hand) {
+        if ( world.isClient()) {
+            return TypedActionResult.pass(user.getStackInHand(hand));
+        }
         // 空中を右クリックしたときだけ切り替え
         toggleMode(user);
+        // toggleModeによりACTIVE_PLAYERSにUUIDが追加・削除される
+        // registry.AreaBreakEventHandlerで、ACTIVE_PLAYERSを参照し、範囲破壊を行う
         return TypedActionResult.success(user.getStackInHand(hand));
     }
 

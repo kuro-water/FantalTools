@@ -19,8 +19,8 @@ import java.util.Optional;
 
 public class OreSmeltEventHandler {
     /**
-     * <p>ブロック破壊時に精錬スキルが有効なプレイヤーに対して、
-     * ブロックのドロップを精錬されたアイテムに置き換えるイベントハンドラ</p>
+     * <p>ブロック破壊時に精錬スキルが有効なプレイヤーの場合、
+     * 精錬されたアイテムをドロップさせるイベントハンドラ</p>
      * <p>{@link SmeltSkill#isActive(PlayerEntity)}を参照する</p>
      */
     public static void register() {

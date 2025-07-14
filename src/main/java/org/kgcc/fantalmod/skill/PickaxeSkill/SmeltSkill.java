@@ -31,7 +31,7 @@ public class SmeltSkill implements BaseSkill {
     /**
      * <p>空中右クリック時に呼び出される。</p>
      * <p>精錬モードの切り替えを行う。</p>
-     * <p>{@link OreSmeltEventHandler#register()}にてブロック破壊時動作を記述</p>
+     * <p>{@link org.kgcc.fantalmod.registry.OreSmeltEventHandler#register()}にてブロック破壊時動作を記述</p>
      */
     @Override
     public TypedActionResult<ItemStack> use(World world, @NotNull PlayerEntity user, Hand hand) {
