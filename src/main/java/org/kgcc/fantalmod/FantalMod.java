@@ -56,6 +56,7 @@ public class FantalMod implements ModInitializer {
 
         //====追加
         OreSmeltEventHandler.register();
+        AreaBreakEventHandler.register();
        //===
 
         FantalBlockEntities.registerBlockEntities();
