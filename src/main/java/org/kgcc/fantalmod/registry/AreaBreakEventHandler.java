@@ -8,6 +8,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import org.kgcc.fantalmod.skill.PickaxeSkill.AreaBreakSkill;
 import org.kgcc.fantalmod.skill.PickaxeSkill.SmeltSkill;
@@ -31,13 +32,17 @@ public class AreaBreakEventHandler {
             }
             
             ItemStack mainHand = player.getMainHandStack();
-            // ピッケルのみ有効
-//            if (!(mainHand.getItem() instanceof PickaxeItem)) return true;
-            // ツールの耐久値チェック
-            
-            // 石系ブロックのみ（例: 石、鉄鉱石など）に限定したい場合はここで判定
-            if (!blockState.isIn(BlockTags.PICKAXE_MINEABLE))
+            // playerの手持ちのアイテムで破壊可能かどうか
+            if (!mainHand.isSuitableFor(blockState)) {
+//                var text =
+//                        Text.of(blockState.getBlock().getTranslationKey()
+//                                        + "は"
+//                                        + mainHand.getName().getString()
+//                                        + "では破壊できません。");
+//                player.sendMessage(text, true);
                 return true;
+            }
+            
             
             // 3x3x3範囲を破壊
             BlockPos center = pos;
@@ -49,8 +54,6 @@ public class AreaBreakEventHandler {
                             continue; // 中心はバニラ処理に任せる
                         BlockState targetState = serverWorld.getBlockState(target);
                         if (targetState.isAir())
-                            continue;
-                        if (!targetState.isIn(BlockTags.PICKAXE_MINEABLE))
                             continue;
                         // ツールで破壊可能か
                         if (!mainHand.isSuitableFor(targetState))
