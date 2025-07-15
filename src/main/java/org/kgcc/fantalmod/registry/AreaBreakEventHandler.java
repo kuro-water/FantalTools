@@ -33,23 +33,10 @@ public class AreaBreakEventHandler {
                 for (int dy = -1; dy <= 1; dy++) {
                     for (int dz = -1; dz <= 1; dz++) {
                         BlockPos target = center.add(dx, dy, dz);
-                        if (target.equals(center)) continue; // 中心はバニラ処理に任せる
-                        BlockState targetState = serverWorld.getBlockState(target);
-                        if (targetState.isAir()) continue;
-                        if (!targetState.isIn(BlockTags.PICKAXE_MINEABLE)) continue;
-                        // ツールで破壊可能か
-                        if (!mainHand.isSuitableFor(targetState)) continue;
-                        // ドロップ
-                        Block.getDroppedStacks(targetState, serverWorld, target, serverWorld.getBlockEntity(target))
-                                .forEach(stack -> Block.dropStack(serverWorld, target, stack));
-                        serverWorld.setBlockState(target, Blocks.AIR.getDefaultState());
-                       // 破壊した分ツールの耐久値を減らす
-                        if (!player.isCreative()) {
-                            mainHand.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
-                        }
+                        mainHand.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
                     }
-
                 }
+
             }
             return true; // 中心ブロックはバニラ処理
         });
