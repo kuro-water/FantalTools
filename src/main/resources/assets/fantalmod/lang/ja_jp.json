@@ -34,5 +34,7 @@
   "skill.fantalmod.strength": "攻撃力上昇",
   "skill.fantalmod.strength.description": "自身に攻撃力上昇を付与します。",
   "skill.fantalmod.smelt": "自動精錬",
-  "skill.fantalmod.smelt.description": "採掘した鉱石を自動で精錬します。"
+  "skill.fantalmod.smelt.description": "採掘した鉱石を自動で精錬します。",
+  "skill.fantalmod.hammer" : "3x3x3ハンマー",
+  "skill.fantalmod.hammer.description" : "3x3x3の範囲を一度に採掘します。"
 }

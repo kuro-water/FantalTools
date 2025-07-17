@@ -34,5 +34,7 @@
     "skill.fantalmod.strength" : "Strength",
     "skill.fantalmod.strength.description" : "Grants yourself the Strength effect.",
     "skill.fantalmod.smelt" : "Smelt",
-    "skill.fantalmod.smelt.description" : "Ores you mine are automatically smelted."
+    "skill.fantalmod.smelt.description" : "Mined ores are instantly smelted.",
+    "skill.fantalmod.hammer" : "3x3x3 Hammer",
+    "skill.fantalmod.hammer.description" : "Mines a 3×3×3 area of blocks."
 }

@@ -10,7 +10,7 @@ import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
-import org.kgcc.fantalmod.skill.PickaxeSkill.AreaBreakSkill;
+import org.kgcc.fantalmod.skill.PickaxeSkill.HammerSkill;
 import org.kgcc.fantalmod.skill.PickaxeSkill.SmeltSkill;
 
 public class AreaBreakEventHandler {
@@ -21,7 +21,7 @@ public class AreaBreakEventHandler {
      */
     public static void register() {
         PlayerBlockBreakEvents.BEFORE.register((world, player, pos, blockState, blockEntity) -> {
-            if (!AreaBreakSkill.isActive(player)) {
+            if (!HammerSkill.isActive(player)) {
                 return true;
             }
             if (world.isClient()) {

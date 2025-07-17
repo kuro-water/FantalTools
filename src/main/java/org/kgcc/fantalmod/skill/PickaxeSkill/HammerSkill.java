@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.UUID;
 
-public class AreaBreakSkill implements BaseSkill {
+public class HammerSkill implements BaseSkill {
     // todo:浸食度とテキストメッセージの調整
     // todo:overlay = trueにしよう
     // todo:translationKeyの修正
@@ -29,12 +29,12 @@ public class AreaBreakSkill implements BaseSkill {
     
     @Override
     public String getTranslationKey() {
-        return "AreaBreakSkill";
+        return "hammer";
     }
     
     @Override
     public MutableText getName() {
-        return Text.translatable("skill.fantalmod.area_break");
+        return Text.translatable("skill.fantalmod.hammer");
     }
     
     private static final HashSet<UUID> ACTIVE_PLAYERS = new HashSet<>();
