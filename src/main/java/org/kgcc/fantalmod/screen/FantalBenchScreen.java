@@ -71,6 +71,7 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
      * @return ボタンが押下時のアクション
      */
     private ButtonWidget.PressAction getPressAction(int idx) {
+        // todo: idxだと対応しないスキルのせいでズレる
         return b -> {
             Slot slot = handler.getSlot(1);
             if (!slot.hasStack() ||

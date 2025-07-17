@@ -1,8 +1,8 @@
 package org.kgcc.fantalmod.registry;
 
 import org.kgcc.fantalmod.skill.*;
-import org.kgcc.fantalmod.skill.PickaxeSkill.HammerSkill;
-import org.kgcc.fantalmod.skill.PickaxeSkill.SmeltSkill;
+import org.kgcc.fantalmod.skill.HammerSkill;
+import org.kgcc.fantalmod.skill.SmeltSkill;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 public class FantalModSkills {
     public static final List<BaseSkill> SKILLS = new LinkedList<>();
     
-    public static final BaseSkill SMELTING = registerSkill(new SmeltSkill());
+    public static final BaseSkill SMELT = registerSkill(new SmeltSkill());
     public static final BaseSkill HAMMER = registerSkill(new HammerSkill());
     public static final BaseSkill RECALL = registerSkill(new RecallSkill());
     public static final BaseSkill BLINK = registerSkill(new BlinkSkill());

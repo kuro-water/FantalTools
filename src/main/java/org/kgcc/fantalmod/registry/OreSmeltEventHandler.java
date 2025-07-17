@@ -12,7 +12,7 @@ import net.minecraft.recipe.RecipeManager;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
-import org.kgcc.fantalmod.skill.PickaxeSkill.SmeltSkill;
+import org.kgcc.fantalmod.skill.SmeltSkill;
 
 import java.util.List;
 import java.util.Optional;
