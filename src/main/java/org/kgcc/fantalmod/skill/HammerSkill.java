@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class HammerSkill implements BaseSkill {
+    // todo:ほんまにhammerでええんか？
     private final List<Tool> TOOLS = List.of(Tool.PICKAXE, Tool.SHOVEL, Tool.AXE, Tool.HOE);
     
     @Override

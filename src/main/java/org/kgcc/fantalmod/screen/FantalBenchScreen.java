@@ -109,15 +109,14 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
     
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        FantalMod.LOGGER.info("render");
         super.render(matrices, mouseX, mouseY, delta);
         this.drawMouseoverTooltip(matrices, mouseX, mouseY);
         
         Slot slot = handler.getSlot(0);
         Item item = slot.getStack().getItem();
-        if (presentItem == item) {
-            return;
-        }
+//        if (presentItem == item) {
+//            return;
+//        }
         // アイテムが変わったら再描画
         presentItem = item;
         allButtons.clear();
@@ -141,6 +140,8 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
             allButtons.add(button);
             idx++;
         }
+        FantalMod.LOGGER.info("x: {}, y: {}, width: {}, height: {}",
+                              getListX(), getListY(), BUTTON_WIDTH, BUTTON_HEIGHT);
         updateVisibleButtons();
     }
     

@@ -31,7 +31,7 @@ public class FantalBenchScreenHandler extends ScreenHandler {
         this.addSlot(new RestrictedSlot(inventory, 0, 12, 15, stack -> stack.getItem() instanceof FantalToolItem
         )); // tool slot
         
-        this.addSlot(new RestrictedSlot(inventory, 1, 12, 60, stack ->
+        this.addSlot(new RestrictedSlot(inventory, 1, 12, 50, stack ->
                 stack.getItem() == FantalModItems.RED_SMALL
         )); // red_small slot
         
