@@ -27,14 +27,8 @@ public class FantalBenchScreenHandler extends ScreenHandler {
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
         
-        // todo: instanceof FantalToolItem
         // スロットの位置と制限
-        this.addSlot(new RestrictedSlot(inventory, 0, 12, 15, stack ->
-                stack.getItem() == FantalModItems.FANTAL_SWORD ||
-                        stack.getItem() == FantalModItems.FANTAL_AXE ||
-                        stack.getItem() == FantalModItems.FANTAL_PICKAXE ||
-                        stack.getItem() == FantalModItems.FANTAL_SHOVEL ||
-                        stack.getItem() == FantalModItems.FANTAL_HOE
+        this.addSlot(new RestrictedSlot(inventory, 0, 12, 15, stack -> stack.getItem() instanceof FantalToolItem
         )); // tool slot
         
         this.addSlot(new RestrictedSlot(inventory, 1, 12, 60, stack ->
@@ -69,7 +63,7 @@ public class FantalBenchScreenHandler extends ScreenHandler {
     @Override
     public ItemStack quickMove(PlayerEntity player, int slotIndex) {
         Slot slot = this.slots.get(slotIndex);
-        if (slot != null && slot.hasStack()) {
+        if (slot.hasStack()) {
             ItemStack stack = slot.getStack();
             ItemStack newStack = stack.copy();
             

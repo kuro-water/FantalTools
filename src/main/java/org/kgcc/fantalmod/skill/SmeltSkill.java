@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class SmeltSkill implements BaseSkill {
-    // todo:浸食度とテキストメッセージの調整
-    
     private final List<Tool> TOOLS = List.of(Tool.PICKAXE);
     
     @Override

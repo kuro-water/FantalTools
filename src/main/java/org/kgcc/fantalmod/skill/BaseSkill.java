@@ -15,10 +15,9 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public interface BaseSkill {
-    // todo: 汚染度をどこで変更するか
-    // todo: ツール別に可不可
     // todo: コマンドでスキル付与
     // todo: コンフィグかなんかで、Shiftで無効にする設定
+    // todo: UNBREAKING（耐久18削れるごとに侵食1,ツルハシ折れるくらいで侵食100）とかどうかな
     
     /**
      * <p>このスキルが対応しているツールの種類であるenumのリストを返す。</p>

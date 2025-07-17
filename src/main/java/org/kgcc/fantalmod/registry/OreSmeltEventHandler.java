@@ -10,9 +10,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.BlastingRecipe;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.recipe.RecipeType;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.Vec3d;
 import org.kgcc.fantalmod.skill.SmeltSkill;
+import org.kgcc.fantalmod.util.FantalStateManager;
 
 import java.util.List;
 import java.util.Optional;
@@ -77,10 +79,21 @@ public class OreSmeltEventHandler {
             // ブロックを手動で壊す
             serverWorld.setBlockState(pos, Blocks.AIR.getDefaultState());
             Vec3d vec = Vec3d.ofCenter(pos);
+            MinecraftServer server = world.getServer();
+            ItemStack hand = player.getStackInHand(player.getActiveHand());
             for (int i = 0; i < dropCount; i++) {
                 // ドロップアイテムを生成
                 serverWorld.spawnEntity(new ItemEntity(serverWorld, vec.x, vec.y, vec.z, result.copy()));
+                
+                if (!player.isCreative()) {
+                    // 耐久
+                    hand.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
+                }
+                
+                // 侵食
+                FantalStateManager.addFantalPollution(server, player, 1);
             }
+            FantalStateManager.sendFantalPollution(server, player);
             
             return false; // バニラのドロップと破壊をキャンセル
         });

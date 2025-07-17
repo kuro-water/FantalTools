@@ -6,12 +6,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import org.kgcc.fantalmod.skill.HammerSkill;
 import org.kgcc.fantalmod.skill.SmeltSkill;
+import org.kgcc.fantalmod.util.FantalStateManager;
 
 public class AreaBreakEventHandler {
     /**
@@ -50,6 +52,7 @@ public class AreaBreakEventHandler {
             Vec3d lookVec = player.getRotationVector();
             Direction lookDir = Direction.getFacing(lookVec.x, lookVec.y, lookVec.z);
             BlockPos center = pos.offset(lookDir, 1);
+            MinecraftServer server = world.getServer();
             
             for (int dx = -size; dx <= size; dx++) {
                 for (int dy = -size; dy <= size; dy++) {
@@ -68,13 +71,19 @@ public class AreaBreakEventHandler {
                         Block.getDroppedStacks(targetState, serverWorld, target, serverWorld.getBlockEntity(target))
                              .forEach(stack -> Block.dropStack(serverWorld, target, stack));
                         serverWorld.setBlockState(target, Blocks.AIR.getDefaultState());
+                        
                         if (!player.isCreative()) {
                             // 破壊した分ツールの耐久値を減らす
                             mainHand.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
                         }
+                        
+                        // 侵食
+                        FantalStateManager.addFantalPollution(server, player, 1);
                     }
                 }
             }
+            FantalStateManager.sendFantalPollution(server, player);
+            
             return false;
         });
     }

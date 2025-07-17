@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.UUID;
 
 public class HammerSkill implements BaseSkill {
-    // todo:浸食度の調整
-    
     private final List<Tool> TOOLS = List.of(Tool.PICKAXE, Tool.SHOVEL, Tool.AXE, Tool.HOE);
     
     @Override

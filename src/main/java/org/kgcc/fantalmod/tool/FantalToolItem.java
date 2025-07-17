@@ -12,7 +12,6 @@ public interface FantalToolItem {
     
     BaseSkill getSkill();
     
-    // todo:nbtにしないと。
     void setSkill(ItemStack stack, @NotNull BaseSkill skill);
     
     default void setSkill(ItemStack stack, @Nullable String skillName) {
