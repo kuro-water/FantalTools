@@ -13,6 +13,7 @@ import net.minecraft.client.gui.tooltip.Tooltip;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.Item;
 import net.minecraft.screen.slot.Slot;
@@ -64,14 +65,16 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
     }
     
     /**
-     * {@link #init()}で生成する、ボタンの押下時のアクションを取得する関数<br>
-     * idxをラムダ式のスコープに入れるために、変数ではなく関数で実装する。
+     * <p>{@link #init()}で生成する、ボタン押下時のアクションを取得する関数</p>
+     * <p>idxをラムダ式のスコープに入れるために、ラムダ式を格納する変数ではなく関数で実装する。</p>
+     * <p>{@link net.minecraft.client.network.ClientPlayerInteractionManager#clickButton(int, int)}により、
+     *     {@link FantalBenchScreenHandler#onButtonClick(PlayerEntity, int)}を実行する。
+     *     {@link FantalModSkills#SKILLS}のidxでどのスキルか判別する。</p>
      *
      * @param idx ボタンのインデックス
-     * @return ボタンが押下時のアクション
+     * @return ボタン押下時のアクション
      */
     private ButtonWidget.PressAction getPressAction(int idx) {
-        // todo: idxだと対応しないスキルのせいでズレる
         return b -> {
             Slot slot = handler.getSlot(1);
             if (!slot.hasStack() ||
@@ -84,7 +87,7 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
                 return;
             }
             
-            // サーバーにデータを送信（FantalBenchScreenHandler.OnButtonClickが作動する。idはidx）
+            // サーバーにデータを送信
             client.interactionManager.clickButton(handler.syncId, idx);
             
             FantalMod.LOGGER.info("Skill changed!");
@@ -128,6 +131,7 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
         int idx = 0;
         for (BaseSkill skill : FantalModSkills.SKILLS) {
             if (!skill.isToolSupported(item)) {
+                idx++;
                 continue;
             }
             ButtonWidget button = new CustomFontButtonWidget(
