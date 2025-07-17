@@ -15,7 +15,16 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.kgcc.fantalmod.util.FantalStateManager;
 
+import java.util.List;
+
 public class PlaceTorchSkill implements BaseSkill {
+    private final List<Tool> TOOLS = List.of(Tool.PICKAXE, Tool.AXE, Tool.SHOVEL, Tool.HOE, Tool.SWORD);
+    
+    @Override
+    public List<Tool> getTools() {
+        return TOOLS;
+    }
+    
     @Override
     public String getTranslationKey() {
         return "place_torch";
@@ -25,6 +34,7 @@ public class PlaceTorchSkill implements BaseSkill {
     public MutableText getName() {
         return Text.translatable("skill.fantalmod.place_torch");
     }
+    
     public ActionResult useOnBlock(ItemUsageContext context) {
         World world = context.getWorld();
         BlockPos pos = context.getBlockPos().offset(context.getSide());

@@ -14,6 +14,7 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.item.Item;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -22,6 +23,7 @@ import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BaseSkill;
+import org.kgcc.fantalmod.tool.FantalToolItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,12 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
     private int scrollOffset = 0;
     private boolean isDraggingScrollbar = false;
     private int scrollbarTop, scrollbarHeight, scrollbarBarHeight;
+    /**
+     * <p>アイテム切り替わりの検知のための変数</p>
+     *
+     * @see #render(MatrixStack, int, int, float)
+     */
+    private Item presentItem;
     
     /**
      * リストのx座標。getter
@@ -85,18 +93,8 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
     @Override
     protected void init() {
         super.init();
-        titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
         
-        allButtons.clear();
-        int idx = 0;
-        for (BaseSkill skill : FantalModSkills.SKILLS) {
-            ButtonWidget button = new CustomFontButtonWidget(
-                    getListX(), getListY() + idx * BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT,
-                    skill.getName(), getPressAction(idx), 0.9f, Tooltip.of(skill.getTooltip())
-            );
-            allButtons.add(button);
-            idx++;
-        }
+        titleX = (backgroundWidth - textRenderer.getWidth(title)) / 2;
         
         updateVisibleButtons();  // 最初に表示する分だけ追加
     }
@@ -107,8 +105,38 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
     
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        FantalMod.LOGGER.info("render");
         super.render(matrices, mouseX, mouseY, delta);
         this.drawMouseoverTooltip(matrices, mouseX, mouseY);
+        
+        Slot slot = handler.getSlot(0);
+        Item item = slot.getStack().getItem();
+        if (presentItem == item) {
+            return;
+        }
+        // アイテムが変わったら再描画
+        presentItem = item;
+        allButtons.clear();
+        
+        if (!(item instanceof FantalToolItem)) {
+            FantalMod.LOGGER.info("No valid tool in slot 0.");
+            updateVisibleButtons();
+            return;
+        }
+        
+        int idx = 0;
+        for (BaseSkill skill : FantalModSkills.SKILLS) {
+            if (!skill.isToolSupported(item)) {
+                continue;
+            }
+            ButtonWidget button = new CustomFontButtonWidget(
+                    getListX(), getListY() + idx * BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT,
+                    skill.getName(), getPressAction(idx), 0.9f, Tooltip.of(skill.getTooltip())
+            );
+            allButtons.add(button);
+            idx++;
+        }
+        updateVisibleButtons();
     }
     
     @Override

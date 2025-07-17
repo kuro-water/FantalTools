@@ -8,15 +8,28 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
-import org.kgcc.fantalmod.registry.OreSmeltEventHandler;
 import org.kgcc.fantalmod.skill.BaseSkill;
+import org.kgcc.fantalmod.skill.Tool;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.UUID;
 
 public class SmeltSkill implements BaseSkill {
     // todo:浸食度とテキストメッセージの調整
+    
+    private final List<Tool> TOOLS = List.of(Tool.PICKAXE);
+    
+    @Override
+    public List<Tool> getTools() {
+        return TOOLS;
+    }
+    
     private static final HashSet<UUID> ACTIVE_PLAYERS = new HashSet<>();
+    
+    public static boolean isActive(PlayerEntity player) {
+        return ACTIVE_PLAYERS.contains(player.getUuid());
+    }
     
     @Override
     public String getTranslationKey() {
@@ -57,9 +70,5 @@ public class SmeltSkill implements BaseSkill {
             ACTIVE_PLAYERS.add(uuid);
             player.sendMessage(Text.literal("§7[スキル] 精錬モード §a有効"), false);
         }
-    }
-    
-    public static boolean isActive(PlayerEntity player) {
-        return ACTIVE_PLAYERS.contains(player.getUuid());
     }
 }

@@ -8,7 +8,16 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class BlinkSkill implements BaseSkill {
+    private final List<Tool> TOOLS = List.of(Tool.PICKAXE, Tool.AXE, Tool.SHOVEL, Tool.HOE, Tool.SWORD);
+    
+    @Override
+    public List<Tool> getTools() {
+        return TOOLS;
+    }
+    
     @Override
     public String getTranslationKey() {
         return "blink";

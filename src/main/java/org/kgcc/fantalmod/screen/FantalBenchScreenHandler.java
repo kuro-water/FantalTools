@@ -27,6 +27,7 @@ public class FantalBenchScreenHandler extends ScreenHandler {
         this.inventory = inventory;
         inventory.onOpen(playerInventory.player);
         
+        // todo: instanceof FantalToolItem
         // スロットの位置と制限
         this.addSlot(new RestrictedSlot(inventory, 0, 12, 15, stack ->
                 stack.getItem() == FantalModItems.FANTAL_SWORD ||

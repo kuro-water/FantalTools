@@ -22,18 +22,15 @@ import org.kgcc.fantalmod.util.ServerTickHandler;
 import java.util.*;
 
 public class RecallSkill implements BaseSkill {
+    private final List<Tool> TOOLS = List.of(Tool.PICKAXE, Tool.AXE, Tool.SHOVEL, Tool.HOE, Tool.SWORD);
+    
     @Override
-    public String getTranslationKey() {
-        return "recall";
+    public List<Tool> getTools() {
+        return TOOLS;
     }
-
-    @Override
-    public MutableText getName() {
-        return Text.translatable("skill.fantalmod.recall");
-    }
-
+    
     private static final Set<UUID> isRecallingSet = new HashSet<>();
-
+    
     /**
      * <p>プレイヤーの位置、角度、体力を記録</p>
      * <p>該当アイテムのinventoryTickで呼び出す</p>
@@ -45,13 +42,13 @@ public class RecallSkill implements BaseSkill {
             isRecallingSet.remove(uuid);
         }
         // リコール中は記録を行わない
-        if ( playerEntity.getServer() == null || isRecallingSet.contains(uuid)) {
+        if (playerEntity.getServer() == null || isRecallingSet.contains(uuid)) {
             return;
         }
-
+        
         RecallDataManager.add(playerEntity, new RecallData(playerEntity));
     }
-
+    
     /**
      * <p>テレポート先が安全かどうか（窒息するかどうか）を確認する</p>
      *
@@ -62,16 +59,15 @@ public class RecallSkill implements BaseSkill {
     private static boolean isSafeLocation(World world, BlockPos pos) {
         // プレイヤーの体が入る2ブロック分の空間をチェック
         BlockPos headPos = pos.up();
-
+        
         BlockState footState = world.getBlockState(pos);
         BlockState headState = world.getBlockState(headPos);
-
+        
         // 窒息するブロックかどうか
         return !(footState.shouldSuffocate(world, pos) ||
                 headState.shouldSuffocate(world, headPos));
     }
-
-
+    
     /**
      * <p>リコールを行う</p>
      * <p>サーバーにそこそこの処理速度が無いとカクカクになる。</p>
@@ -85,18 +81,18 @@ public class RecallSkill implements BaseSkill {
         // todo: FantalStateManagerもリファクタしたい。名前とか。
         // todo: 松明設置じゃなくて独自の光源ほしいな。光るクリスタル
         // todo: もしかしてFantalPollutionオーバーワールドでしか機能してない？
-
+        
         var world = playerEntity.getWorld();
         // クライアントサイドでは処理しない
-        if (world.isClient() ||  isRecallingSet.contains(playerEntity.getUuid())) {
+        if (world.isClient() || isRecallingSet.contains(playerEntity.getUuid())) {
             return 0;
         }
-
+        
         isRecallingSet.add(playerEntity.getUuid());
         var startData = new RecallData(playerEntity);
         var targetData = RecallDataManager.getFirst(playerEntity);
         var targetNum = RecallDataManager.size(playerEntity);
-
+        
         ServerTickHandler.startTask(targetNum, () -> {
             var data = RecallDataManager.removeLast(playerEntity);
 //            RecallDataManager.removeLast(playerEntity);
@@ -104,7 +100,7 @@ public class RecallSkill implements BaseSkill {
             if (data == null) {
                 return;
             }
-
+            
             if (!isSafeLocation(data.getWorld(server), BlockPos.ofFloored(data.pos))) {
                 // プレイヤーに警告メッセージを送信
 //                if (playerEntity instanceof ServerPlayerEntity serverPlayer) {
@@ -112,10 +108,10 @@ public class RecallSkill implements BaseSkill {
 //                }
                 return;
             }
-
-
+            
+            
             var delta = (float) (targetNum - RecallDataManager.size(playerEntity)) / targetNum;
-
+            
             /*
              * 参考：https://www.youtube.com/watch?v=Wiufoa-BSCM&list=WL&index=28&t=1s
              * ----- by GitHub Copilot -----
@@ -150,7 +146,26 @@ public class RecallSkill implements BaseSkill {
         });
         return RecallDataManager.size(playerEntity);
     }
-
+    
+    public static void register() {
+        ServerTickEvents.END_SERVER_TICK.register(server -> {
+            // サーバー上のすべてのプレイヤーに対して処理
+            for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+                record(player);
+            }
+        });
+    }
+    
+    @Override
+    public String getTranslationKey() {
+        return "recall";
+    }
+    
+    @Override
+    public MutableText getName() {
+        return Text.translatable("skill.fantalmod.recall");
+    }
+    
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         if (world.isClient()) {
@@ -166,16 +181,7 @@ public class RecallSkill implements BaseSkill {
             ItemStack stack = user.getStackInHand(hand);
             stack.damage(damage, user, (e) -> e.sendToolBreakStatus(hand));
         }
-
+        
         return TypedActionResult.success(user.getStackInHand(hand));
-    }
-
-    public static void register() {
-        ServerTickEvents.END_SERVER_TICK.register(server -> {
-            // サーバー上のすべてのプレイヤーに対して処理
-            for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
-                record(player);
-            }
-        });
     }
 }
