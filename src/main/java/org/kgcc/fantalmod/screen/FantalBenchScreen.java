@@ -32,7 +32,6 @@ import java.util.List;
 public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
     private static final Identifier TEXTURE =
             new Identifier(FantalMod.MODID, "textures/gui/fantal_bench.png");
-    // todo:GUIきれいにしないと。
     
     private static final int BUTTON_HEIGHT = 10;
     private static final int BUTTON_WIDTH = 100;
@@ -54,14 +53,14 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
      * リストのx座標。getter
      */
     private int getListX() {
-        return x + 55;
+        return x + 50;
     }
     
     /**
      * リストのy座標。getter
      */
     private int getListY() {
-        return y + 20;
+        return y + 17;
     }
     
     /**
@@ -233,8 +232,8 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
         final int scrollbarBottom =
                 scrollbarTop + contentSize * (scrollbarHeight - scrollbarBarHeight) / (contentSize - VISIBLE_NUM);
         
-        final int x1 = getListX() + BUTTON_WIDTH + 10;  // スクロールバーのx座標
-        final int x2 = getListX() + BUTTON_WIDTH + 15;  // スクロールバーのx座標（右端）
+        final int x1 = getListX() + BUTTON_WIDTH + 15;  // スクロールバーのx座標
+        final int x2 = getListX() + BUTTON_WIDTH + 20;  // スクロールバーのx座標（右端）
         
         // 描画
         fill(matrices, x1, scrollbarTop, x2, scrollbarBottom, 0xFF777777);

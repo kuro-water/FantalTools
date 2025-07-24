@@ -28,10 +28,10 @@ public class FantalBenchScreenHandler extends ScreenHandler {
         inventory.onOpen(playerInventory.player);
         
         // スロットの位置と制限
-        this.addSlot(new RestrictedSlot(inventory, 0, 12, 15, stack -> stack.getItem() instanceof FantalToolItem
+        this.addSlot(new RestrictedSlot(inventory, 0, 14, 17, stack -> stack.getItem() instanceof FantalToolItem
         )); // tool slot
         
-        this.addSlot(new RestrictedSlot(inventory, 1, 12, 50, stack ->
+        this.addSlot(new RestrictedSlot(inventory, 1, 14, 50, stack ->
                 stack.getItem() == FantalModItems.RED_SMALL
         )); // red_small slot
         
