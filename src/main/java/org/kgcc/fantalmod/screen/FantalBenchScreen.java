@@ -37,17 +37,14 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
     private static final int BUTTON_WIDTH = 100;
     private static final int VISIBLE_NUM = 5;
     
+    private static final int SCROLLBAR_WIDTH = 5;
+    private static final int SCROLLBAR_PADDING = 10;
+    
     
     private final List<ButtonWidget> allButtons = new ArrayList<>();
     private int scrollOffset = 0;
     private boolean isDraggingScrollbar = false;
     private int scrollbarTop, scrollbarHeight, scrollbarBarHeight;
-    /**
-     * <p>アイテム切り替わりの検知のための変数</p>
-     *
-     * @see #render(MatrixStack, int, int, float)
-     */
-    private Item presentItem;
     
     /**
      * リストのx座標。getter
@@ -67,8 +64,8 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
      * <p>{@link #init()}で生成する、ボタン押下時のアクションを取得する関数</p>
      * <p>idxをラムダ式のスコープに入れるために、ラムダ式を格納する変数ではなく関数で実装する。</p>
      * <p>{@link net.minecraft.client.network.ClientPlayerInteractionManager#clickButton(int, int)}により、
-     *     {@link FantalBenchScreenHandler#onButtonClick(PlayerEntity, int)}を実行する。
-     *     {@link FantalModSkills#SKILLS}のidxでどのスキルか判別する。</p>
+     * {@link FantalBenchScreenHandler#onButtonClick(PlayerEntity, int)}を実行する。
+     * {@link FantalModSkills#SKILLS}のidxでどのスキルか判別する。</p>
      *
      * @param idx ボタンのインデックス
      * @return ボタン押下時のアクション
@@ -113,11 +110,6 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
         
         Slot slot = handler.getSlot(0);
         Item item = slot.getStack().getItem();
-//        if (presentItem == item) {
-//            return;
-//        }
-        // アイテムが変わったら再描画
-        presentItem = item;
         allButtons.clear();
         
         if (!(item instanceof FantalToolItem)) {
@@ -232,8 +224,8 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
         final int scrollbarBottom =
                 scrollbarTop + contentSize * (scrollbarHeight - scrollbarBarHeight) / (contentSize - VISIBLE_NUM);
         
-        final int x1 = getListX() + BUTTON_WIDTH + 15;  // スクロールバーのx座標
-        final int x2 = getListX() + BUTTON_WIDTH + 20;  // スクロールバーのx座標（右端）
+        final int x1 = getListX() + BUTTON_WIDTH + SCROLLBAR_PADDING;  // スクロールバーのx座標
+        final int x2 = x1 + SCROLLBAR_WIDTH;  // スクロールバーのx座標（右端）
         
         // 描画
         fill(matrices, x1, scrollbarTop, x2, scrollbarBottom, 0xFF777777);
@@ -241,7 +233,8 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
     }
     
     private boolean isMouseOverScrollbar(double mouseX, double mouseY) {
-        return mouseX >= getListX() + BUTTON_WIDTH + 10 && mouseX <= getListX() + BUTTON_WIDTH + 15 &&
+        return mouseX >= getListX() + BUTTON_WIDTH + SCROLLBAR_PADDING &&
+                mouseX <= getListX() + BUTTON_WIDTH + SCROLLBAR_PADDING + SCROLLBAR_WIDTH &&
                 mouseY >= scrollbarTop && mouseY <= scrollbarTop + scrollbarHeight;
     }
 }
