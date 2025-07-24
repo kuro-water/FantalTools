@@ -58,29 +58,10 @@ public class AreaBreakEventHandler {
                 for (int dy = -size; dy <= size; dy++) {
                     for (int dz = -size; dz <= size; dz++) {
                         BlockPos target = center.add(dx, dy, dz);
-                        BlockState targetState = serverWorld.getBlockState(target);
-                        if (targetState.isAir()) {
-                            continue;
-                        }
-                        // ツールで破壊可能か
-                        if (!mainHand.isSuitableFor(targetState)) {
-                            continue;
-                        }
-                        
-                        // ドロップ
-                        Block.getDroppedStacks(targetState, serverWorld, target, serverWorld.getBlockEntity(target))
-                             .forEach(stack -> Block.dropStack(serverWorld, target, stack));
-                        serverWorld.setBlockState(target, Blocks.AIR.getDefaultState());
-                        
-                        if (!player.isCreative()) {
-                            // 破壊した分ツールの耐久値を減らす
-                            mainHand.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
-                        }
-                        
-                        // 侵食
-                        FantalStateManager.addFantalPollution(server, player, 1);
+                        mainHand.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
                     }
                 }
+
             }
             FantalStateManager.sendFantalPollution(server, player);
             
