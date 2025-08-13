@@ -36,5 +36,6 @@
     "skill.fantalmod.smelt" : "Smelt",
     "skill.fantalmod.smelt.description" : "Mined ores are instantly smelted.",
     "skill.fantalmod.hammer" : "3x3x3 Hammer",
-    "skill.fantalmod.hammer.description" : "Mines a 3×3×3 area of blocks."
+    "skill.fantalmod.hammer.description" : "Mines a 3×3×3 area of blocks.",
+    "argument.fantalmod.skill.invalid" : "Invalid skill: %s"
 }

@@ -36,5 +36,6 @@
   "skill.fantalmod.smelt": "自動精錬",
   "skill.fantalmod.smelt.description": "採掘した鉱石を自動で精錬します。",
   "skill.fantalmod.hammer" : "3x3x3ハンマー",
-  "skill.fantalmod.hammer.description" : "3x3x3の範囲を一度に採掘します。"
+  "skill.fantalmod.hammer.description" : "3x3x3の範囲を一度に採掘します。",
+  "argument.fantalmod.skill.invalid" : "Invalid skill: %s"
 }

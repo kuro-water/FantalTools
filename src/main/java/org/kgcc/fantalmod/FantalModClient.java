@@ -2,8 +2,13 @@ package org.kgcc.fantalmod;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
+import net.minecraft.command.argument.UuidArgumentType;
+import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.text.Text;
+import net.minecraft.util.Identifier;
+import org.kgcc.fantalmod.command.SkillArgumentType;
 import org.kgcc.fantalmod.registry.FantalModScreenHandlers;
 import org.kgcc.fantalmod.screen.FantalBenchScreen;
 

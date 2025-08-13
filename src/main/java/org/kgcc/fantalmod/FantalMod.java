@@ -3,7 +3,9 @@ package org.kgcc.fantalmod;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
@@ -11,6 +13,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import org.kgcc.fantalmod.armor.FantalArmorEffect;
+import org.kgcc.fantalmod.command.SkillArgumentType;
 import org.kgcc.fantalmod.recall.RecallDataManager;
 import org.kgcc.fantalmod.registry.*;
 import org.kgcc.fantalmod.skill.RecallSkill;
@@ -50,15 +53,15 @@ public class FantalMod implements ModInitializer {
         FantalModItems.registerCreativeTab();
         FantalArmorEffect.register();
         FantalStateManager.register();
-        FantalModCommand.registerCommands();
-
+        FantalModCommands.registerCommands();
+        
         FantalModSkills.initialize();
-
+        
         //====追加
         OreSmeltEventHandler.register();
         AreaBreakEventHandler.register();
-       //===
-
+        //===
+        
         FantalBlockEntities.registerBlockEntities();
         ModBros.registerBlocks();
         // バイオームに機能を追加する 鉱石追加用
@@ -81,5 +84,10 @@ public class FantalMod implements ModInitializer {
             }
             handler.getPlayer().playerScreenHandler.syncState();
         });
+        
+        ArgumentTypeRegistry.registerArgumentType(
+                new Identifier("fantalmod", "skill"),
+                SkillArgumentType.class,
+                ConstantArgumentSerializer.of(SkillArgumentType::skill));
     }
 }

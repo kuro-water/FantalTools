@@ -4,10 +4,15 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.world.GameRules;
+import org.kgcc.fantalmod.FantalMod;
+import org.kgcc.fantalmod.command.SkillArgumentType;
+import org.kgcc.fantalmod.skill.BaseSkill;
+import org.kgcc.fantalmod.tool.FantalToolItem;
 import org.kgcc.fantalmod.util.FantalStateManager;
 
 import java.util.Objects;
@@ -15,7 +20,7 @@ import java.util.Objects;
 import static net.minecraft.server.command.CommandManager.argument;
 import static net.minecraft.server.command.CommandManager.literal;
 
-public class FantalModCommand {
+public class FantalModCommands {
     
     public static void notifyAllPlayers(MinecraftServer server, String message) {
         // /gamerule sendCommandFeedback を確認
@@ -142,13 +147,58 @@ public class FantalModCommand {
                     return 1;
                 }));
         
+        var setSkill = literal("setskill").then(argument("skill", SkillArgumentType.skill()).requires(
+                source -> source.hasPermissionLevel(2)).executes(context -> {
+            FantalMod.LOGGER.info("start");
+            BaseSkill skill;
+            try {
+                skill = SkillArgumentType.getSkill(context, "skill");
+                FantalMod.LOGGER.info("Setting skill: {}", skill.getName().getString());
+            } catch (Exception e) {
+                context.getSource().sendError(Text.translatable("argument.fantalmod.skill.invalid"));
+                FantalMod.LOGGER.error(e.getLocalizedMessage());
+                return 0;
+            }
+            
+            var player = context.getSource().getPlayer();
+            if (player == null) {
+                return 0;
+            }
+            
+            ItemStack itemStack = player.getMainHandStack();
+            if (itemStack.isEmpty()) {
+                FantalMod.LOGGER.info("Player {} has no item in hand", player.getName().getString());
+                player.sendMessage(
+                        Text.literal("no item in hand"),
+                        false);
+                return -1;
+            }
+            
+            if (itemStack.getItem() instanceof FantalToolItem fantalToolItem) {
+                fantalToolItem.setSkill(itemStack, skill);
+            } else {
+                FantalMod.LOGGER.info("Item {} is not a FantalToolItem", itemStack.getName().getString());
+                player.sendMessage(
+                        Text.literal("%s is not a FantalToolItem".formatted(itemStack.getName().getString())),
+                        false);
+                return -1;
+            }
+            
+            notifyAllPlayers(
+                    Objects.requireNonNull(player.world.getServer()),
+                    "set %s skill".formatted(skill.getName().getString()));
+            return 0;
+        }));
+        
+        
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(literal("fantalmod").then(addFantalPollution)
                                                     .then(addFantalPollutionPlayers)
                                                     .then(setFantalPollution)
                                                     .then(setFantalPollutionPlayers)
                                                     .then(showFantalPollution)
-                                                    .then(showFantalPollutionPlayers));
+                                                    .then(showFantalPollutionPlayers)
+                                                    .then(setSkill));
         });
     }
 }
