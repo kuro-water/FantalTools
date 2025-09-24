@@ -168,9 +168,7 @@ public class FantalModCommands {
             ItemStack itemStack = player.getMainHandStack();
             if (itemStack.isEmpty()) {
                 FantalMod.LOGGER.info("Player {} has no item in hand", player.getName().getString());
-                player.sendMessage(
-                        Text.literal("no item in hand"),
-                        false);
+                player.sendMessage(Text.translatable("command.fantalmod.skill.give.failure.no_item"), false);
                 return -1;
             }
             
@@ -178,15 +176,17 @@ public class FantalModCommands {
                 fantalToolItem.setSkill(itemStack, skill);
             } else {
                 FantalMod.LOGGER.info("Item {} is not a FantalToolItem", itemStack.getName().getString());
-                player.sendMessage(
-                        Text.literal("%s is not a FantalToolItem".formatted(itemStack.getName().getString())),
-                        false);
+                Text text = Text.translatable(
+                        "command.fantalmod.skill.give.failure.not_fantal_item",
+                        itemStack.getName().getString());
+                player.sendMessage(text, false);
                 return -1;
             }
             
-            notifyAllPlayers(
-                    Objects.requireNonNull(player.world.getServer()),
-                    "set %s skill".formatted(skill.getName().getString()));
+            MinecraftServer server = Objects.requireNonNull(player.world.getServer());
+            Text text = Text.translatable("command.fantalmod.skill.give.success", skill.getName().getString());
+            notifyAllPlayers(server, text.getString());
+            
             return 0;
         }));
         

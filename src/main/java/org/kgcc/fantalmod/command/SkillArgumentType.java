@@ -19,9 +19,9 @@ import java.util.concurrent.CompletableFuture;
 public class SkillArgumentType implements ArgumentType<BaseSkill> {
     // 全スキルの文字列
     private static final Collection<String> EXAMPLES
-            = FantalModSkills.SKILLS.stream().map(BaseSkill::getName).map(Text::getString).toList();
+            = FantalModSkills.SKILLS.stream().map(BaseSkill::getTranslationKey).toList();
     private static final DynamicCommandExceptionType INVALID_SKILL_EXCEPTION = new DynamicCommandExceptionType(
-            (skill) -> Text.translatable("argument.fantalmod.skill.invalid", new Object[]{skill}));
+            (skill) -> Text.translatable("argument.fantalmod.skill.invalid", skill));
     
     public static SkillArgumentType skill() {
         FantalMod.LOGGER.info("skill");
@@ -38,14 +38,14 @@ public class SkillArgumentType implements ArgumentType<BaseSkill> {
         FantalMod.LOGGER.info("parse");
         String string = stringReader.readUnquotedString();
         BaseSkill skill = FantalModSkills.SKILLS.stream()
-                                                .filter(s -> s.getName().getString().equals(string))
+                                                .filter(s -> s.getTranslationKey().equals(string))
                                                 .findFirst()
                                                 .orElse(null);
         if (skill == null) {
             FantalMod.LOGGER.error("Invalid skill: {}", string);
             throw INVALID_SKILL_EXCEPTION.createWithContext(stringReader, string);
         }
-        FantalMod.LOGGER.info("Parsed skill: {}", skill.getName().getString());
+        FantalMod.LOGGER.info("Parsed skill: {}", skill.getTranslationKey());
         return skill;
     }
     
@@ -67,8 +67,8 @@ public class SkillArgumentType implements ArgumentType<BaseSkill> {
         
         FantalModSkills.SKILLS
                 .stream()
-                .map(BaseSkill::getName)
-                .map(Text::getString)
+                .map(BaseSkill::getTranslationKey)
+//                .map(Text::getString)
                 .filter(example -> example.startsWith(builder.getRemainingLowerCase()))
                 .forEach(builder::suggest);
         

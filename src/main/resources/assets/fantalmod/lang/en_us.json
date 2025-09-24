@@ -19,13 +19,13 @@
     "skill.fantalmod.blink.description" : "Instantly dash in the direction you're facing.",
     "skill.fantalmod.haste" : "Haste",
     "skill.fantalmod.haste.description" : "Grants yourself the Haste effect.",
-    "skill.fantalmod.health_boost" : "Health Boost",
+    "skill.fantalmod.health_boost" : "Health-Boost",
     "skill.fantalmod.health_boost.description" : "Grants yourself the Health Boost effect.",
     "skill.fantalmod.mining" : "Mining",
     "skill.fantalmod.mining.description" : "Mine the block you're looking at.",
     "skill.fantalmod.none" : "None",
     "skill.fantalmod.none.description" : "Skills are not set.",
-    "skill.fantalmod.place_torch" : "Place Torch",
+    "skill.fantalmod.place_torch" : "Place-Torch",
     "skill.fantalmod.place_torch.description" : "Places a torch where you're looking.",
     "skill.fantalmod.recall" : "Recall",
     "skill.fantalmod.recall.description" : "Moves backward in time, restoring your health and position to exactly where they were a few seconds ago.",
@@ -35,7 +35,10 @@
     "skill.fantalmod.strength.description" : "Grants yourself the Strength effect.",
     "skill.fantalmod.smelt" : "Smelt",
     "skill.fantalmod.smelt.description" : "Mined ores are instantly smelted.",
-    "skill.fantalmod.hammer" : "3x3x3 Hammer",
+    "skill.fantalmod.hammer" : "3x3x3-Hammer",
     "skill.fantalmod.hammer.description" : "Mines a 3×3×3 area of blocks.",
-    "argument.fantalmod.skill.invalid" : "Invalid skill: %s"
+    "argument.fantalmod.skill.invalid" : "Invalid skill: %s",
+    "command.fantalmod.skill.give.success" : "Given skill %s",
+    "command.fantalmod.skill.give.failure.no_item" : "No item in hand",
+    "command.fantalmod.skill.give.failure.not_fantal_item" : "%s is not a FantalToolItem"
 }
