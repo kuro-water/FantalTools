@@ -4,12 +4,10 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.world.GameRules;
-import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.command.SkillArgumentType;
 import org.kgcc.fantalmod.skill.BaseSkill;
 import org.kgcc.fantalmod.tool.FantalToolItem;
@@ -149,14 +147,14 @@ public class FantalModCommands {
         
         var setSkill = literal("setskill").then(argument("skill", SkillArgumentType.skill()).requires(
                 source -> source.hasPermissionLevel(2)).executes(context -> {
-            FantalMod.LOGGER.info("start");
+//            FantalMod.LOGGER.info("start");
             BaseSkill skill;
             try {
                 skill = SkillArgumentType.getSkill(context, "skill");
-                FantalMod.LOGGER.info("Setting skill: {}", skill.getName().getString());
+//                FantalMod.LOGGER.info("Setting skill: {}", skill.getName().getString());
             } catch (Exception e) {
                 context.getSource().sendError(Text.translatable("argument.fantalmod.skill.invalid"));
-                FantalMod.LOGGER.error(e.getLocalizedMessage());
+//                FantalMod.LOGGER.error(e.getLocalizedMessage());
                 return 0;
             }
             
@@ -165,9 +163,9 @@ public class FantalModCommands {
                 return 0;
             }
             
-            ItemStack itemStack = player.getMainHandStack();
+            var itemStack = player.getMainHandStack();
             if (itemStack.isEmpty()) {
-                FantalMod.LOGGER.info("Player {} has no item in hand", player.getName().getString());
+//                FantalMod.LOGGER.info("Player {} has no item in hand", player.getName().getString());
                 player.sendMessage(Text.translatable("command.fantalmod.skill.give.failure.no_item"), false);
                 return -1;
             }
@@ -175,16 +173,16 @@ public class FantalModCommands {
             if (itemStack.getItem() instanceof FantalToolItem fantalToolItem) {
                 fantalToolItem.setSkill(itemStack, skill);
             } else {
-                FantalMod.LOGGER.info("Item {} is not a FantalToolItem", itemStack.getName().getString());
-                Text text = Text.translatable(
-                        "command.fantalmod.skill.give.failure.not_fantal_item",
-                        itemStack.getName().getString());
+                var itemName = itemStack.getName().getString();
+//                FantalMod.LOGGER.info("Item {} is not a FantalToolItem", itemName);
+                var text = Text.translatable("command.fantalmod.skill.give.failure.not_fantal_item", itemName);
                 player.sendMessage(text, false);
                 return -1;
             }
             
-            MinecraftServer server = Objects.requireNonNull(player.world.getServer());
-            Text text = Text.translatable("command.fantalmod.skill.give.success", skill.getName().getString());
+            var server = Objects.requireNonNull(player.world.getServer());
+            var skillName = skill.getName().getString();
+            var text = Text.translatable("command.fantalmod.skill.give.success", skillName);
             notifyAllPlayers(server, text.getString());
             
             return 0;

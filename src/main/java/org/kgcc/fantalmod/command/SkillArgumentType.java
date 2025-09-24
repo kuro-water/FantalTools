@@ -9,7 +9,6 @@ import com.mojang.brigadier.suggestion.Suggestions;
 import com.mojang.brigadier.suggestion.SuggestionsBuilder;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.Text;
-import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BaseSkill;
 
@@ -24,28 +23,28 @@ public class SkillArgumentType implements ArgumentType<BaseSkill> {
             (skill) -> Text.translatable("argument.fantalmod.skill.invalid", skill));
     
     public static SkillArgumentType skill() {
-        FantalMod.LOGGER.info("skill");
+//        FantalMod.LOGGER.info("skill");
         return new SkillArgumentType();
     }
     
     public static BaseSkill getSkill(CommandContext<ServerCommandSource> context, String name) {
-        FantalMod.LOGGER.info("getSkill");
+//        FantalMod.LOGGER.info("getSkill");
         return context.getArgument(name, BaseSkill.class);
     }
     
     @Override
     public BaseSkill parse(StringReader stringReader) throws CommandSyntaxException {
-        FantalMod.LOGGER.info("parse");
+//        FantalMod.LOGGER.info("parse");
         String string = stringReader.readUnquotedString();
         BaseSkill skill = FantalModSkills.SKILLS.stream()
                                                 .filter(s -> s.getTranslationKey().equals(string))
                                                 .findFirst()
                                                 .orElse(null);
         if (skill == null) {
-            FantalMod.LOGGER.error("Invalid skill: {}", string);
+//            FantalMod.LOGGER.error("Invalid skill: {}", string);
             throw INVALID_SKILL_EXCEPTION.createWithContext(stringReader, string);
         }
-        FantalMod.LOGGER.info("Parsed skill: {}", skill.getTranslationKey());
+//        FantalMod.LOGGER.info("Parsed skill: {}", skill.getTranslationKey());
         return skill;
     }
     
@@ -63,12 +62,11 @@ public class SkillArgumentType implements ArgumentType<BaseSkill> {
 //                builder.suggest(example);
 //            }
 //        }
-        FantalMod.LOGGER.info("listSuggestions");
+//        FantalMod.LOGGER.info("listSuggestions");
         
         FantalModSkills.SKILLS
                 .stream()
                 .map(BaseSkill::getTranslationKey)
-//                .map(Text::getString)
                 .filter(example -> example.startsWith(builder.getRemainingLowerCase()))
                 .forEach(builder::suggest);
         
@@ -77,7 +75,7 @@ public class SkillArgumentType implements ArgumentType<BaseSkill> {
     
     @Override
     public Collection<String> getExamples() {
-        FantalMod.LOGGER.info("getExamples");
+//        FantalMod.LOGGER.info("getExamples");
         return EXAMPLES;
     }
 }
