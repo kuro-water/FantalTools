@@ -64,7 +64,7 @@ public class ConfigButtonScreen extends Screen {
             int imageWidth = 64;
             int imageHeight = 64;
             int sliderMaxX = this.width - imageWidth;
-            int sliderMaxY = this.height - imageHeight;
+            int sliderMaxY = this.height - imageHeight - 60;
 
             customXSlider = new SliderWidget(centerX - 70, centerY + 10, 140, 20, Text.of("X: " + FantalModState.getCustomX()), FantalModState.getCustomX() / (float) sliderMaxX) {
                 @Override
@@ -127,6 +127,7 @@ public class ConfigButtonScreen extends Screen {
         return false;
     }
 
+    //設定画面の背景を半透明の薄暗いやつに
     @Override
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta){
         this.renderBackground(matrices);
