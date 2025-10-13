@@ -60,15 +60,15 @@ public class InGameHudMixin {
             }
             case TOP_RIGHT -> {
                 x = screenWidth - imageWidth + 5;
-                y = screenHeight / 2 - imageHeight - 85;
+                y = 0;
             }
             case BOTTOM_LEFT -> {
                 x = 0;
-                y = screenHeight / 2 - imageHeight + 70;
+                y = screenHeight / 2 - imageHeight + 50;
             }
             case BOTTOM_RIGHT -> {
                 x = screenWidth - imageWidth + 5;
-                y = screenHeight / 2 - imageHeight + 70;
+                y = screenHeight / 2 - imageHeight + 50;
             }
             case CUSTOM -> {
                 x = FantalModState.getCustomX();
