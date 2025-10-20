@@ -5,10 +5,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
-import net.minecraft.item.AxeItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.PickaxeItem;
-import net.minecraft.item.SwordItem;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
@@ -74,10 +71,20 @@ public class FantalBenchEntity extends BlockEntity implements NamedScreenHandler
         } else if(tool.getItem() instanceof SwordItem) {
             appearance = 3;
         }
+        else if(tool.getItem() instanceof HoeItem) {
+            appearance = 4;
+
+        }
+        else if(tool.getItem() instanceof ShovelItem) {
+            appearance = 5;
+
+        }
+
 
         BlockState state = world.getBlockState(pos);
         if (state.get(FantalBench.APPEARANCE) != appearance) {
             world.setBlockState(pos, state.with(FantalBench.APPEARANCE, appearance), 3);
         }
     }
+
 }
