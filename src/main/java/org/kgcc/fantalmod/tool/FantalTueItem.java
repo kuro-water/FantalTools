@@ -1,15 +1,15 @@
 package org.kgcc.fantalmod.tool;
 
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LightningEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.item.ArrowItem;
-import net.minecraft.item.BowItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.server.MinecraftServer;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
@@ -18,149 +18,190 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import net.minecraft.util.math.random.Random;
 
-public class FantalTueItem extends BowItem {
+public class FantalTueItem extends Item {
+
+    // ===== 調整できる定数たち =====
+    private static final boolean DEBUG = false;          // 本数/プル率をアクションバー表示
+    private static final int MIN_STRIKES = 3;           // 最小本数
+    private static final int MAX_STRIKES = 30;          // 最大本数（上げすぎ注意）
+    private static final int COOLDOWN_TICKS = 40;       // クールダウン（2秒）
+    private static final double KNOCKBACK_STRENGTH = 1.0; // ノックバックの強さ
+    private static final double KNOCKBACK_Y = 0.30;     // ノックバックの上方向成分
+    private static final double MAX_DISTANCE = 30.0;     // 雷の最長距離
+    private static final double HORIZONTAL_SPREAD = 10.0;  // 横ブレ幅（±5）
+
     public FantalTueItem() {
-        super(new Settings().maxDamage(384)); // 弓の耐久値を設定
+        super(new Settings().maxDamage(384)); // 弓と同程度の耐久
     }
 
     @Override
     public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks) {
-        if (user instanceof PlayerEntity playerEntity) {
-            int usedTicks = this.getMaxUseTime(stack) - remainingUseTicks;
-            float pullProgress = getPullProgress(usedTicks);
+        if (!(user instanceof PlayerEntity playerEntity)) return;
 
-            // チャットメッセージ（Minecraft内）
-            playerEntity.sendMessage(Text.literal("Used Ticks: " + usedTicks + ", Pull Progress: " + pullProgress), false);
+        int usedTicks = this.getMaxUseTime(stack) - remainingUseTicks;
+        float pullProgress = getPullProgress(usedTicks);
 
-            // Debugging the pull value and model switching condition
-            if (pullProgress >= 0.9) {
-                playerEntity.sendMessage(Text.literal("DEBUG - Pulling: Model 2 should be used."), false);
-            } else if (pullProgress >= 0.65) {
-                playerEntity.sendMessage(Text.literal("DEBUG - Pulling: Model 1 should be used."), false);
+        // 早すぎる放しは無効
+        if (pullProgress < 0.05f) return;
+
+        if (!world.isClient && world instanceof ServerWorld serverWorld) {
+            Random random = world.getRandom();
+            Vec3d look = playerEntity.getRotationVec(1.0F);
+            Vec3d origin = playerEntity.getPos().add(0, 1.6, 0); // 視線付近
+
+            // 通常の本数計算（0～1.0まで）
+            int count = MathHelper.clamp(
+                    MIN_STRIKES + Math.round(Math.min(pullProgress, 1.0F) * (MAX_STRIKES - MIN_STRIKES)),
+                    MIN_STRIKES, MAX_STRIKES
+            );
+
+            // デバッグ表示
+            if (DEBUG) {
+                String msg = String.format("⚡ Strikes: %d  |  Pull: %.2f", count, pullProgress);
+                playerEntity.sendMessage(Text.literal(msg), true);
+            }
+
+            // ===== 飛距離の計算 =====
+            double distance;
+            if (pullProgress <= 1.0F) {
+                // 通常チャージ
+                distance = MAX_DISTANCE * pullProgress;
             } else {
-                playerEntity.sendMessage(Text.literal("DEBUG - Pulling: Model 0 should be used."), false);
+                // オーバーチャージ
+                float over = pullProgress - 1.0F;
+                distance = MAX_DISTANCE + over * 1.1; // 追加距離スケール（調整可）
+
+                // 特殊エフェクト
+                serverWorld.spawnParticles(
+                        ParticleTypes.END_ROD,
+                        origin.x, origin.y, origin.z,
+                        10, 0.4, 0.3, 0.4, 0.01
+                );
+                world.playSound(
+                        null,
+                        playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(),
+                        SoundEvents.ENTITY_GENERIC_EXPLODE,
+                        SoundCategory.PLAYERS,
+                        1.0F,
+                        1.5F
+                );
             }
-        }
 
+            // ===== 雷を発生させる =====
+            // ===== 雷を発生させる =====
+            for (int i = 0; i < count; i++) {
+                double offsetX = (random.nextDouble() - 0.5) * HORIZONTAL_SPREAD;
+                double offsetZ = (random.nextDouble() - 0.5) * HORIZONTAL_SPREAD;
 
+                // 視線方向 + ランダムオフセット
+                Vec3d rawTarget = origin.add(look.multiply(distance)).add(offsetX, 0, offsetZ);
 
-        if (user instanceof PlayerEntity playerEntity) {
-            ItemStack itemStack = playerEntity.getProjectileType(stack);
+                // === Y座標を地面に補正する ===
+                BlockPos groundPos = serverWorld.getTopPosition(
+                        net.minecraft.world.Heightmap.Type.MOTION_BLOCKING,
+                        new BlockPos((int) rawTarget.x, (int) playerEntity.getY(), (int) rawTarget.z)
+                );
+                Vec3d target = new Vec3d(rawTarget.x, groundPos.getY(), rawTarget.z);
 
-            int i = this.getMaxUseTime(stack) - remainingUseTicks;
-            float f = getPullProgress(i);
-
-            if (!((double) f < 0.1)) {
-                boolean infiniteArrows = playerEntity.getAbilities().creativeMode ||
-                        EnchantmentHelper.getLevel(Enchantments.INFINITY, stack) > 0;
-
-                if (!world.isClient) {
-                    ArrowItem arrowItem = (ArrowItem) (itemStack.getItem() instanceof ArrowItem ? itemStack.getItem() : Items.ARROW);
-                    PersistentProjectileEntity projectile = arrowItem.createArrow(world, itemStack, playerEntity);
-                    projectile.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, f * 3.0F, 1.0F);
-
-                    // **プレイヤーの視線の先にいるエンティティにダメージを与える**
-                    Vec3d startPos = playerEntity.getCameraPosVec(1.0F);
-                    Vec3d lookVec = playerEntity.getRotationVec(1.0F).multiply(30); // 30ブロック先まで判定
-                    Vec3d endPos = startPos.add(lookVec);
-                    HitResult hitResult = world.raycast(new RaycastContext(
-                            startPos, endPos, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, playerEntity
-                    ));
-
-                    if (world instanceof ServerWorld serverWorld) {
-                        MinecraftServer server = serverWorld.getServer();
-                        server.getCommandManager().executeWithPrefix(
-                                server.getCommandSource(),
-                                "say 矢が発射された！"
-                        );
-                    }
-
-
-
-
-                    // クリティカル判定
-                    if (f == 1.0F) {
-                        projectile.setCritical(true);
-                    }
-
-                    // エンチャント効果
-                    int power = EnchantmentHelper.getLevel(Enchantments.POWER, stack);
-                    if (power > 0) {
-                        projectile.setDamage(projectile.getDamage() + (double) power * 0.5 + 0.5);
-                    }
-
-                    int punch = EnchantmentHelper.getLevel(Enchantments.PUNCH, stack);
-                    if (punch > 0) {
-                        projectile.setPunch(punch);
-                    }
-
-                    if (EnchantmentHelper.getLevel(Enchantments.FLAME, stack) > 0) {
-                        projectile.setOnFireFor(100);
-                    }
-
-                    // 矢の消費処理
-                    if (!infiniteArrows && !playerEntity.getAbilities().creativeMode) {
-                        itemStack.decrement(1);
-                        if (itemStack.isEmpty()) {
-                            playerEntity.getInventory().removeOne(itemStack);
-                        }
-                    }
-
-                    // 弓の耐久値減少
-                    stack.damage(1, playerEntity, (p) -> p.sendToolBreakStatus(playerEntity.getActiveHand()));
-
-                    world.spawnEntity(projectile);
+                LightningEntity lightning = EntityType.LIGHTNING_BOLT.create(serverWorld);
+                if (lightning != null) {
+                    lightning.refreshPositionAfterTeleport(target);
+                    lightning.setCosmetic(false);
+                    serverWorld.spawnEntity(lightning);
                 }
-
-                // 射撃音
-                world.playSound(null, playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(),
-                        SoundEvents.ENTITY_ARROW_SHOOT, SoundCategory.PLAYERS, 1.0F,
-                        1.0F / (world.getRandom().nextFloat() * 0.4F + 1.2F) + f * 0.5F);
-
-                playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
             }
+
+
+            // サウンド（通常）
+            float pitch = 0.9F + (Math.min(pullProgress, 1.0F) * 0.2F); // 0.9～1.1
+            world.playSound(
+                    null,
+                    playerEntity.getX(), playerEntity.getY(), playerEntity.getZ(),
+                    SoundEvents.ENTITY_LIGHTNING_BOLT_THUNDER,
+                    SoundCategory.PLAYERS,
+                    2.0F,
+                    pitch
+            );
+
+            // 耐久値（オーバーチャージ時は消耗2倍とかもあり）
+            int damageAmount = (pullProgress > 1.0F) ? 2 : 1;
+            if (random.nextInt(getUnbreakingLevel(stack) + 1) == 0) {
+                stack.damage(damageAmount, playerEntity, p -> p.sendToolBreakStatus(playerEntity.getActiveHand()));
+            }
+
+            // 統計
+            playerEntity.incrementStat(Stats.USED.getOrCreateStat(this));
+
+            // クールダウン（オーバーチャージは長めにしても面白い）
+            int cooldown = (pullProgress > 1.0F) ? (COOLDOWN_TICKS * 2) : COOLDOWN_TICKS;
+            playerEntity.getItemCooldownManager().set(this, cooldown);
+
+            // ノックバック
+            Vec3d knockback = look.multiply(-1).normalize().multiply(KNOCKBACK_STRENGTH);
+            playerEntity.addVelocity(knockback.x, KNOCKBACK_Y, knockback.z);
+            playerEntity.velocityModified = true;
         }
     }
 
+
     @Override
     public int getMaxUseTime(ItemStack stack) {
-        return 72000;
+        return 72000; // 弓と同じ最大チャージ時間
     }
 
     @Override
     public UseAction getUseAction(ItemStack stack) {
-        return UseAction.BOW;
+        return UseAction.NONE;
     }
 
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        ItemStack itemStack = user.getStackInHand(hand);
-        boolean hasArrows = !user.getProjectileType(itemStack).isEmpty();
-
-        if (!user.getAbilities().creativeMode && !hasArrows) {
-            return TypedActionResult.fail(itemStack);
-        } else {
-            user.setCurrentHand(hand);
-            return TypedActionResult.consume(itemStack);
-        }
+        user.setCurrentHand(hand);
+        return TypedActionResult.consume(user.getStackInHand(hand));
     }
 
-    @Override
     public int getRange() {
-        return 15;
+        return 15; // 使っていないが互換で残す
     }
 
-    /**
-     * 弓の引き具合を計算するメソッド
-     */
+    //弓の引き具合
     public static float getPullProgress(int useTicks) {
-        float f = (float) useTicks / 20.0F;
+        float f = (float) useTicks / 20.0F; // 20tick = 1秒
         f = (f * f + f * 2.0F) / 3.0F;
-        return Math.min(f, 1.0F);
+        return f; // Math.minを外す
+    }
+
+
+
+    //Unbreaking レベル取得
+    private int getUnbreakingLevel(ItemStack stack) {
+        return EnchantmentHelper.getLevel(Enchantments.UNBREAKING, stack);
+    }
+
+    //貯め中のエフェクト
+    @Override
+    public void inventoryTick(ItemStack stack, World world, net.minecraft.entity.Entity entity, int slot, boolean selected) {
+        if (!(entity instanceof PlayerEntity player)) return;
+
+        if (!world.isClient && player.isUsingItem() && player.getActiveItem().getItem() == this) {
+            ServerWorld serverWorld = (ServerWorld) world;
+            Random random = world.getRandom();
+            Vec3d pos = player.getPos().add(0, 1.0, 0); // 頭より少し低くする
+
+            serverWorld.spawnParticles(
+                    ParticleTypes.ELECTRIC_SPARK,
+                    pos.x, pos.y, pos.z,
+                    5, // 個数
+                    0.3, 0.2, 0.3, // 範囲
+                    0.01 // 速度
+            );
+        }
+
     }
 }

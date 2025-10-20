@@ -6,14 +6,14 @@
     ],
     "key" : {
         "W" : {
-            "item" : "fantalmod:fantal_ingot"
+            "item" : "fantalmod:fantal_bow"
         },
         "R" : {
-            "item" : "minecraft:bow"
+            "item" : "minecraft:arrow"
         }
     },
     "result" : {
-        "item" : "fantalmod:fantal_bow",
+        "item" : "fantalmod:fantal_arrow",
         "count" : 1
     }
 }

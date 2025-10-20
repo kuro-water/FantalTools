@@ -1,5 +1,8 @@
 {
-  "parent": "minecraft:item/generated",
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "fantalmod:item/fantal_tue_3"
+  },
   "display": {
     "thirdperson_righthand": {
       "rotation": [
@@ -69,30 +72,5 @@
         0.68
       ]
     }
-  },
-  "textures": {
-    "layer0": "fantalmod:item/fantal_tue"
-  },
-  "overrides": [
-    {
-      "predicate": {
-        "minecraft:pulling": 1
-      },
-      "model": "fantalmod:item/fantal_tue_1"
-    },
-    {
-      "predicate": {
-        "minecraft:pulling": 1,
-        "minecraft:pull": 0.35
-      },
-      "model": "fantalmod:item/fantal_tue_2"
-    },
-    {
-      "predicate": {
-        "minecraft:pulling": 1,
-        "minecraft:pull": 0.5
-      },
-      "model": "fantalmod:item/fantal_tue_3"
-    }
-  ]
+  }
 }

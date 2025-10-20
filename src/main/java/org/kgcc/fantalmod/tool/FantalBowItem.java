@@ -22,6 +22,7 @@ import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
+import org.kgcc.fantalmod.entity.projectile.FantalArrowEntity;
 import org.kgcc.fantalmod.util.FantalStateManager;
 
 public class FantalBowItem extends BowItem {
@@ -34,18 +35,6 @@ public class FantalBowItem extends BowItem {
         if (user instanceof PlayerEntity playerEntity) {
             int usedTicks = this.getMaxUseTime(stack) - remainingUseTicks;
             float pullProgress = getPullProgress(usedTicks);
-
-            // チャットメッセージ（Minecraft内）
-            //playerEntity.sendMessage(Text.literal("Used Ticks: " + usedTicks + ", Pull Progress: " + pullProgress), false);
-
-            // Debugging the pull value and model switching condition
-            /*if (pullProgress >= 0.9) {
-                playerEntity.sendMessage(Text.literal("DEBUG - Pulling: Model 2 should be used."), false);
-            } else if (pullProgress >= 0.65) {
-                playerEntity.sendMessage(Text.literal("DEBUG - Pulling: Model 1 should be used."), false);
-            } else {
-                playerEntity.sendMessage(Text.literal("DEBUG - Pulling: Model 0 should be used."), false);
-            }*/
         }
 
 
@@ -61,8 +50,7 @@ public class FantalBowItem extends BowItem {
                         EnchantmentHelper.getLevel(Enchantments.INFINITY, stack) > 0;
 
                 if (!world.isClient) {
-                    ArrowItem arrowItem = (ArrowItem) (itemStack.getItem() instanceof ArrowItem ? itemStack.getItem() : Items.ARROW);
-                    PersistentProjectileEntity projectile = arrowItem.createArrow(world, itemStack, playerEntity);
+                    PersistentProjectileEntity projectile = new FantalArrowEntity(world, playerEntity);
                     projectile.setVelocity(playerEntity, playerEntity.getPitch(), playerEntity.getYaw(), 0.0F, f * 3.0F, 1.0F);
 
                     // **プレイヤーの視線の先にいるエンティティにダメージを与える**
@@ -72,14 +60,6 @@ public class FantalBowItem extends BowItem {
                     HitResult hitResult = world.raycast(new RaycastContext(
                             startPos, endPos, RaycastContext.ShapeType.OUTLINE, RaycastContext.FluidHandling.NONE, playerEntity
                     ));
-
-                    if (world instanceof ServerWorld serverWorld) {
-                        MinecraftServer server = serverWorld.getServer();
-                        server.getCommandManager().executeWithPrefix(
-                                server.getCommandSource(),
-                                "say 矢が発射された！"
-                        );
-                    }
 
 
 

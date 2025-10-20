@@ -3,12 +3,19 @@ package org.kgcc.fantalmod;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import org.kgcc.fantalmod.armor.FantalArmorEffect;
+import org.kgcc.fantalmod.init.ModEntities;
 import org.kgcc.fantalmod.registry.FantalModCommand;
 import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.util.FantalStateManager;
@@ -48,5 +55,6 @@ public class FantalMod implements ModInitializer {
         // バイオームに機能を追加する 鉱石追加用
         BiomeModifications.addFeature(BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES, FANTAL_ORE_PLACED_KEY);
 
+        ModEntities.register();
     }
 }
