@@ -78,10 +78,20 @@ public class FantalBenchEntity extends BlockEntity implements NamedScreenHandler
         } else if (tool.getItem() instanceof SwordItem) {
             appearance = 3;
         }
-        
+        else if(tool.getItem() instanceof HoeItem) {
+            appearance = 4;
+
+        }
+        else if(tool.getItem() instanceof ShovelItem) {
+            appearance = 5;
+
+        }
+
+
         BlockState state = world.getBlockState(pos);
         if (state.get(FantalBench.APPEARANCE) != appearance) {
             world.setBlockState(pos, state.with(FantalBench.APPEARANCE, appearance), 3);
         }
     }
+
 }
