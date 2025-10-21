@@ -5,11 +5,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
-import net.minecraft.client.render.entity.EntityRendererFactory;
-import net.minecraft.item.Item;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.kgcc.fantalmod.entity.projectile.FantalSnowballEntity;
 import org.kgcc.fantalmod.init.ModEntities;
 import org.kgcc.fantalmod.keybind.FantalKeyBind;
 import org.kgcc.fantalmod.registry.FantalModItems;
@@ -32,15 +29,14 @@ public class FantalModClient implements ClientModInitializer {
                 (client, handler, buf, responseSender) -> {
                     int totalFantalPollution = buf.readInt();
                     int playerSpecificDirtBlocksBroken = buf.readInt();
-                    MinecraftClient mc = client;
-                    if (mc.player == null) {
+                    if (client.player == null) {
                         return;
                     }
-                    String name = mc.player.getDisplayName().getString();
+                    String name = client.player.getDisplayName().getString();
 
-                    mc.execute(() -> {
-                        if (mc.player != null) {
-                            mc.player.sendMessage(Text.literal(name + "の侵食度：" + playerSpecificDirtBlocksBroken));
+                    client.execute(() -> {
+                        if (client.player != null) {
+                            client.player.sendMessage(Text.literal(name + "の侵食度：" + playerSpecificDirtBlocksBroken));
                         }
                     });
 
@@ -55,20 +51,20 @@ public class FantalModClient implements ClientModInitializer {
 
     private void registerModelPredicates() {
         // 弓
-        registerBowPredicates(FantalModItems.FANTAL_BOW);
+        registerBowPredicates();
 
         // 杖
-        registerTuePredicates(FantalModItems.FANTAL_TUE);
+        registerWandPredicates();
     }
 
-    private void registerBowPredicates(Item item) {
+    private void registerBowPredicates() {
         ModelPredicateProviderRegistry.register(
-                item, new Identifier("pulling"),
+                FantalModItems.FANTAL_BOW, new Identifier("pulling"),
                 (stack, world, entity, seed) -> (entity != null && entity.isUsingItem() && entity.getActiveItem() == stack) ? 1.0F : 0.0F
         );
 
         ModelPredicateProviderRegistry.register(
-                item, new Identifier("pull"),
+                FantalModItems.FANTAL_BOW, new Identifier("pull"),
                 (stack, world, entity, seed) -> {
                     if (entity == null) return 0.0F;
                     return entity.getActiveItem() != stack ? 0.0F :
@@ -77,14 +73,14 @@ public class FantalModClient implements ClientModInitializer {
         );
     }
 
-    private void registerTuePredicates(Item item) {
+    private void registerWandPredicates() {
         ModelPredicateProviderRegistry.register(
-                item, new Identifier("pulling"),
+                FantalModItems.FANTAL_WAND, new Identifier("pulling"),
                 (stack, world, entity, seed) -> (entity != null && entity.isUsingItem() && entity.getActiveItem() == stack) ? 1.0F : 0.0F
         );
 
         ModelPredicateProviderRegistry.register(
-                item, new Identifier("pull"),
+                FantalModItems.FANTAL_WAND, new Identifier("pull"),
                 (stack, world, entity, seed) -> {
                     if (entity == null) return 0.0F;
                     return entity.getActiveItem() != stack ? 0.0F :

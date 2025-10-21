@@ -1,6 +1,5 @@
 package org.kgcc.fantalmod.tool;
 
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EntityType;
@@ -24,7 +23,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.util.math.random.Random;
 
-public class FantalTueItem extends Item {
+public class FantalWandItem extends Item {
 
     // ===== 調整できる定数たち =====
     private static final boolean DEBUG = false;          // 本数/プル率をアクションバー表示
@@ -36,7 +35,7 @@ public class FantalTueItem extends Item {
     private static final double MAX_DISTANCE = 30.0;     // 雷の最長距離
     private static final double HORIZONTAL_SPREAD = 10.0;  // 横ブレ幅（±5）
 
-    public FantalTueItem() {
+    public FantalWandItem() {
         super(new Settings().maxDamage(384)); // 弓と同程度の耐久
     }
 

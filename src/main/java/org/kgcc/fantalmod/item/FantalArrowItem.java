@@ -13,7 +13,7 @@ import net.minecraft.util.Rarity;
 import net.minecraft.world.World;
 import org.kgcc.fantalmod.entity.projectile.FantalArrowEntity;
 
-import static org.kgcc.fantalmod.tool.FantalTueItem.getPullProgress;
+import static org.kgcc.fantalmod.tool.FantalWandItem.getPullProgress;
 
 public class FantalArrowItem extends ArrowItem {
     public FantalArrowItem(Settings settings) {

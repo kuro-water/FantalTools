@@ -1,7 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "fantalmod:item/fantal_tue_1"
+    "layer0": "fantalmod:item/fantal_wand_3"
   },
   "display": {
     "thirdperson_righthand": {

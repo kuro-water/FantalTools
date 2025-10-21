@@ -34,7 +34,7 @@ public class FantalModItems {
 
     public static final Item FANTAL_BOW = registerItem(new FantalBowItem(), "fantal_bow");
 
-    public static final Item FANTAL_TUE= registerItem(new FantalTueItem(), "fantal_tue");
+    public static final Item FANTAL_WAND = registerItem(new FantalWandItem(), "fantal_wand");
 
 
 
@@ -70,8 +70,8 @@ public class FantalModItems {
             entries.addAfter(FantalModItems.FANTAL_PICKAXE, FantalModItems.FANTAL_AXE);
             entries.addAfter(FantalModItems.FANTAL_AXE, FantalModItems.FANTAL_HOE);
             entries.addAfter(Items.TRIDENT, FantalModItems.FANTAL_BOW);
-            entries.addAfter(FantalModItems.FANTAL_BOW, FantalModItems.FANTAL_TUE);
-            entries.addAfter(FantalModItems.FANTAL_TUE, FantalModItems.FANTAL_ARROW);
+            entries.addAfter(FantalModItems.FANTAL_BOW, FantalModItems.FANTAL_WAND);
+            entries.addAfter(FantalModItems.FANTAL_WAND, FantalModItems.FANTAL_ARROW);
             // 他のツールがあれば、ここに追加する
         });
 

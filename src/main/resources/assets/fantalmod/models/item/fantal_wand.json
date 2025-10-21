@@ -71,28 +71,28 @@
     }
   },
   "textures": {
-    "layer0": "fantalmod:item/fantal_tue"
+    "layer0": "fantalmod:item/fantal_wand"
   },
   "overrides": [
     {
       "predicate": {
         "minecraft:pulling": 1
       },
-      "model": "fantalmod:item/fantal_tue_1"
+      "model": "fantalmod:item/fantal_wand_1"
     },
     {
       "predicate": {
         "minecraft:pulling": 1,
         "minecraft:pull": 0.35
       },
-      "model": "fantalmod:item/fantal_tue_2"
+      "model": "fantalmod:item/fantal_wand_2"
     },
     {
       "predicate": {
         "minecraft:pulling": 1,
         "minecraft:pull": 0.5
       },
-      "model": "fantalmod:item/fantal_tue_3"
+      "model": "fantalmod:item/fantal_wand_3"
     }
   ]
 }
