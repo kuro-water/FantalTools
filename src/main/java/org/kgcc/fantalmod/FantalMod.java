@@ -7,6 +7,12 @@ import net.fabricmc.fabric.api.command.v2.ArgumentTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.item.ItemStack;
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.entity.EntityDimensions;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.SpawnGroup;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
@@ -19,6 +25,9 @@ import org.kgcc.fantalmod.registry.*;
 import org.kgcc.fantalmod.skill.RecallSkill;
 import org.kgcc.fantalmod.test.ModBros;
 import org.kgcc.fantalmod.tool.FantalToolItem;
+import org.kgcc.fantalmod.init.ModEntities;
+import org.kgcc.fantalmod.registry.FantalModCommand;
+import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.util.FantalStateManager;
 import org.kgcc.fantalmod.util.ServerTickHandler;
 import org.slf4j.Logger;
@@ -89,5 +98,6 @@ public class FantalMod implements ModInitializer {
                 new Identifier("fantalmod", "skill"),
                 SkillArgumentType.class,
                 ConstantArgumentSerializer.of(SkillArgumentType::skill));
+        ModEntities.register();
     }
 }

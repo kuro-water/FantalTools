@@ -1,0 +1,19 @@
+{
+    "type" : "minecraft:crafting_shaped",
+    "pattern" : [
+        " W ",
+        " R "
+    ],
+    "key" : {
+        "W" : {
+            "item" : "minecraft:lightning_rod"
+        },
+        "R" : {
+            "item" : "fantalmod:fantal_bow"
+        }
+    },
+    "result" : {
+        "item" : "fantalmod:fantal_wand",
+        "count" : 1
+    }
+}

@@ -15,9 +15,7 @@ import org.kgcc.fantalmod.armor.FantalArmorMaterials;
 import org.kgcc.fantalmod.block.FantalBench;
 import org.kgcc.fantalmod.block.FantalBlock;
 import org.kgcc.fantalmod.block.FantalOreBlock;
-import org.kgcc.fantalmod.item.FantalIngotItem;
-import org.kgcc.fantalmod.item.FantalNuggetItem;
-import org.kgcc.fantalmod.item.RowFantalItem;
+import org.kgcc.fantalmod.item.*;
 import org.kgcc.fantalmod.tool.*;
 
 import static org.kgcc.fantalmod.FantalMod.MODID;
@@ -43,6 +41,19 @@ public class FantalModItems {
     public static final Item FANTAL_SHOVEL = registerItem(new FantalShovelItem(), "fantal_shovel");
     public static final Item FANTAL_HOE = registerItem(new FantalHoeItem(), "fantal_hoe");
     
+
+    public static final Item FANTAL_BOW = registerItem(new FantalBowItem(), "fantal_bow");
+
+    public static final Item FANTAL_WAND = registerItem(new FantalWandItem(), "fantal_wand");
+
+
+
+
+    public static final Item FANTAL_ARROW = registerItem(
+            new FantalArrowItem(new FabricItemSettings()), "fantal_arrow");
+
+
+
     public static final Item FANTAL_HELMET =
             registerItem(
                     new FantalArmorItem(FantalArmorMaterials.FANTAL, ArmorItem.Type.HELMET, new FabricItemSettings()),
@@ -80,6 +91,9 @@ public class FantalModItems {
             entries.addAfter(FantalModItems.FANTAL_SHOVEL, FantalModItems.FANTAL_PICKAXE);
             entries.addAfter(FantalModItems.FANTAL_PICKAXE, FantalModItems.FANTAL_AXE);
             entries.addAfter(FantalModItems.FANTAL_AXE, FantalModItems.FANTAL_HOE);
+            entries.addAfter(Items.TRIDENT, FantalModItems.FANTAL_BOW);
+            entries.addAfter(FantalModItems.FANTAL_BOW, FantalModItems.FANTAL_WAND);
+            entries.addAfter(FantalModItems.FANTAL_WAND, FantalModItems.FANTAL_ARROW);
             // 他のツールがあれば、ここに追加する
         });
         
