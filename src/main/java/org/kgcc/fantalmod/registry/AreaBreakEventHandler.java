@@ -1,9 +1,6 @@
 package org.kgcc.fantalmod.registry;
 
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -36,12 +33,6 @@ public class AreaBreakEventHandler {
             ItemStack mainHand = player.getMainHandStack();
             // playerの手持ちのアイテムで破壊可能かどうか
             if (!mainHand.isSuitableFor(blockState)) {
-//                var text =
-//                        Text.of(blockState.getBlock().getTranslationKey()
-//                                        + "は"
-//                                        + mainHand.getName().getString()
-//                                        + "では破壊できません。");
-//                player.sendMessage(text, true);
                 return true;
             }
             

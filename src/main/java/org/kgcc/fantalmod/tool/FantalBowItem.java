@@ -5,16 +5,11 @@ import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
-import net.minecraft.item.ArrowItem;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
-import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
@@ -23,7 +18,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 import org.kgcc.fantalmod.entity.projectile.FantalArrowEntity;
-import org.kgcc.fantalmod.util.FantalStateManager;
 
 public class FantalBowItem extends BowItem {
     public FantalBowItem() {
@@ -140,8 +134,7 @@ public class FantalBowItem extends BowItem {
      * 弓の引き具合を計算するメソッド
      */
     public static float getPullProgress(int useTicks) {
-        float f = (float) useTicks / 20.0F;
-        f = (f * f + f * 2.0F) / 3.0F;
+        float f = FantalWandItem.getPullProgress(useTicks);
         return Math.min(f, 1.0F);
     }
 }

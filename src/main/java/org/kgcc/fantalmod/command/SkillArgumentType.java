@@ -57,13 +57,7 @@ public class SkillArgumentType implements ArgumentType<BaseSkill> {
      */
     @Override
     public <S> CompletableFuture<Suggestions> listSuggestions(final CommandContext<S> context, final SuggestionsBuilder builder) {
-//        for (String example : EXAMPLES) {
-//            if (example.startsWith(builder.getRemainingLowerCase())) {
-//                builder.suggest(example);
-//            }
-//        }
-//        FantalMod.LOGGER.info("listSuggestions");
-        
+       
         FantalModSkills.SKILLS
                 .stream()
                 .map(BaseSkill::getTranslationKey)

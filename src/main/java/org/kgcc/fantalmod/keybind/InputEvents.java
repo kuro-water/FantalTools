@@ -1,7 +1,6 @@
 package org.kgcc.fantalmod.keybind;
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import org.kgcc.fantalmod.tool.FantalBowItem;

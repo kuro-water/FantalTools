@@ -5,5 +5,5 @@ public enum Tool {
     AXE,
     SHOVEL,
     HOE,
-    SWORD;
+    SWORD
 }

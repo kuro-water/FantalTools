@@ -1,8 +1,6 @@
 package org.kgcc.fantalmod.registry;
 
 import org.kgcc.fantalmod.skill.*;
-import org.kgcc.fantalmod.skill.HammerSkill;
-import org.kgcc.fantalmod.skill.SmeltSkill;
 
 import java.util.LinkedList;
 import java.util.List;

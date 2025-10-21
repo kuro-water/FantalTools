@@ -1,6 +1,8 @@
 package org.kgcc.fantalmod.test;
 
 import com.google.gson.*;
+import org.jetbrains.annotations.NotNull;
+
 import java.io.*;
 import java.nio.file.*;
 import java.util.Map;
@@ -65,15 +67,7 @@ public class BlockstateReferenceChecker {
             if (json.has("textures")) {
                 JsonObject textures = json.getAsJsonObject("textures");
                 for (Map.Entry<String, JsonElement> entry : textures.entrySet()) {
-                    String texturePath = entry.getValue().getAsString();
-                    if (texturePath.startsWith("fantalmod:")) {
-                        texturePath = texturePath.replace("fantalmod:", "");
-                    }
-                    String dir = isBlock ? "block/" : "item/";
-                    if (texturePath.startsWith(dir)) {
-                        texturePath = texturePath.substring(dir.length());
-                    }
-                    String textureFile = texturePath.replace('/', File.separatorChar) + ".png";
+                    String textureFile = getTextureFile(isBlock, entry);
                     Path textureFullPath = Paths.get(isBlock ? TEXTURES_BLOCK_DIR : TEXTURES_ITEM_DIR).resolve(textureFile);
                     if (!Files.exists(textureFullPath)) {
                         System.out.println("警告: テクスチャファイルが存在しません: " + textureFullPath);
@@ -83,5 +77,18 @@ public class BlockstateReferenceChecker {
         } catch (Exception e) {
             System.out.println("エラー: " + modelPath + " のテクスチャ解析中に例外が発生しました: " + e.getMessage());
         }
+    }
+    
+    private static @NotNull String getTextureFile(boolean isBlock, Map.Entry<String, JsonElement> entry) {
+        String texturePath = entry.getValue().getAsString();
+        if (texturePath.startsWith("fantalmod:")) {
+            texturePath = texturePath.replace("fantalmod:", "");
+        }
+        String dir = isBlock ? "block/" : "item/";
+        if (texturePath.startsWith(dir)) {
+            texturePath = texturePath.substring(dir.length());
+        }
+        String textureFile = texturePath.replace('/', File.separatorChar) + ".png";
+        return textureFile;
     }
 }

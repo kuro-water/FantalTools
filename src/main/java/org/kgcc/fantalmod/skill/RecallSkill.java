@@ -95,17 +95,11 @@ public class RecallSkill implements BaseSkill {
         
         ServerTickHandler.startTask(targetNum, () -> {
             var data = RecallDataManager.removeLast(playerEntity);
-//            RecallDataManager.removeLast(playerEntity);
-//            FantalMod.LOGGER.info("Recalling... {}", data);
             if (data == null) {
                 return;
             }
             
             if (!isSafeLocation(data.getWorld(server), BlockPos.ofFloored(data.pos))) {
-                // プレイヤーに警告メッセージを送信
-//                if (playerEntity instanceof ServerPlayerEntity serverPlayer) {
-//                    serverPlayer.sendMessage(Text.literal("テレポート先が安全ではありません！"), false);
-//                }
                 return;
             }
             
@@ -172,9 +166,6 @@ public class RecallSkill implements BaseSkill {
             return TypedActionResult.pass(user.getStackInHand(hand));
         }
         var server = Objects.requireNonNull(world.getServer());
-//            user.addStatusEffect(new StatusEffectInstance(StatusEffects.SPEED, 20 * FantalStateManager.TICK_PAR_SEC, 0));
-//            FantalStateManager.addFantalPollution(server, user,1);
-//            FantalStateManager.sendFantalPollution(server);
         int damage = recall(server, user);
         if (!user.isCreative()) {
             // 耐久値を減らす

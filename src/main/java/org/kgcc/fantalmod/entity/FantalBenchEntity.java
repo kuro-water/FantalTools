@@ -56,6 +56,7 @@ public class FantalBenchEntity extends BlockEntity implements NamedScreenHandler
         Inventories.readNbt(nbt, inventory);
         super.readNbt(nbt);
     }
+    
     @Override
     public void markDirty() {
         super.markDirty();
@@ -63,18 +64,21 @@ public class FantalBenchEntity extends BlockEntity implements NamedScreenHandler
             updateAppearanceByTool();
         }
     }
-
+    
     private void updateAppearanceByTool() {
+        if (world == null) {
+            return;
+        }
         ItemStack tool = inventory.get(0); // 0番スロットをツール用に想定
         int appearance = 0;
         if (tool.getItem() instanceof PickaxeItem) {
             appearance = 1;
         } else if (tool.getItem() instanceof AxeItem) {
             appearance = 2;
-        } else if(tool.getItem() instanceof SwordItem) {
+        } else if (tool.getItem() instanceof SwordItem) {
             appearance = 3;
         }
-
+        
         BlockState state = world.getBlockState(pos);
         if (state.get(FantalBench.APPEARANCE) != appearance) {
             world.setBlockState(pos, state.with(FantalBench.APPEARANCE, appearance), 3);
