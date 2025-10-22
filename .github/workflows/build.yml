@@ -8,6 +8,7 @@ on: [pull_request, push]
 
 jobs:
   build:
+    timeout-minutes: 30
     strategy:
       matrix:
         # Use these Java versions
@@ -27,11 +28,15 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'microsoft'
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
       - name: build
-        run: ./gradlew build
+        run: ./gradlew build --stacktrace
+        env:
+          GRADLE_OPTS: "-Xmx2048m -XX:MaxMetaspaceSize=512m"
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v4
