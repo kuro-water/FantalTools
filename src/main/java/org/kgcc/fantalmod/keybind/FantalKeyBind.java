@@ -8,12 +8,11 @@ import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 public class FantalKeyBind {
-    public static KeyBinding pullBowKey;
+    public static KeyBinding pullFantalKeyBind;
 
     public static void registerKeyBindings() {
-        // 弓を引くキーの登録（右クリックを使用）
-        pullBowKey = KeyBindingHelper.registerKeyBinding(new KeyBinding(
-                "key.fantalmod.pull_bow",  // 翻訳キー
+        pullFantalKeyBind = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+                "key.fantalmod.pull_Fantal",  // 翻訳キー
                 InputUtil.Type.MOUSE,      // マウスの入力タイプ
                 GLFW.GLFW_MOUSE_BUTTON_RIGHT, // 右クリックに設定
                 "category.fantalmod"       // カテゴリ
@@ -21,9 +20,8 @@ public class FantalKeyBind {
 
         // キーバインドの動作を定義
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (pullBowKey.isPressed() && client.player != null) {
-                // 右クリックで弓を引く動作
-                client.player.sendMessage(Text.literal("[DEBUG] キーバインド"), false);
+            if (pullFantalKeyBind.isPressed() && client.player != null) {
+                client.player.sendMessage(Text.literal("[DEBUG] キーバインド実行！"), false);
             }
         });
     }

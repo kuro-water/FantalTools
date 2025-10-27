@@ -44,12 +44,11 @@
     "command.fantalmod.skill.give.success" : "Given skill %s",
     "command.fantalmod.skill.give.failure.no_item" : "No item in hand",
     "command.fantalmod.skill.give.failure.not_fantal_item" : "%s is not a FantalToolItem",
-    "key.fantalmod.custom_action" : "Custom Action",
     "category.fantalmod" : "Fantal Mod",
     "item.fantalmod.fantal_wand" : "Fantal Wand",
     "item.fantalmod.fantal_arrow" : "Fantal Arrow",
     "item.fantalmod.fantal_bow" : "Fantal Bow",
     "item.fantalmod.fantal_bow.pull" : "Pull",
     "item.fantalmod.fantal_bow.pulling" : "Pulling",
-    "key.fantalmod.pull_bow" : "Pull Bow"
+    "key.fantalmod.pull_fantal" : "PullFantalKeyBind"
 }

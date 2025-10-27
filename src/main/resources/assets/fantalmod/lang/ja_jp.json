@@ -49,7 +49,6 @@
     "item.fantalmod.fantal_arrow" : "ファンタルの矢",
     "item.fantalmod.fantal_bow.pull" : "引き具合",
     "item.fantalmod.fantal_bow.pulling" : "引いている",
-    "key.fantalmod.pull_bow" : "弓を引く",
-    "key.fantalmod.custom_action" : "カスタムアクション",
+    "key.fantalmod.pull_fantal" : "Fantalキーバインド",
     "category.fantalmod" : "Fantal Mod"
 }
