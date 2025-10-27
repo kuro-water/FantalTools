@@ -29,15 +29,18 @@ public class RecipeImageGenerator {
         try {
             Path projectRoot = Paths.get(args.length > 1 ? args[1] : ".");
             Path outputDir = Paths.get(args.length > 0 ? args[0] : "recipe_images");
+            
+            // items サブディレクトリを追加
+            Path itemsDir = outputDir.resolve("items");
 
             // 出力ディレクトリを作成
-            Files.createDirectories(outputDir);
+            Files.createDirectories(itemsDir);
 
-            RecipeImageGenerator generator = new RecipeImageGenerator(projectRoot, outputDir);
+            RecipeImageGenerator generator = new RecipeImageGenerator(projectRoot, itemsDir);
             generator.generateAllRecipes();
 
             System.out.println("✓ レシピ画像の生成が完了しました");
-            System.out.println("  出力先: " + outputDir.toAbsolutePath());
+            System.out.println("  出力先: " + itemsDir.toAbsolutePath());
 
         } catch (Exception e) {
             System.err.println("✗ エラーが発生しました:");

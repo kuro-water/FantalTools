@@ -101,3 +101,14 @@ task generateRecipeImages(type: JavaExec) {
     args project.properties.get('outputDir', 'recipe_images')
     args project.properties.get('projectRoot', projectDir.toString())
 }
+
+// Wiki Generator Task
+task generateWiki(type: JavaExec) {
+    group = 'fantalmod'
+    description = 'Generate GitHub Wiki pages from JSON recipes'
+
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.kgcc.fantalmod.recipetools.WikiGenerator'
+
+    args project.properties.get('projectRoot', projectDir.toString())
+}
