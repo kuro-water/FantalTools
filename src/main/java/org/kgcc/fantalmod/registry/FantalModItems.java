@@ -10,6 +10,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import org.kgcc.fantalmod.FantalMod;
+import org.kgcc.fantalmod.TestBlock;
 import org.kgcc.fantalmod.armor.FantalArmorItem;
 import org.kgcc.fantalmod.armor.FantalArmorMaterials;
 import org.kgcc.fantalmod.block.FantalBench;
@@ -21,6 +22,8 @@ import org.kgcc.fantalmod.tool.*;
 import static org.kgcc.fantalmod.FantalMod.MODID;
 
 public class FantalModItems {
+//    public static final Item FANTAL_CRYSTAL = registerItem(new TestBlock., "fantal_crystal");
+    // TestBlock.CRYSTAL_BLOCK
     public static final Item FANTAL_INGOT = registerItem(new FantalIngotItem(), "fantal_ingot");
     public static final Item ROW_FANTAL = registerItem(new RowFantalItem(), "row_fantal");
     public static final Item FANTAL_NUGGET = registerItem(new FantalNuggetItem(), "fantal_nugget");
