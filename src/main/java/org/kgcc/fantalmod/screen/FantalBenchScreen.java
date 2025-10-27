@@ -74,7 +74,7 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
         return b -> {
             Slot slot = handler.getSlot(1);
             if (!slot.hasStack() ||
-                    !(slot.getStack().getItem() == FantalModItems.RED_SMALL)) {
+                    !(slot.getStack().getItem() == FantalModItems.UNSTABLE_FANTAL_CORE)) {
                 FantalMod.LOGGER.info("No red small item in slot 1.");
                 return;
             }

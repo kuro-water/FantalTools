@@ -32,7 +32,7 @@ public class FantalBenchScreenHandler extends ScreenHandler {
         )); // tool slot
         
         this.addSlot(new RestrictedSlot(inventory, 1, 14, 50, stack ->
-                stack.getItem() == FantalModItems.RED_SMALL
+                stack.getItem() == FantalModItems.UNSTABLE_FANTAL_CORE
         )); // red_small slot
         
         addPlayerInventory(playerInventory);
@@ -74,7 +74,7 @@ public class FantalBenchScreenHandler extends ScreenHandler {
                 }
             } else {
                 // プレイヤーインベントリからスロット0または1に移動
-                if (stack.getItem() == FantalModItems.RED_SMALL) {
+                if (stack.getItem() == FantalModItems.UNSTABLE_FANTAL_CORE) {
                     if (!this.insertItem(stack, 1, 2, false)) {
                         return ItemStack.EMPTY;
                     }

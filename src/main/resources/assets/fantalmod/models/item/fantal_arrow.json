@@ -1,6 +1,6 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "fantalmod:item/fantal_arrow"
-  }
+    "parent" : "minecraft:item/generated",
+    "textures" : {
+        "layer0" : "fantalmod:item/fantal_arrow"
+    }
 }

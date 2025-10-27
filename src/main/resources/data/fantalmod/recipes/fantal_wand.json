@@ -6,10 +6,10 @@
     ],
     "key" : {
         "W" : {
-            "item" : "minecraft:lightning_rod"
+            "item" : "fantalmod:fantal_core"
         },
         "R" : {
-            "item" : "fantalmod:fantal_bow"
+            "item" : "fantalmod:fantal_ingot"
         }
     },
     "result" : {

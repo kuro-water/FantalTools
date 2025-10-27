@@ -24,7 +24,8 @@ public class FantalModItems {
     public static final Item FANTAL_INGOT = registerItem(new FantalIngotItem(), "fantal_ingot");
     public static final Item ROW_FANTAL = registerItem(new RowFantalItem(), "row_fantal");
     public static final Item FANTAL_NUGGET = registerItem(new FantalNuggetItem(), "fantal_nugget");
-    public static final Item RED_SMALL = registerItem(new FantalNuggetItem(), "red_small");
+    public static final Item UNSTABLE_FANTAL_CORE = registerItem(new UnstableFantalCoreItem(), "unstable_fantal_core");
+    public static final Item FANTAL_CORE = registerItem(new FantalCoreItem(), "fantal_core");
     
     public static final Block FANTAL_ORE = registerBlock(new FantalOreBlock(3.0f), "fantal_ore");
     public static final Block DEEP_FANTAL_ORE = registerBlock(new FantalOreBlock(4.5f), "deepslate_fantal_ore");
@@ -41,19 +42,16 @@ public class FantalModItems {
     public static final Item FANTAL_SHOVEL = registerItem(new FantalShovelItem(), "fantal_shovel");
     public static final Item FANTAL_HOE = registerItem(new FantalHoeItem(), "fantal_hoe");
     
-
+    
     public static final Item FANTAL_BOW = registerItem(new FantalBowItem(), "fantal_bow");
-
+    
     public static final Item FANTAL_WAND = registerItem(new FantalWandItem(), "fantal_wand");
-
-
-
-
+    
+    
     public static final Item FANTAL_ARROW = registerItem(
             new FantalArrowItem(new FabricItemSettings()), "fantal_arrow");
-
-
-
+    
+    
     public static final Item FANTAL_HELMET =
             registerItem(
                     new FantalArmorItem(FantalArmorMaterials.FANTAL, ArmorItem.Type.HELMET, new FabricItemSettings()),

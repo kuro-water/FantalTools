@@ -1,0 +1,20 @@
+{
+    "type" : "minecraft:crafting_shaped",
+    "pattern" : [
+        "RRR",
+        "RFR",
+        "RRR"
+    ],
+    "key" : {
+        "R" : {
+            "item" : "minecraft:redstone"
+        },
+        "F" : {
+            "item" : "fantalmod:fantal_nugget"
+        }
+    },
+    "result" : {
+        "item" : "fantalmod:unstable_fantal_core",
+        "count" : 1
+    }
+}

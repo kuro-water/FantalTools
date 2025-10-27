@@ -1,0 +1,23 @@
+{
+    "type" : "minecraft:crafting_shaped",
+    "pattern" : [
+        "WFW",
+        "FCF",
+        "WFW"
+    ],
+    "key" : {
+        "W" : {
+            "item" : "minecraft:glass_pane"
+        },
+        "F" : {
+            "item" : "fantalmod:fantal_nugget"
+        },
+        "C" : {
+            "item" : "fantalmod:unstable_fantal_core"
+        }
+    },
+    "result" : {
+        "item" : "fantalmod:fantal_core",
+        "count" : 1
+    }
+}

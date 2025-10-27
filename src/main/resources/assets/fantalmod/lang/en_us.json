@@ -5,6 +5,8 @@
     "block.fantalmod.fantal_bench" : "Fantal Bench",
     "item.fantalmod.fantal_ingot" : "Fantal Ingot",
     "item.fantalmod.row_fantal" : "Row Fantal",
+    "item.fantalmod.unstable_fantal_core" : "Unstable Fantal Core",
+    "item.fantalmod.fantal_core": "Fantal Core",
     "item.fantalmod.fantal_nugget" : "Fantal Nugget",
     "item.fantalmod.fantal_helmet" : "Fantal Helmet",
     "item.fantalmod.fantal_chestplate" : "Fantal ChestPlate",

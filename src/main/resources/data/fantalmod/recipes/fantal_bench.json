@@ -1,0 +1,23 @@
+{
+    "type" : "minecraft:crafting_shaped",
+    "pattern" : [
+        " C ",
+        "FWF",
+        "WWW"
+    ],
+    "key" : {
+        "W" : {
+            "item" : "minecraft:obsidian"
+        },
+        "F" : {
+            "item" : "fantalmod:fantal_ingot"
+        },
+        "C" : {
+            "item" : "fantalmod:unstable_fantal_core"
+        }
+    },
+    "result" : {
+        "item" : "fantalmod:fantal_core",
+        "count" : 1
+    }
+}

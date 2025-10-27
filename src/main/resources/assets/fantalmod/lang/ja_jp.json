@@ -5,6 +5,8 @@
     "block.fantalmod.fantal_bench" : "ファンタル作業台",
     "item.fantalmod.fantal_ingot" : "ファンタルインゴット",
     "item.fantalmod.row_fantal" : "ファンタルの原石",
+    "item.fantalmod.unstable_fantal_core" : "不安定なファンタルコア",
+    "item.fantalmod.fantal_core": "ファンタルコア",
     "item.fantalmod.fantal_nugget" : "ファンタルのかけら",
     "item.fantalmod.fantal_helmet" : "ファンタルのヘルメット",
     "item.fantalmod.fantal_chestplate" : "ファンタルのチェストプレート",
