@@ -1,0 +1,30 @@
+{
+  "variants": {
+    "facing=down": {
+      "model": "fantalmod:block/crystal_block",
+      "x": 180
+    },
+    "facing=east": {
+      "model": "fantalmod:block/crystal_block",
+      "x": 90,
+      "y": 90
+    },
+    "facing=north": {
+      "model": "fantalmod:block/crystal_block",
+      "x": 90
+    },
+    "facing=south": {
+      "model": "fantalmod:block/crystal_block",
+      "x": 90,
+      "y": 180
+    },
+    "facing=up": {
+      "model": "fantalmod:block/crystal_block"
+    },
+    "facing=west": {
+      "model": "fantalmod:block/crystal_block",
+      "x": 90,
+      "y": 270
+    }
+  }
+}

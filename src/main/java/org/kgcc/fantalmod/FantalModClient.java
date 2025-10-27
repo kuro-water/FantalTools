@@ -1,10 +1,15 @@
 package org.kgcc.fantalmod;
 
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.client.gui.screen.ingame.HandledScreens;
-import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.minecraft.client.item.ModelPredicateProviderRegistry;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.minecraft.client.gui.screen.GameMenuScreen;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
 import org.kgcc.fantalmod.registry.FantalModScreenHandlers;
 import org.kgcc.fantalmod.screen.FantalBenchScreen;
@@ -16,6 +21,9 @@ import org.kgcc.fantalmod.client.render.FantalArrowEntityRenderer;
 
 
 
+import java.util.List;
+
+@Environment(EnvType.CLIENT)
 public class FantalModClient implements ClientModInitializer {
 
     @Override
