@@ -1,17 +1,9 @@
 {
     "type" : "minecraft:crafting_shapeless",
-    "pattern" : [
-        " W ",
-        " R "
+    "ingredients" : [
+        { "item" : "fantalmod:fantal_ingot" },
+        { "item" : "minecraft:bow" }
     ],
-    "key" : {
-        "W" : {
-            "item" : "fantalmod:fantal_ingot"
-        },
-        "R" : {
-            "item" : "minecraft:bow"
-        }
-    },
     "result" : {
         "item" : "fantalmod:fantal_bow",
         "count" : 1

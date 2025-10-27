@@ -29,6 +29,8 @@ dependencies {
 
     // modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
 
+    // For Recipe Image Generator
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 base {
@@ -86,4 +88,16 @@ publishing {
         // The repositories here will be used for publishing your artifact, not for
         // retrieving dependencies.
     }
+}
+
+// Recipe Image Generator Task
+task generateRecipeImages(type: JavaExec) {
+    group = 'fantalmod'
+    description = 'Generate recipe images from JSON recipes'
+
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.kgcc.fantalmod.recipetools.RecipeImageGenerator'
+
+    args project.properties.get('outputDir', 'recipe_images')
+    args project.properties.get('projectRoot', projectDir.toString())
 }
