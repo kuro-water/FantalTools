@@ -76,9 +76,16 @@ jobs:
         run: |
           .\gradlew.bat --version 2>&1 | Tee-Object -FilePath gradle-version.log
       - name: build
-        run: ./gradlew build --stacktrace
+        run: ./gradlew build --stacktrace 2>&1 | tee build.log
         env:
           GRADLE_OPTS: "-Xmx2048m -XX:MaxMetaspaceSize=512m"
+        if: ${{ runner.os != 'Windows' }}
+      - name: build (Windows)
+        run: |
+          .\gradlew.bat build --stacktrace 2>&1 | Tee-Object -FilePath build.log
+        env:
+          GRADLE_OPTS: "-Xmx2048m -XX:MaxMetaspaceSize=512m"
+        if: ${{ runner.os == 'Windows' }}
       - name: capture build artifacts
         if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: actions/upload-artifact@v4
@@ -93,3 +100,4 @@ jobs:
           path: |
             gradle-version.log
             build.log
+          if-no-files-found: warn
