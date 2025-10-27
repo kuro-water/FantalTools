@@ -40,9 +40,6 @@ jobs:
         run: |
           cd wiki
           git add .
-          git commit -m "docs: Auto-generate wiki from recipes
-
-Generated at: $(date '+%Y-%m-%d %H:%M:%S')
-Commit: ${{ github.sha }}" || echo "No changes to commit"
+          git commit -m "wiki: Auto-generated at $(date '+%Y-%m-%d %H:%M:%S') (commit: ${{ github.sha }})" || echo "No changes to commit"
           git push -u origin master || git push --force -u origin master
 
