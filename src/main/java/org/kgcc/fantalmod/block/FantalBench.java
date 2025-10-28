@@ -1,10 +1,15 @@
 package org.kgcc.fantalmod.block;
 
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
@@ -16,24 +21,22 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.kgcc.fantalmod.entity.FantalBenchEntity;
-import net.minecraft.state.StateManager;
-import net.minecraft.block.Block;
-import net.minecraft.util.shape.VoxelShape;
+import org.kgcc.fantalmod.screen.FantalBenchScreenHandler;
 
 public class FantalBench extends BlockWithEntity implements BlockEntityProvider {
-
-    public static final IntProperty APPEARANCE = IntProperty.of("appearance", 0,5);
-
+    
+    public static final IntProperty APPEARANCE = IntProperty.of("appearance", 0, 5);
+    
     public FantalBench(Settings settings) {
         super(settings);
         setDefaultState(this.stateManager.getDefaultState().with(APPEARANCE, 0));
     }
-
+    
     @Override
     protected void appendProperties(StateManager.Builder<net.minecraft.block.Block, BlockState> builder) {
         builder.add(APPEARANCE);
     }
-
+    
     /* BLOCK ENTITY */
     
     @Override
@@ -56,10 +59,25 @@ public class FantalBench extends BlockWithEntity implements BlockEntityProvider 
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!world.isClient) {
-            NamedScreenHandlerFactory screenHandlerFactory = state.createScreenHandlerFactory(world, pos);
-            
-            if (screenHandlerFactory != null) {
-                player.openHandledScreen(screenHandlerFactory);
+            BlockEntity blockEntity = world.getBlockEntity(pos);
+            if (blockEntity instanceof FantalBenchEntity) {
+                player.openHandledScreen(new ExtendedScreenHandlerFactory() {
+                    @Override
+                    public void writeScreenOpeningData(net.minecraft.server.network.ServerPlayerEntity player, PacketByteBuf buf) {
+                        buf.writeBlockPos(pos);
+                    }
+                    
+                    @Override
+                    public Text getDisplayName() {
+                        return Text.translatable("block.fantalmod.fantal_bench");
+                    }
+                    
+                    @Nullable
+                    @Override
+                    public ScreenHandler createMenu(int syncId, PlayerInventory inv, PlayerEntity player) {
+                        return new FantalBenchScreenHandler(syncId, inv, (FantalBenchEntity) blockEntity);
+                    }
+                });
             }
         }
         
@@ -71,10 +89,8 @@ public class FantalBench extends BlockWithEntity implements BlockEntityProvider 
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
         return new FantalBenchEntity(pos, state);
     }
-
-
-    // FantalBenchBlock.java
-    @Override
+    
+    // ...existing code...
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         int appearance = state.get(APPEARANCE); // BlockStateのプロパティから取得
         switch (appearance) {
@@ -82,82 +98,81 @@ public class FantalBench extends BlockWithEntity implements BlockEntityProvider 
                 VoxelShape shape = VoxelShapes.empty();
                 VoxelShape base = VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.5, 1.0);
                 shape = VoxelShapes.union(shape, base);
-
-                VoxelShape leg1 =VoxelShapes.cuboid(0.2, 0.5, 0.2, 0.8, 0.67, 0.8);
+                
+                VoxelShape leg1 = VoxelShapes.cuboid(0.2, 0.5, 0.2, 0.8, 0.67, 0.8);
                 shape = VoxelShapes.union(shape, leg1);
-
-
-
+                
+                
                 return shape;// Normal
             }
             case 1: {
-
+                
                 VoxelShape shape = VoxelShapes.empty();
                 VoxelShape base = VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.5, 1.0);
                 shape = VoxelShapes.union(shape, base);
-
-                VoxelShape leg1 =VoxelShapes.cuboid(0.2, 0.5, 0.2, 0.8, 0.67, 0.8);
+                
+                VoxelShape leg1 = VoxelShapes.cuboid(0.2, 0.5, 0.2, 0.8, 0.67, 0.8);
                 shape = VoxelShapes.union(shape, leg1);
-
-                VoxelShape leg2=VoxelShapes.cuboid(0.45, 0.45, 0.45, 0.55, 1.25, 0.55);
-                shape= VoxelShapes.union(shape, leg2);
+                
+                VoxelShape leg2 = VoxelShapes.cuboid(0.45, 0.45, 0.45, 0.55, 1.25, 0.55);
+                shape = VoxelShapes.union(shape, leg2);
                 return shape;// Normal
             }// Pickaxe
-
+            
             case 2: {// Axe
                 VoxelShape shape = VoxelShapes.empty();
                 VoxelShape base = VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.5, 1.0);
                 shape = VoxelShapes.union(shape, base);
-
-                VoxelShape leg1 =VoxelShapes.cuboid(0.2, 0.5, 0.2, 0.8, 0.67, 0.8);
+                
+                VoxelShape leg1 = VoxelShapes.cuboid(0.2, 0.5, 0.2, 0.8, 0.67, 0.8);
                 shape = VoxelShapes.union(shape, leg1);
-
-                VoxelShape leg2=VoxelShapes.cuboid(0.45, 0.45, 0.45, 0.55, 1.25, 0.55);
-                shape= VoxelShapes.union(shape, leg2);
+                
+                VoxelShape leg2 = VoxelShapes.cuboid(0.45, 0.45, 0.45, 0.55, 1.25, 0.55);
+                shape = VoxelShapes.union(shape, leg2);
                 return shape;// Normal
             }
-
-            case 3:{
+            
+            case 3: {
                 VoxelShape shape = VoxelShapes.empty();
                 VoxelShape base = VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.5, 1.0);
                 shape = VoxelShapes.union(shape, base);
-
-                VoxelShape leg1 =VoxelShapes.cuboid(0.2, 0.5, 0.2, 0.8, 0.67, 0.8);
+                
+                VoxelShape leg1 = VoxelShapes.cuboid(0.2, 0.5, 0.2, 0.8, 0.67, 0.8);
                 shape = VoxelShapes.union(shape, leg1);
-
-                VoxelShape leg2=VoxelShapes.cuboid(0.45, 0.45, 0.45, 0.55, 1.25, 0.55);
-                shape= VoxelShapes.union(shape, leg2);
+                
+                VoxelShape leg2 = VoxelShapes.cuboid(0.45, 0.45, 0.45, 0.55, 1.25, 0.55);
+                shape = VoxelShapes.union(shape, leg2);
                 return shape;// Normal
             }
-            case 4:{
+            case 4: {
                 VoxelShape shape = VoxelShapes.empty();
                 VoxelShape base = VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.5, 1.0);
                 shape = VoxelShapes.union(shape, base);
-
-                VoxelShape leg1 =VoxelShapes.cuboid(0.2, 0.5, 0.2, 0.8, 0.67, 0.8);
+                
+                VoxelShape leg1 = VoxelShapes.cuboid(0.2, 0.5, 0.2, 0.8, 0.67, 0.8);
                 shape = VoxelShapes.union(shape, leg1);
-
-                VoxelShape leg2=VoxelShapes.cuboid(0.45, 0.45, 0.45, 0.55, 1.25, 0.55);
-                shape= VoxelShapes.union(shape, leg2);
+                
+                VoxelShape leg2 = VoxelShapes.cuboid(0.45, 0.45, 0.45, 0.55, 1.25, 0.55);
+                shape = VoxelShapes.union(shape, leg2);
                 return shape;// Normal
             }
-            case 5:{
+            case 5: {
                 VoxelShape shape = VoxelShapes.empty();
                 VoxelShape base = VoxelShapes.cuboid(0.0, 0.0, 0.0, 1.0, 0.5, 1.0);
                 shape = VoxelShapes.union(shape, base);
-
-                VoxelShape leg1 =VoxelShapes.cuboid(0.2, 0.5, 0.2, 0.8, 0.67, 0.8);
+                
+                VoxelShape leg1 = VoxelShapes.cuboid(0.2, 0.5, 0.2, 0.8, 0.67, 0.8);
                 shape = VoxelShapes.union(shape, leg1);
-
-                VoxelShape leg2=VoxelShapes.cuboid(0.45, 0.45, 0.45, 0.55, 1.25, 0.55);
-                shape= VoxelShapes.union(shape, leg2);
+                
+                VoxelShape leg2 = VoxelShapes.cuboid(0.45, 0.45, 0.45, 0.55, 1.25, 0.55);
+                shape = VoxelShapes.union(shape, leg2);
                 return shape;// Normal
             }
             default:
                 return VoxelShapes.fullCube();
         }
     }
-
+    
     //ブロックの当たり判定（どこがどう対応しているかは不明
 //    @Override
 //    public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
