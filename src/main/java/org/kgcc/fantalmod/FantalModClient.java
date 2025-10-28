@@ -63,20 +63,20 @@ public class FantalModClient implements ClientModInitializer {
                                                             return;
                                                         }
                                                         String name = client.player.getDisplayName().getString();
-                                                        
+
                                                         client.execute(() -> {
                                                             if (client.player != null) {
                                                                 client.player.sendMessage(Text.literal(
                                                                         name + "の侵食度：" + playerSpecificDirtBlocksBroken));
                                                             }
                                                         });
-                                                        
+
                                                         FantalMod.LOGGER.info("全体の侵食度：{}", totalFantalPollution);
                                                         FantalMod.LOGGER.info("{}の侵食度：{}", name,
                                                                               playerSpecificDirtBlocksBroken);
                                                     }
                                                    );
-        
+
         EntityRendererRegistry.register(ModEntities.FANTAL_ARROW_ENTITY, FantalArrowEntityRenderer::new);
         
     }

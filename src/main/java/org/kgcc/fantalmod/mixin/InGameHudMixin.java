@@ -147,9 +147,9 @@ public class InGameHudMixin {
         int currentHeight = pollution * textureHeight / 200;
         int currentLength = textureHeight - currentHeight;
         
-        if (currentHeight == 1) {
-            client.player.sendMessage(Text.literal("" + textureHeight));
-        }
+//        if (currentHeight == 1) {
+//            client.player.sendMessage(Text.literal("" + textureHeight));
+//        }
         
         // ゲージの中身の描画
         RenderSystem.setShaderTexture(0, NAKAMI);
