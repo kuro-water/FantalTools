@@ -17,7 +17,8 @@ public final class TestBlock extends Block {
     public TestBlock(Settings settings) {
         super(settings);
     }
-//
+    
+    //
 //    public static final Block EXAMPLE_BLOCK = register(new Block(FabricBlockSettings.of(Material.METAL)
 //                                                                                    .strength(4.0f)), "test_block");
 //
@@ -45,7 +46,8 @@ public final class TestBlock extends Block {
 //                                                     "clear_block");
     
     private static Block register(Block block, String path) {
-        Registry.register(Registries.ITEM, new Identifier(FantalMod.MODID, path), new BlockItem(block, new Item.Settings()));
+        Registry.register(Registries.ITEM, new Identifier(FantalMod.MODID, path),
+                          new BlockItem(block, new Item.Settings()));
         return Registry.register(Registries.BLOCK, new Identifier(FantalMod.MODID, path), block);
     }
     

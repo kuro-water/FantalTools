@@ -4,8 +4,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 
-public class NankaStatusEffect extends StatusEffect {
-    public NankaStatusEffect() {
+public class ShacklesCurseStatusEffect extends StatusEffect {
+    public ShacklesCurseStatusEffect() {
         super(
                 StatusEffectCategory.HARMFUL, // beneficial：良い効果 harmful：悪い効果 neutral：どちらでもない
                 0xFF0000); // color in RGB

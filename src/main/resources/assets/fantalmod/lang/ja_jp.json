@@ -50,5 +50,6 @@
     "item.fantalmod.fantal_bow.pull" : "引き具合",
     "item.fantalmod.fantal_bow.pulling" : "引いている",
     "key.fantalmod.pull_fantal" : "Fantalキーバインド",
-    "category.fantalmod" : "Fantal Mod"
+    "category.fantalmod" : "Fantal Mod",
+    "effect.fantalmod.shackles_curse" : "足枷の呪い"
 }

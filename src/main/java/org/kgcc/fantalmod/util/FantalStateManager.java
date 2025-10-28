@@ -18,6 +18,7 @@ import net.minecraft.world.PersistentState;
 import net.minecraft.world.PersistentStateManager;
 import net.minecraft.world.World;
 import org.kgcc.fantalmod.FantalMod;
+import org.kgcc.fantalmod.registry.FantalModStatusEffects;
 
 import java.util.HashMap;
 import java.util.Objects;
@@ -105,23 +106,14 @@ public class FantalStateManager extends PersistentState {
             // 汚染度による状態異常を付与
             for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
                 var playerState = FantalStateManager.getPlayerState(player);
-                if (20 < playerState.getFantalPollution()) {
+                if (50 < playerState.getFantalPollution()) {
                     KeepStatusEffect(player, StatusEffects.HUNGER, 0, false, false);
                 }
-                if (40 < playerState.getFantalPollution()) {
+                if (100 < playerState.getFantalPollution()) {
                     KeepStatusEffect(player, StatusEffects.SLOWNESS, 0, false, false);
                 }
-                if (60 < playerState.getFantalPollution()) {
-                    KeepStatusEffect(player, StatusEffects.MINING_FATIGUE, 0, false, false);
-                }
-                if (80 < playerState.getFantalPollution()) {
-                    KeepStatusEffect(player, StatusEffects.WEAKNESS, 0, false, false);
-                }
-                if (100 < playerState.getFantalPollution()) {
-                    KeepStatusEffect(player, StatusEffects.POISON, 0, false, false);
-                }
                 if (150 < playerState.getFantalPollution()) {
-                    KeepStatusEffect(player, StatusEffects.WITHER, 1, false, false);
+                    KeepStatusEffect(player, FantalModStatusEffects.SHACKLES_CURSE_STATUS_EFFECT, 0, false, false);
                 }
                 if (200 < playerState.getFantalPollution()) {
                     player.kill();

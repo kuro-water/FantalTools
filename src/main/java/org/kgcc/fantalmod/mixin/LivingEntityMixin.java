@@ -22,11 +22,11 @@ public abstract class LivingEntityMixin {
     
     @Inject(at = @At("HEAD"), method = "jump()V")
     private void jump(CallbackInfo info) {
-        if (this.hasStatusEffect(FantalModStatusEffects.Nanka)) {
+        if (this.hasStatusEffect(FantalModStatusEffects.SHACKLES_CURSE_STATUS_EFFECT)) {
             LivingEntity entity = (LivingEntity) (Object) this;
             (entity).damage(
                     entity.getDamageSources().magic(),
-                    this.getStatusEffect(FantalModStatusEffects.Nanka).getAmplifier() + 1);
+                    this.getStatusEffect(FantalModStatusEffects.SHACKLES_CURSE_STATUS_EFFECT).getAmplifier() + 1);
         }
     }
 }

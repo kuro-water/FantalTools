@@ -9,29 +9,21 @@ import net.minecraft.command.argument.serialize.ConstantArgumentSerializer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import org.kgcc.fantalmod.armor.FantalArmorEffect;
 import org.kgcc.fantalmod.command.SkillArgumentType;
+import org.kgcc.fantalmod.init.ModEntities;
 import org.kgcc.fantalmod.recall.RecallDataManager;
 import org.kgcc.fantalmod.registry.*;
 import org.kgcc.fantalmod.skill.RecallSkill;
 import org.kgcc.fantalmod.test.ModBros;
 import org.kgcc.fantalmod.tool.FantalToolItem;
-import org.kgcc.fantalmod.init.ModEntities;
-import org.kgcc.fantalmod.registry.FantalModCommand;
-import org.kgcc.fantalmod.registry.FantalModItems;
-import org.kgcc.fantalmod.registry.FantalModStatusEffects;
 import org.kgcc.fantalmod.util.FantalStateManager;
 import org.kgcc.fantalmod.util.ServerTickHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 public class FantalMod implements ModInitializer {
     // このMODのIDを取得します。
@@ -99,5 +91,7 @@ public class FantalMod implements ModInitializer {
                 SkillArgumentType.class,
                 ConstantArgumentSerializer.of(SkillArgumentType::skill));
         ModEntities.register();
+        
+        FantalModStatusEffects.registerEffects();
     }
 }

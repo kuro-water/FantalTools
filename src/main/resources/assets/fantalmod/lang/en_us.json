@@ -50,5 +50,6 @@
     "item.fantalmod.fantal_bow" : "Fantal Bow",
     "item.fantalmod.fantal_bow.pull" : "Pull",
     "item.fantalmod.fantal_bow.pulling" : "Pulling",
-    "key.fantalmod.pull_fantal" : "PullFantalKeyBind"
+    "key.fantalmod.pull_fantal" : "PullFantalKeyBind",
+    "effect.fantalmod.shackles_curse" : "Shackles Curse"
 }
