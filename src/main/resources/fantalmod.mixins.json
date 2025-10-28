@@ -1,16 +1,17 @@
 {
-  "required": true,
-  "minVersion": "0.8",
-  "package": "org.kgcc.fantalmod.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "mixins": [
-  ],
-  "client": [
-    "ExampleMixin",
-    "GridWidgetAccessor",
-    "InGameHudMixin"
-  ],
-  "injectors": {
-    "defaultRequire": 1
-  }
+    "required" : true,
+    "minVersion" : "0.8",
+    "package" : "org.kgcc.fantalmod.mixin",
+    "compatibilityLevel" : "JAVA_17",
+    "mixins" : [
+    ],
+    "client" : [
+        "ExampleMixin",
+        "GridWidgetAccessor",
+        "InGameHudMixin",
+        "LivingEntityMixin"
+    ],
+    "injectors" : {
+        "defaultRequire" : 1
+    }
 }
