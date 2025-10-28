@@ -1,3 +1,124 @@
 {
-    "parent" : "fantalmod:block/fantal_bench"
+    "parent" : "fantalmod:block/fantal_bench",
+    "display" : {
+        "thirdperson_righthand" : {
+            "rotation" : [
+                90,
+                0,
+                0
+            ],
+            "translation" : [
+                0,
+                1.25,
+                0.5
+            ],
+            "scale" : [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "thirdperson_lefthand" : {
+            "rotation" : [
+                90,
+                0,
+                0
+            ],
+            "translation" : [
+                0,
+                1.25,
+                0.5
+            ],
+            "scale" : [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "firstperson_righthand" : {
+            "rotation" : [
+                0,
+                -135,
+                25
+            ],
+            "translation" : [
+                0,
+                2,
+                0.8
+            ],
+            "scale" : [
+                0.4,
+                0.4,
+                0.4
+            ]
+        },
+        "firstperson_lefthand" : {
+            "rotation" : [
+                0,
+                135,
+                -25
+            ],
+            "translation" : [
+                0,
+                2,
+                0.8
+            ],
+            "scale" : [
+                0.4,
+                0.4,
+                0.4
+            ]
+        },
+        "gui" : {
+            "rotation" : [
+                30,
+                225,
+                0
+            ],
+            "translation" : [
+                0,
+                0,
+                0
+            ],
+            "scale" : [
+                0.6,
+                0.6,
+                0.6
+            ]
+        },
+        "ground" : {
+            "rotation" : [
+                0,
+                0,
+                0
+            ],
+            "translation" : [
+                0,
+                3,
+                0
+            ],
+            "scale" : [
+                0.5,
+                0.5,
+                0.5
+            ]
+        },
+        "fixed" : {
+            "rotation" : [
+                0,
+                0,
+                0
+            ],
+            "translation" : [
+                0,
+                0,
+                0
+            ],
+            "scale" : [
+                0.5,
+                0.5,
+                0.5
+            ]
+        }
+    }
 }
