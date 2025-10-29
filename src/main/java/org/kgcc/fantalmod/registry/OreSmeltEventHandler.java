@@ -12,8 +12,10 @@ import net.minecraft.recipe.RecipeManager;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import org.kgcc.fantalmod.skill.SmeltSkill;
+import org.kgcc.fantalmod.tool.FantalToolItem;
 import org.kgcc.fantalmod.util.FantalStateManager;
 
 import java.util.List;
@@ -37,6 +39,14 @@ public class OreSmeltEventHandler {
                 return true;
             }
             if (!(world instanceof ServerWorld serverWorld)) {
+                return true;
+            }
+            
+            
+            ItemStack mainHand = player.getMainHandStack();
+            String skillName = FantalToolItem.readNbt(mainHand);
+            if (!Text.translatable("skill.fantalmod.smelt").getString().equals(skillName)) {
+//                player.sendMessage(Text.literal("§cこのツールにはSmeltスキルが付いていません"), true);
                 return true;
             }
             
