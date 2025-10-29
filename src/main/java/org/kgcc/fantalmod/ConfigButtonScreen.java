@@ -1,15 +1,18 @@
 package org.kgcc.fantalmod;
 
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
+import org.spongepowered.asm.mixin.Mixin;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Mixin(MultiplayerScreen.class)
 public class ConfigButtonScreen extends Screen {
     private final Screen parent; //Ecsメニュー画面を保存
     
@@ -44,16 +47,16 @@ public class ConfigButtonScreen extends Screen {
         
         // 位置切り替えボタン（トグル式）
         positionButton = ButtonWidget.builder(
-                                             Text.of("位置: " + getPositionLabel(FantalModState.getImagePosition())),
-                                             button -> {
-                                                 FantalModState.ImagePosition[] positions = FantalModState.ImagePosition.values();
-                                                 int nextIndex = (FantalModState.getImagePosition().ordinal() + 1) % positions.length;
-                                                 FantalModState.setImagePosition(positions[nextIndex]);
-                                                 button.setMessage(Text.of("位置: " + getPositionLabel(positions[nextIndex])));
-                                                 rebuildUI();
-                                             })
-                                     .dimensions(centerX - 50, centerY - 30, 100, 20)
-                                     .build();
+                Text.of("位置: " + getPositionLabel(FantalModState.getImagePosition())),
+                button -> {
+                    FantalModState.ImagePosition[] positions = FantalModState.ImagePosition.values();
+                    int nextIndex = (FantalModState.getImagePosition().ordinal() + 1) % positions.length;
+                    FantalModState.setImagePosition(positions[nextIndex]);
+                    button.setMessage(Text.of("位置: " + getPositionLabel(positions[nextIndex])));
+                    rebuildUI();
+                })
+                .dimensions(centerX - 50, centerY - 30, 100, 20)
+                .build();
         if (FantalModState.isShowImage()) {
             this.addDrawableChild(positionButton);
         }
@@ -64,10 +67,8 @@ public class ConfigButtonScreen extends Screen {
             int imageHeight = 64;
             int sliderMaxX = this.width - imageWidth;
             int sliderMaxY = this.height - imageHeight - 60;
-            
-            customXSlider = new SliderWidget(centerX - 70, centerY + 10, 140, 20,
-                                             Text.of("X: " + FantalModState.getCustomX()),
-                                             FantalModState.getCustomX() / (float) sliderMaxX) {
+
+            customXSlider = new SliderWidget(centerX - 70, centerY + 10, 140, 20, Text.of("X: " + FantalModState.getCustomX()), FantalModState.getCustomX() / (float) sliderMaxX) {
                 @Override
                 protected void updateMessage() {
                     this.setMessage(Text.of("X: " + FantalModState.getCustomX()));

@@ -6,7 +6,11 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents;
+import net.minecraft.client.gui.screen.GameMenuScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.item.ModelPredicateProviderRegistry;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
@@ -17,6 +21,8 @@ import org.kgcc.fantalmod.keybind.FantalKeyBind;
 import org.kgcc.fantalmod.registry.FantalModItems;
 import org.kgcc.fantalmod.registry.FantalModScreenHandlers;
 import org.kgcc.fantalmod.screen.FantalBenchScreen;
+
+import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public class FantalModClient implements ClientModInitializer {
@@ -78,7 +84,23 @@ public class FantalModClient implements ClientModInitializer {
                                                    );
 
         EntityRendererRegistry.register(ModEntities.FANTAL_ARROW_ENTITY, FantalArrowEntityRenderer::new);
-        
+
+        ScreenEvents.AFTER_INIT.register(((client, screen, scaledWidth, scaledHeight) -> {
+            if (!(screen instanceof GameMenuScreen))
+                return;
+
+            List<ClickableWidget> widgets = net.fabricmc.fabric.api.client.screen.v1.Screens.getButtons(screen);
+            widgets.forEach(widget -> {
+                FantalMod.LOGGER.info("{}", widget.getClass().getSimpleName());
+            });
+
+
+            ButtonWidget fantalmodsettingBtn = ButtonWidget.builder(Text.of("Fantal Mod"), (widget) -> {
+                if (client.player != null)
+                    client.setScreen(new ConfigButtonScreen(screen));
+            }).dimensions(screen.width / 2 - 102, screen.height / 4 + 128, 204, 20).build();
+            widgets.add(fantalmodsettingBtn);
+        }));
     }
     
     private void registerModelPredicates() {
