@@ -122,7 +122,7 @@ public class InGameHudMixin {
         // serverを取得
         MinecraftServer server = client.getServer();
         if (server == null) {
-            FantalMod.LOGGER.error("render Mixin:MinecraftServer is null");
+//            FantalMod.LOGGER.error("render Mixin:MinecraftServer is null");
             return;
         }
         
