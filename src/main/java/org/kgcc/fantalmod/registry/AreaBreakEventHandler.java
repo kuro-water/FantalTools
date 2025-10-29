@@ -12,7 +12,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import org.kgcc.fantalmod.skill.HammerSkill;
-import org.kgcc.fantalmod.skill.SmeltSkill;
 import org.kgcc.fantalmod.util.FantalStateManager;
 
 public class AreaBreakEventHandler {

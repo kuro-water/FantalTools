@@ -137,7 +137,7 @@ public class RecallDataManager extends PersistentState {
             recallData.toPacket(data);
         });
         server.execute(() -> {
-            FantalMod.LOGGER.info("Sending pollution data to client");
+//            FantalMod.LOGGER.info("Sending pollution data to client");
             ServerPlayNetworking.send(playerEntity, FantalMod.RECALL_DATA, data);
         });
     }

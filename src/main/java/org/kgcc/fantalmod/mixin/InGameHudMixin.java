@@ -6,16 +6,10 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.FantalModState;
-import org.kgcc.fantalmod.util.FantalStateManager;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -23,10 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
-    @Shadow
-    @Final
-    private MinecraftClient client;
-    
     @Unique
     private static final Identifier WAKU = new Identifier(FantalMod.MODID, "textures/gui/waku.png");
     
@@ -44,7 +34,6 @@ public class InGameHudMixin {
         
         int x = 0;
         int y = 0;
-        int cy = 0;
         
         int imageWidth = 64;
         int imageHeight = 128;
@@ -74,14 +63,6 @@ public class InGameHudMixin {
                 y = FantalModState.getCustomY();
             }
         }
-        
-        if (client == null) {
-            // そんなことはありえないはず
-            FantalMod.LOGGER.error("render Mixin:MinecraftClient is null");
-            return;
-        }
-        
-        int mid = screenWidth / 2;
         
         // テクスチャのバインド
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
@@ -118,29 +99,9 @@ public class InGameHudMixin {
         DrawableHelper.drawTexture(
                 matrixStack, x, y, 0, 0, scaledGaugeWidth, scaledGaugeHeight,
                 scaledGaugeWidth, scaledGaugeHeight);
-        // serverを取得
-        MinecraftServer server = client.getServer();
-        if (server == null) {
-//            FantalMod.LOGGER.error("render Mixin:MinecraftServer is null");
-            return;
-        }
-
         
-        PlayerEntity player = client.player;
-        if (player == null) {
-            FantalMod.LOGGER.error("render Mixin:PlayerEntity is null");
-            return;
-        }
-
-        ServerPlayerEntity serverPlayer = server.getPlayerManager().getPlayer(player.getUuid());
-        if (serverPlayer == null) {
-            FantalMod.LOGGER.error("render Mixin:ServerPlayerEntity is null");
-            return;
-        }
-
-        //感染度の%に変換(下のをコメントアウトして上のコメントアウト外す)
-        int pollution = FantalStateManager.getPlayerState(serverPlayer).getFantalPollution();
-//        int pollution = (int) (client.world.getTime() % 200);
+        // クライアント側で保存されているpollutionデータを取得
+        int pollution = FantalModState.getPlayerPollution();
         
         //(client.world.getTime()をpollutionにすればいける…はず)
         int currentHeight = pollution * textureHeight / 200;

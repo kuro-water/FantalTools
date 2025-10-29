@@ -225,18 +225,15 @@ public class FantalStateManager extends PersistentState {
         data.writeInt(serverState.totalFantalPollution);
         data.writeInt(playerState.getFantalPollution());
         server.execute(() -> {
-            FantalMod.LOGGER.info("Sending pollution data to client");
+//            FantalMod.LOGGER.info("Sending pollution data to client");
             ServerPlayNetworking.send(playerEntity, FantalMod.FANTAL_POLLUTION, data);
         });
     }
     
     public static void addFantalPollution(MinecraftServer server, PlayerEntity user, int dif) {
         setServerFantalPollution(server, getServerState(server).totalFantalPollution + dif);
-        PlayerFantalData playerState = getPlayerState(user);
-        playerState.setFantalPollution(playerState.getFantalPollution() + dif);
-        
-        // クライアントに同期
-        sendFantalPollution(server, user);
+        int currentPollution = getPlayerState(user).getFantalPollution();
+        setFantalPollution(user, currentPollution + dif);
     }
     
     public static void setFantalPollution(PlayerEntity user, int value) {

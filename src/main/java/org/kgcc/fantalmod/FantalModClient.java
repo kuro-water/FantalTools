@@ -30,29 +30,24 @@ public class FantalModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         BlockRenderLayerMap.INSTANCE.putBlock(TestBlock.CRYSTAL_BLOCK, RenderLayer.getCutout());
+        
+        // サーバーからのpollutionデータを受信し、FantalModStateに保存
         ClientPlayNetworking.registerGlobalReceiver(
                 FantalMod.FANTAL_POLLUTION,
                 (client, handler, buf, responseSender) -> {
-                    var totalFantalPollution = buf.readInt();
-                    var playerSpecificDirtBlocksBroken = buf.readInt();
-                    var player = client.player;
-                    if (player == null) {
-                        return;
-                    }
-                    var name = player.getDisplayName().getString();
+                    int totalFantalPollution = buf.readInt();
+                    int playerFantalPollution = buf.readInt();
                     
+                    // クライアント側のFantalModStateに保存
                     client.execute(() -> {
-                        if (client.player != null) {
-//                                                                client.player.sendMessage(Text.literal(
-//                                                                        "全体の侵食度：" + totalFantalPollution));
-//                            client.player.sendMessage(Text.literal(
-//                                    name + "の侵食度：" + playerSpecificDirtBlocksBroken));
-                        }
+                        FantalModState.setTotalPollution(totalFantalPollution);
+                        FantalModState.setPlayerPollution(playerFantalPollution);
+                        
+                        FantalMod.LOGGER.info("Received pollution data - Total: {}, Player: {}",
+                                totalFantalPollution, playerFantalPollution);
                     });
-                    
-                    FantalMod.LOGGER.info("全体の侵食度：{}", totalFantalPollution);
-                    FantalMod.LOGGER.info("{}の侵食度：{}", name, playerSpecificDirtBlocksBroken);
                 });
+        
         HandledScreens.register(FantalModScreenHandlers.FANTAL_BENCH_SCREEN_HANDLER, FantalBenchScreen::new);
         // ModelPredicateの設定を一つの関数でまとめる
         registerModelPredicates();
@@ -60,28 +55,6 @@ public class FantalModClient implements ClientModInitializer {
         // キーバインドの登録
         FantalKeyBind.registerKeyBindings();
 
-        // 侵食度のネットワークメッセージ受信処理
-        ClientPlayNetworking.registerGlobalReceiver(FantalMod.FANTAL_POLLUTION,
-                                                    (client, handler, buf, responseSender) -> {
-                                                        int totalFantalPollution = buf.readInt();
-                                                        int playerSpecificDirtBlocksBroken = buf.readInt();
-                                                        if (client.player == null) {
-                                                            return;
-                                                        }
-                                                        String name = client.player.getDisplayName().getString();
-
-                                                        client.execute(() -> {
-                                                            if (client.player != null) {
-//                                                                client.player.sendMessage(Text.literal(
-//                                                                        name + "の侵食度：" + playerSpecificDirtBlocksBroken));
-                                                            }
-                                                        });
-
-                                                        FantalMod.LOGGER.info("全体の侵食度：{}", totalFantalPollution);
-                                                        FantalMod.LOGGER.info("{}の侵食度：{}", name,
-                                                                              playerSpecificDirtBlocksBroken);
-                                                    }
-                                                   );
 
         EntityRendererRegistry.register(ModEntities.FANTAL_ARROW_ENTITY, FantalArrowEntityRenderer::new);
 

@@ -21,6 +21,7 @@ public class FantalModSkills {
     public static final BaseSkill HASTE = registerSkill(new HasteSkill());
     public static final BaseSkill HEALTH_BOOST = registerSkill(new HealthBoostSkill());
     public static final BaseSkill STRENGTH = registerSkill(new StrengthSkill());
+    public static final BaseSkill SPEED = registerSkill(new SpeedSkill());
     public static final BaseSkill NONE = registerSkill(new NoneSkill());
     
     
