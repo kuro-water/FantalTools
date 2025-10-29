@@ -11,6 +11,8 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.kgcc.fantalmod.registry.FantalModSkills;
+import org.kgcc.fantalmod.tool.FantalToolItem;
 
 import java.util.List;
 
@@ -28,6 +30,7 @@ public interface BaseSkill {
     
     /**
      * {@link #isToolSupported(Tool)}のラッパー関数。
+     *
      * @see #isToolSupported(Tool)
      */
     default boolean isToolSupported(Item item) {
@@ -94,7 +97,8 @@ public interface BaseSkill {
     
     /**
      * @see Item#inventoryTick(ItemStack, World, Entity, int, boolean)
-     * */
+     *
+     */
     default void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
     }
     
@@ -102,6 +106,13 @@ public interface BaseSkill {
      * @see Item#appendTooltip(ItemStack, World, List, TooltipContext)
      */
     default void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
-        tooltip.add(getName().formatted(Formatting.AQUA));
+//        tooltip.add(getName().formatted(Formatting.AQUA));
+        // シングルプレイではgetName()で良いが、マルチプレイではNBTから読み取らないとだめみたい
+        String skillName = FantalToolItem.readNbt(stack);
+        BaseSkill skill = FantalModSkills.SKILLS.stream()
+                                                .filter(s -> s.getName().getString().equals(skillName))
+                                                .findFirst()
+                                                .orElse(FantalModSkills.NONE);
+        tooltip.add(skill.getName().formatted(Formatting.AQUA));
     }
 }

@@ -112,3 +112,13 @@ task generateWiki(type: JavaExec) {
 
     args project.properties.get('projectRoot', projectDir.toString())
 }
+
+loom {
+    runs {
+        client {
+            client()
+            vmArgs("-Duser.uuid=8667ba71-b85a-4004-af54-457a9734eed7")
+            programArgs("--username", "kgcc")
+        }
+    }
+}
