@@ -59,7 +59,7 @@ public class FantalModClient implements ClientModInitializer {
         
         // キーバインドの登録
         FantalKeyBind.registerKeyBindings();
-        
+
         // 侵食度のネットワークメッセージ受信処理
         ClientPlayNetworking.registerGlobalReceiver(FantalMod.FANTAL_POLLUTION,
                                                     (client, handler, buf, responseSender) -> {

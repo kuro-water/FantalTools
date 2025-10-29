@@ -170,7 +170,6 @@ public class RecallSkill implements BaseSkill {
         int amount = recall(server, user);
         
         FantalStateManager.addFantalPollution(server, user, amount / 4);
-        FantalStateManager.sendFantalPollution(server, user);
 
 //        if (!user.isCreative()) {
 //            // 耐久値を減らす

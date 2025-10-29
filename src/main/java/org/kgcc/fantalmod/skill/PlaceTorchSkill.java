@@ -60,7 +60,6 @@ public class PlaceTorchSkill implements BaseSkill {
             ActionResult result = blockItem.place(new ItemPlacementContext(player, hand, torchStack, hitResult));
             if (result.isAccepted()) {
                 FantalStateManager.addFantalPollution(server, player, 1);
-                FantalStateManager.sendFantalPollution(server, player);
                 return ActionResult.SUCCESS;
             }
         }

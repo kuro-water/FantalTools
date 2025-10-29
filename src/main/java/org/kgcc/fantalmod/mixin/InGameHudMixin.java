@@ -9,7 +9,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.FantalModState;
@@ -125,20 +124,20 @@ public class InGameHudMixin {
 //            FantalMod.LOGGER.error("render Mixin:MinecraftServer is null");
             return;
         }
-        
+
         
         PlayerEntity player = client.player;
         if (player == null) {
             FantalMod.LOGGER.error("render Mixin:PlayerEntity is null");
             return;
         }
-        
+
         ServerPlayerEntity serverPlayer = server.getPlayerManager().getPlayer(player.getUuid());
         if (serverPlayer == null) {
             FantalMod.LOGGER.error("render Mixin:ServerPlayerEntity is null");
             return;
         }
-        
+
         //感染度の%に変換(下のをコメントアウトして上のコメントアウト外す)
         int pollution = FantalStateManager.getPlayerState(serverPlayer).getFantalPollution();
 //        int pollution = (int) (client.world.getTime() % 200);

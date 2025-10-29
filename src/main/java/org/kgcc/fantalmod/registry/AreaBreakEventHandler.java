@@ -77,7 +77,6 @@ public class AreaBreakEventHandler {
             }
             // 侵食
             FantalStateManager.addFantalPollution(server, player, 3);
-            FantalStateManager.sendFantalPollution(server, player);
             
             return false;
         });

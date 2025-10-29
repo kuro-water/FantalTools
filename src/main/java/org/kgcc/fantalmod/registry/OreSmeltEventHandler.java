@@ -93,7 +93,6 @@ public class OreSmeltEventHandler {
                 // 侵食
                 FantalStateManager.addFantalPollution(server, player, 1);
             }
-            FantalStateManager.sendFantalPollution(server, player);
             
             return false; // バニラのドロップと破壊をキャンセル
         });

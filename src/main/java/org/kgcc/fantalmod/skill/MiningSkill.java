@@ -80,7 +80,6 @@ public class MiningSkill implements BaseSkill {
         // 汚染度増加
         var server = world.getServer();
         FantalStateManager.addFantalPollution(server, player, 2);
-        FantalStateManager.sendFantalPollution(server, player);
         
         // 耐久値を減らす
 //        var hand = context.getHand();

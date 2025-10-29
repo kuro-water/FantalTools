@@ -44,7 +44,6 @@ public class SpeedSkill implements BaseSkill {
         
         var server = world.getServer();
         FantalStateManager.addFantalPollution(server, user, 1);
-        FantalStateManager.sendFantalPollution(server, user);
         
         return TypedActionResult.success(user.getStackInHand(hand));
     }

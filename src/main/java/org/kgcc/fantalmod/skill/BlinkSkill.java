@@ -54,7 +54,6 @@ public class BlinkSkill implements BaseSkill {
         MinecraftServer server = world.getServer();
         
         FantalStateManager.addFantalPollution(server, user, 3);
-        FantalStateManager.sendFantalPollution(server, user);
         // CT0.5秒
         user.getItemCooldownManager().set(user.getMainHandStack().getItem(), 10);
         

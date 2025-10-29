@@ -119,6 +119,13 @@ public class FantalStateManager extends PersistentState {
                     player.kill();
                 }
             }
+            
+            // 5tick毎に全プレイヤーのpollutionデータをクライアントに同期
+            if (tick % 5 == 0) {
+                for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+                    sendFantalPollution(server, player);
+                }
+            }
         });
         
         // プレイヤーが死亡したときに汚染度をリセット
@@ -225,12 +232,22 @@ public class FantalStateManager extends PersistentState {
     
     public static void addFantalPollution(MinecraftServer server, PlayerEntity user, int dif) {
         setServerFantalPollution(server, getServerState(server).totalFantalPollution + dif);
-        setFantalPollution(user, getPlayerState(user).getFantalPollution() + dif);
+        PlayerFantalData playerState = getPlayerState(user);
+        playerState.setFantalPollution(playerState.getFantalPollution() + dif);
+        
+        // クライアントに同期
+        sendFantalPollution(server, user);
     }
     
     public static void setFantalPollution(PlayerEntity user, int value) {
         PlayerFantalData playerState = FantalStateManager.getPlayerState(user);
         playerState.setFantalPollution(value);
+        
+        // 値が更新された場合、クライアントに同期
+        var server = user.getWorld().getServer();
+        if (server != null) {
+            sendFantalPollution(server, user);
+        }
     }
     
     public static void setServerFantalPollution(MinecraftServer server, int value) {
