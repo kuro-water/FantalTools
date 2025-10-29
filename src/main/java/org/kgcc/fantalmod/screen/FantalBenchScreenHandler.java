@@ -105,14 +105,14 @@ public class FantalBenchScreenHandler extends ScreenHandler {
     
     @Override
     public boolean onButtonClick(PlayerEntity player, int id) {
-        var item = this.inventory.getStack(0);
-        if (!(item.getItem() instanceof FantalToolItem tool)) {
+        var itemStack = this.inventory.getStack(0);
+        if (!(itemStack.getItem() instanceof FantalToolItem tool)) {
             FantalMod.LOGGER.info("No valid tool in slot 0.");
             return false;
         }
         BaseSkill skill = FantalModSkills.SKILLS.get(id);
         FantalMod.LOGGER.info("Found skill: {}", skill.getName());
-        tool.setSkill(item, skill);
+        tool.setSkill(itemStack, skill);
         
         // アイテム減らしたりNBTの処理
         this.inventory.getStack(1).decrement(1);

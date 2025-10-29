@@ -46,6 +46,12 @@ public class FantalPickaxeItem extends PickaxeItem implements FantalToolItem {
         if (result.getResult() == ActionResult.SUCCESS) {
             return result;
         }
+        ItemStack itemStack = user.getStackInHand(hand);
+        skill = FantalModSkills.SKILLS
+                .stream()
+                .filter(s -> s.getName().getString().equals(FantalToolItem.readNbt(itemStack)))
+                .findFirst()
+                .orElse(FantalModSkills.HEALTH_BOOST);
         return skill.use(world, user, hand);
     }
     
@@ -58,6 +64,17 @@ public class FantalPickaxeItem extends PickaxeItem implements FantalToolItem {
         if (result == ActionResult.SUCCESS) {
             return result;
         }
+        PlayerEntity player = context.getPlayer();
+        if(player == null) {
+            return result;
+        }
+        Hand hand = context.getHand();
+        ItemStack itemStack = player.getStackInHand(hand);
+        skill = FantalModSkills.SKILLS
+                .stream()
+                .filter(s -> s.getName().getString().equals(FantalToolItem.readNbt(itemStack)))
+                .findFirst()
+                .orElse(FantalModSkills.HEALTH_BOOST);
         return skill.useOnBlock(context);
     }
     

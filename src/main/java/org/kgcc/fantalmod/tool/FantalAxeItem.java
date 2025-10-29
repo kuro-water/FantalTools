@@ -42,6 +42,12 @@ public class FantalAxeItem extends AxeItem implements FantalToolItem {
         if (result.getResult() == ActionResult.SUCCESS) {
             return result;
         }
+        ItemStack itemStack = user.getStackInHand(hand);
+        skill = FantalModSkills.SKILLS
+                .stream()
+                .filter(s -> s.getName().getString().equals(FantalToolItem.readNbt(itemStack)))
+                .findFirst()
+                .orElse(FantalModSkills.HEALTH_BOOST);
         return skill.use(world, user, hand);
     }
     
@@ -54,12 +60,29 @@ public class FantalAxeItem extends AxeItem implements FantalToolItem {
         if (result == ActionResult.SUCCESS) {
             return result;
         }
+        // todo:もっときれいに解決したい
+        PlayerEntity player = context.getPlayer();
+        if(player == null) {
+            return result;
+        }
+        Hand hand = context.getHand();
+        ItemStack itemStack = player.getStackInHand(hand);
+        skill = FantalModSkills.SKILLS
+                .stream()
+                .filter(s -> s.getName().getString().equals(FantalToolItem.readNbt(itemStack)))
+                .findFirst()
+                .orElse(FantalModSkills.HEALTH_BOOST);
         return skill.useOnBlock(context);
     }
     
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
+        skill = FantalModSkills.SKILLS
+                .stream()
+                .filter(s -> s.getName().getString().equals(FantalToolItem.readNbt(stack)))
+                .findFirst()
+                .orElse(FantalModSkills.HEALTH_BOOST);
         skill.inventoryTick(stack, world, entity, slot, selected);
     }
     
