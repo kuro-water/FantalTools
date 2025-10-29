@@ -17,6 +17,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
 import org.kgcc.fantalmod.recall.RecallData;
 import org.kgcc.fantalmod.recall.RecallDataManager;
+import org.kgcc.fantalmod.util.FantalStateManager;
 import org.kgcc.fantalmod.util.ServerTickHandler;
 
 import java.util.*;
@@ -166,13 +167,17 @@ public class RecallSkill implements BaseSkill {
             return TypedActionResult.pass(user.getStackInHand(hand));
         }
         var server = Objects.requireNonNull(world.getServer());
-        int damage = recall(server, user);
-        if (!user.isCreative()) {
-            // 耐久値を減らす
-            ItemStack stack = user.getStackInHand(hand);
-            stack.damage(damage, user, (e) -> e.sendToolBreakStatus(hand));
-        }
+        int amount = recall(server, user);
         
+        FantalStateManager.addFantalPollution(server, user, amount / 4);
+        FantalStateManager.sendFantalPollution(server, user);
+
+//        if (!user.isCreative()) {
+//            // 耐久値を減らす
+//            ItemStack stack = user.getStackInHand(hand);
+//            stack.damage(amount, user, (e) -> e.sendToolBreakStatus(hand));
+//        }
+//
         return TypedActionResult.success(user.getStackInHand(hand));
     }
 }

@@ -1,6 +1,9 @@
 package org.kgcc.fantalmod.registry;
 
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
@@ -16,7 +19,7 @@ public class AreaBreakEventHandler {
     /**
      * <p>ブロック破壊時に範囲破壊スキルが有効なプレイヤーの場合、
      * 範囲破壊を行うイベントハンドラ</p>
-     * <p>{@link SmeltSkill#isActive(PlayerEntity)}を参照する</p>
+     * <p>{@link HammerSkill#isActive(PlayerEntity)}を参照する</p>
      */
     public static void register() {
         PlayerBlockBreakEvents.BEFORE.register((world, player, pos, blockState, blockEntity) -> {
@@ -49,11 +52,31 @@ public class AreaBreakEventHandler {
                 for (int dy = -size; dy <= size; dy++) {
                     for (int dz = -size; dz <= size; dz++) {
                         BlockPos target = center.add(dx, dy, dz);
-                        mainHand.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
+                        BlockState targetState = serverWorld.getBlockState(target);
+                        if (targetState.isAir()) {
+                            continue;
+                        }
+                        // ツールで破壊可能か
+                        if (!mainHand.isSuitableFor(targetState)) {
+                            continue;
+                        }
+                        
+                        // ドロップ
+                        Block.getDroppedStacks(targetState, serverWorld, target, serverWorld.getBlockEntity(target))
+                             .forEach(stack -> Block.dropStack(serverWorld, target, stack));
+                        serverWorld.setBlockState(target, Blocks.AIR.getDefaultState());
+                        
+//                        if (!player.isCreative()) {
+//                            // 破壊した分ツールの耐久値を減らす
+//                            mainHand.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
+//                        }
+                    
                     }
                 }
 
             }
+            // 侵食
+            FantalStateManager.addFantalPollution(server, player, 3);
             FantalStateManager.sendFantalPollution(server, player);
             
             return false;

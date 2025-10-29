@@ -86,7 +86,7 @@ public class OreSmeltEventHandler {
                 serverWorld.spawnEntity(new ItemEntity(serverWorld, vec.x, vec.y, vec.z, result.copy()));
                 
                 if (!player.isCreative()) {
-                    // 耐久
+                    // 本来発生する耐久値減少処理もキャンセルしてしまうので、ここで減らす
                     hand.damage(1, player, p -> p.sendToolBreakStatus(player.getActiveHand()));
                 }
                 

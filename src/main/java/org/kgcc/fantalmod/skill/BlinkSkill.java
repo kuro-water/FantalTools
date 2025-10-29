@@ -2,11 +2,13 @@ package org.kgcc.fantalmod.skill;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
+import org.kgcc.fantalmod.util.FantalStateManager;
 
 import java.util.List;
 
@@ -48,6 +50,13 @@ public class BlinkSkill implements BaseSkill {
         var speed = 1.5;
         user.addVelocity(x * speed, y * speed / 2, z * speed);
         user.velocityModified = true;
+        
+        MinecraftServer server = world.getServer();
+        
+        FantalStateManager.addFantalPollution(server, user, 3);
+        FantalStateManager.sendFantalPollution(server, user);
+        // CT0.5秒
+        user.getItemCooldownManager().set(user.getMainHandStack().getItem(), 10);
         
         return TypedActionResult.success(user.getStackInHand(hand));
     }
