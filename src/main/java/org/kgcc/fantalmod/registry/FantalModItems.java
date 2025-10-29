@@ -125,6 +125,10 @@ public class FantalModItems {
             entries.addAfter(FantalModItems.FANTAL_LEGGINGS, FantalModItems.FANTAL_BOOTS);
             // 他の防具があれば、ここに追加する
         });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
+            entries.addAfter(Items.ENCHANTING_TABLE, FantalModItems.FANTAL_BENCH);
+            // 他の機能系アイテムがあれば、ここに追加する
+        });
     }
     
     public static void initialize() {
