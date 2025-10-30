@@ -76,11 +76,12 @@ public class FantalMod implements ModInitializer {
         RecallSkill.register();
         FantalModScreenHandlers.initialize();
         
+        // todo:わんちゃんいらない説ある
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
             for (ItemStack stack : handler.getPlayer().getInventory().main) {
                 if (stack.getItem() instanceof FantalToolItem fantalToolItem) {
-                    String skillName = FantalToolItem.readNbt(stack);
-                    fantalToolItem.setSkill(stack, skillName);
+                    String translationKey = FantalToolItem.readNbt(stack);
+                    fantalToolItem.setSkill(stack, translationKey);
                 }
             }
             handler.getPlayer().playerScreenHandler.syncState();

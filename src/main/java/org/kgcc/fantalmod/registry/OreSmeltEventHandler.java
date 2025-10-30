@@ -12,7 +12,6 @@ import net.minecraft.recipe.RecipeManager;
 import net.minecraft.recipe.RecipeType;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.Vec3d;
 import org.kgcc.fantalmod.skill.SmeltSkill;
 import org.kgcc.fantalmod.tool.FantalToolItem;
@@ -44,8 +43,8 @@ public class OreSmeltEventHandler {
             
             
             ItemStack mainHand = player.getMainHandStack();
-            String skillName = FantalToolItem.readNbt(mainHand);
-            if (!Text.translatable("skill.fantalmod.smelt").getString().equals(skillName)) {
+            String skillTranslationKey = FantalToolItem.readNbt(mainHand);
+            if (!"smelt".equals(skillTranslationKey)) {
 //                player.sendMessage(Text.literal("§cこのツールにはSmeltスキルが付いていません"), true);
                 return true;
             }
@@ -56,14 +55,14 @@ public class OreSmeltEventHandler {
             }
             
             ItemStack itemStack = drops.get(0);
-            String translationKey = itemStack.getTranslationKey();
+            String itemStackTranslationKey = itemStack.getTranslationKey();
             int dropCount = drops.size();
             
             // ドロップアイテムのtranslationキーが一致しない=ドロップアイテムの種類が複数ある
             // つまりチェスト等を壊してドロップした場合なので、精錬しない
             // 幸運で同種アイテムが複数個ドロップする場合があるので、こんなチェックをしている
             for (ItemStack drop : drops) {
-                if (!drop.getTranslationKey().equals(translationKey)) {
+                if (!drop.getTranslationKey().equals(itemStackTranslationKey)) {
                     return true;
                 }
             }

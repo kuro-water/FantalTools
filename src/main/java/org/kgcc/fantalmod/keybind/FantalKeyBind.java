@@ -26,10 +26,10 @@ public class FantalKeyBind {
             if (pullFantalKeyBind.isPressed() && client.player != null) {
                 client.player.sendMessage(Text.literal("[DEBUG] キーバインド実行！"), false);
                 ItemStack mainHandItem = client.player.getMainHandStack();
-                String skillName = FantalToolItem.readNbt(mainHandItem);
-                FantalMod.LOGGER.info("nbt:{}", skillName);
+                String translationKey = FantalToolItem.readNbt(mainHandItem);
+                FantalMod.LOGGER.info("nbt:{}", translationKey);
                 if (mainHandItem.getItem() instanceof FantalToolItem fantalToolItem) {
-                    FantalMod.LOGGER.info("skill:{}", fantalToolItem.getSkill().getName().getString());
+                    FantalMod.LOGGER.info("skill:{}", fantalToolItem.getSkill(mainHandItem).getName().getString());
                 }
             }
         });

@@ -10,21 +10,25 @@ import org.kgcc.fantalmod.skill.BaseSkill;
 public interface FantalToolItem {
     String SKILL_NBT_KEY = "fantalmod.skill";
     
-    BaseSkill getSkill();
-    
-    void setSkill(ItemStack stack, @NotNull BaseSkill skill);
-    
-    default void setSkill(ItemStack stack, @Nullable String skillName) {
-        BaseSkill skill = FantalModSkills.SKILLS.stream()
-                                                .filter(s -> s.getName().getString().equals(skillName))
-                                                .findFirst()
-                                                .orElse(FantalModSkills.NONE);
-        setSkill(stack, skill);
+    default BaseSkill getSkill(ItemStack stack) {
+        String translationKey = readNbt(stack);
+        return FantalModSkills.SKILLS.stream()
+                                     .filter(s -> s.getTranslationKey().equals(translationKey))
+                                     .findFirst()
+                                     .orElse(FantalModSkills.NONE);
     }
     
-    static void writeNbt(ItemStack stack, String skillName) {
+    default void setSkill(ItemStack stack, @NotNull BaseSkill skill) {
+        writeNbt(stack, skill.getTranslationKey());
+    }
+    
+    default void setSkill(ItemStack stack, @Nullable String translationKey) {
+        writeNbt(stack, translationKey != null ? translationKey : "");
+    }
+    
+    static void writeNbt(ItemStack stack, String translationKey) {
         NbtCompound nbt = stack.getOrCreateNbt();
-        nbt.putString(SKILL_NBT_KEY, skillName);
+        nbt.putString(SKILL_NBT_KEY, translationKey);
     }
     
     static String readNbt(ItemStack stack) {

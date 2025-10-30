@@ -28,8 +28,8 @@ public class AreaBreakEventHandler {
                 return true;
             
             ItemStack mainHand = player.getMainHandStack();
-            String skillName = FantalToolItem.readNbt(mainHand);
-            if (!Text.translatable("skill.fantalmod.hammer").getString().equals(skillName)) {
+            String translationKey = FantalToolItem.readNbt(mainHand);
+            if (!"hammer".equals(translationKey)) {
 //                player.sendMessage(Text.literal("§cこのツールにはHammerスキルが付いていません"), true);
                 return true;
             }

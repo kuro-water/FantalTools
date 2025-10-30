@@ -17,18 +17,7 @@ import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BaseSkill;
 
 public class FantalShovelItem extends ShovelItem implements FantalToolItem {
-    public BaseSkill skill = FantalModSkills.PLACE_TORCH;
-    
-    @Override
-    public void setSkill(ItemStack stack, @NotNull BaseSkill skill) {
-        this.skill = skill;
-        FantalToolItem.writeNbt(stack, skill.getName().getString());
-    }
-    
-    @Override
-    public BaseSkill getSkill() {
-        return skill;
-    }
+    // ...existing code...
     
     public FantalShovelItem() {
         super(new FantalToolMaterial(), 1.5f, -3f, new Settings().rarity(Rarity.COMMON));
@@ -36,27 +25,19 @@ public class FantalShovelItem extends ShovelItem implements FantalToolItem {
     
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
-        // まず基底クラスのuseを呼ぶ
-        // SUCCESSが返ってきたなら、アニメーションとかあるっぽいのでそのまま返す
-        // それ以外はスキルのuseを呼ぶ
+        // ...existing code...
         var result = super.use(world, user, hand);
         if (result.getResult() == ActionResult.SUCCESS) {
             return result;
         }
         ItemStack itemStack = user.getStackInHand(hand);
-        skill = FantalModSkills.SKILLS
-                .stream()
-                .filter(s -> s.getName().getString().equals(FantalToolItem.readNbt(itemStack)))
-                .findFirst()
-                .orElse(FantalModSkills.HEALTH_BOOST);
+        BaseSkill skill = getSkill(itemStack);
         return skill.use(world, user, hand);
     }
     
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        // まず基底クラスのuseを呼ぶ
-        // SUCCESSが返ってきたなら、アニメーションとかあるっぽいのでそのまま返す
-        // それ以外はスキルのuseを呼ぶ
+        // ...existing code...
         var result = super.useOnBlock(context);
         if (result == ActionResult.SUCCESS) {
             return result;
@@ -67,23 +48,21 @@ public class FantalShovelItem extends ShovelItem implements FantalToolItem {
         }
         Hand hand = context.getHand();
         ItemStack itemStack = player.getStackInHand(hand);
-        skill = FantalModSkills.SKILLS
-                .stream()
-                .filter(s -> s.getName().getString().equals(FantalToolItem.readNbt(itemStack)))
-                .findFirst()
-                .orElse(FantalModSkills.HEALTH_BOOST);
+        BaseSkill skill = getSkill(itemStack);
         return skill.useOnBlock(context);
     }
     
     @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
         super.inventoryTick(stack, world, entity, slot, selected);
+        BaseSkill skill = getSkill(stack);
         skill.inventoryTick(stack, world, entity, slot, selected);
     }
     
     @Override
     public void appendTooltip(ItemStack stack, World world, java.util.List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
+        BaseSkill skill = getSkill(stack);
         skill.appendTooltip(stack, world, tooltip, context);
     }
 }

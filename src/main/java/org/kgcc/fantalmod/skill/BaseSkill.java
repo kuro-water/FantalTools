@@ -108,9 +108,9 @@ public interface BaseSkill {
     default void appendTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context) {
 //        tooltip.add(getName().formatted(Formatting.AQUA));
         // シングルプレイではgetName()で良いが、マルチプレイではNBTから読み取らないとだめみたい
-        String skillName = FantalToolItem.readNbt(stack);
+        String translationKey = FantalToolItem.readNbt(stack);
         BaseSkill skill = FantalModSkills.SKILLS.stream()
-                                                .filter(s -> s.getName().getString().equals(skillName))
+                                                .filter(s -> s.getTranslationKey().equals(translationKey))
                                                 .findFirst()
                                                 .orElse(FantalModSkills.NONE);
         tooltip.add(skill.getName().formatted(Formatting.AQUA));
