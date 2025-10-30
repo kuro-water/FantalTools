@@ -27,9 +27,9 @@ public class FantalKeyBind {
                 client.player.sendMessage(Text.literal("[DEBUG] キーバインド実行！"), false);
                 ItemStack mainHandItem = client.player.getMainHandStack();
                 String skillName = FantalToolItem.readNbt(mainHandItem);
-                FantalMod.LOGGER.info(skillName);
+                FantalMod.LOGGER.info("nbt:{}", skillName);
                 if (mainHandItem.getItem() instanceof FantalToolItem fantalToolItem) {
-                    FantalMod.LOGGER.info(fantalToolItem.getSkill().getName().getString());
+                    FantalMod.LOGGER.info("skill:{}", fantalToolItem.getSkill().getName().getString());
                 }
             }
         });

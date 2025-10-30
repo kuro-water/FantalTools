@@ -43,8 +43,8 @@ public class FantalModClient implements ClientModInitializer {
                         FantalModState.setTotalPollution(totalFantalPollution);
                         FantalModState.setPlayerPollution(playerFantalPollution);
                         
-                        FantalMod.LOGGER.info("Received pollution data - Total: {}, Player: {}",
-                                totalFantalPollution, playerFantalPollution);
+//                        FantalMod.LOGGER.info("Received pollution data - Total: {}, Player: {}",
+//                                totalFantalPollution, playerFantalPollution);
                     });
                 });
         

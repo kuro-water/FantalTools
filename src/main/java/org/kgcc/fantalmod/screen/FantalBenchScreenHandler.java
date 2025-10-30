@@ -107,7 +107,7 @@ public class FantalBenchScreenHandler extends ScreenHandler {
     public boolean onButtonClick(PlayerEntity player, int id) {
         var itemStack = this.inventory.getStack(0);
         if (!(itemStack.getItem() instanceof FantalToolItem tool)) {
-            FantalMod.LOGGER.info("No valid tool in slot 0.");
+//            FantalMod.LOGGER.info("No valid tool in slot 0.");
             return false;
         }
         BaseSkill skill = FantalModSkills.SKILLS.get(id);

@@ -113,7 +113,7 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
         allButtons.clear();
         
         if (!(item instanceof FantalToolItem)) {
-            FantalMod.LOGGER.info("No valid tool in slot 0.");
+//            FantalMod.LOGGER.info("No valid tool in slot 0.");
             updateVisibleButtons();
             return;
         }
@@ -131,8 +131,8 @@ public class FantalBenchScreen extends HandledScreen<FantalBenchScreenHandler> {
             allButtons.add(button);
             idx++;
         }
-        FantalMod.LOGGER.info("x: {}, y: {}, width: {}, height: {}",
-                              getListX(), getListY(), BUTTON_WIDTH, BUTTON_HEIGHT);
+//        FantalMod.LOGGER.info("x: {}, y: {}, width: {}, height: {}",
+//                              getListX(), getListY(), BUTTON_WIDTH, BUTTON_HEIGHT);
         updateVisibleButtons();
     }
     

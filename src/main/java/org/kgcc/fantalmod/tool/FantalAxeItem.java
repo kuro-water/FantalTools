@@ -13,6 +13,7 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.NotNull;
+import org.kgcc.fantalmod.FantalMod;
 import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BaseSkill;
 
@@ -89,6 +90,7 @@ public class FantalAxeItem extends AxeItem implements FantalToolItem {
     @Override
     public void appendTooltip(ItemStack stack, World world, java.util.List<Text> tooltip, TooltipContext context) {
         super.appendTooltip(stack, world, tooltip, context);
+//        FantalMod.LOGGER.info("appendTooltip called in FantalAxeItem");
         skill.appendTooltip(stack, world, tooltip, context);
     }
 }
