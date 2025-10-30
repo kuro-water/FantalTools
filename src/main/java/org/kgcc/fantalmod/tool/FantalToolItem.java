@@ -3,7 +3,6 @@ package org.kgcc.fantalmod.tool;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.kgcc.fantalmod.registry.FantalModSkills;
 import org.kgcc.fantalmod.skill.BaseSkill;
 
@@ -22,8 +21,8 @@ public interface FantalToolItem {
         writeNbt(stack, skill.getTranslationKey());
     }
     
-    default void setSkill(ItemStack stack, @Nullable String translationKey) {
-        writeNbt(stack, translationKey != null ? translationKey : "");
+    default void setSkill(ItemStack stack, @NotNull String translationKey) {
+        writeNbt(stack, translationKey);
     }
     
     static void writeNbt(ItemStack stack, String translationKey) {
