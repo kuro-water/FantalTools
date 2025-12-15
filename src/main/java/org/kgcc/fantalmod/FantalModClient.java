@@ -29,7 +29,7 @@ public class FantalModClient implements ClientModInitializer {
     
     @Override
     public void onInitializeClient() {
-        BlockRenderLayerMap.INSTANCE.putBlock(TestBlock.CRYSTAL_BLOCK, RenderLayer.getCutout());
+        BlockRenderLayerMap.INSTANCE.putBlock(TestBlock.FANTAL_CRYSTAL, RenderLayer.getCutout());
         
         // サーバーからのpollutionデータを受信し、FantalModStateに保存
         ClientPlayNetworking.registerGlobalReceiver(

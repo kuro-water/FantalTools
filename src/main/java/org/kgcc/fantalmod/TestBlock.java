@@ -25,15 +25,15 @@ public final class TestBlock extends Block {
 //    public static final Block ANIME_BLOCK = register(new Block(FabricBlockSettings.of(Material.METAL)
 //                                                                                  .strength(4.0f)), "anime_block");
 //
-    public static final Block CRYSTAL_BLOCK = register(new AmethystClusterBlock(7, 3, FabricBlockSettings.of(
+    public static final Block FANTAL_CRYSTAL = register(new AmethystClusterBlock(7, 3, FabricBlockSettings.of(
                                                                                                                  Material.AMETHYST)
-                                                                                                         .lightLevel(6)
-                                                                                                         .nonOpaque()
-                                                                                                         .ticksRandomly()
-                                                                                                         .sounds(BlockSoundGroup.AMETHYST_CLUSTER)
-                                                                                                         .strength(
+                                                                                                          .lightLevel(6)
+                                                                                                          .nonOpaque()
+                                                                                                          .ticksRandomly()
+                                                                                                          .sounds(BlockSoundGroup.AMETHYST_CLUSTER)
+                                                                                                          .strength(
                                                                                                                  1.5F)),
-                                                       "crystal_block");
+                                                        "fantal_crystal");
 //
 //    public static final Block CLEAR_BLOCK = register(new GlassBlock(Settings.of(Material.GLASS)
 //                                                                            .strength(0.3F)
