@@ -28,19 +28,16 @@ public class RecipeImageGenerator {
     public static void main(String[] args) {
         try {
             Path projectRoot = Paths.get(args.length > 1 ? args[1] : ".");
-            Path outputDir = Paths.get(args.length > 0 ? args[0] : "recipe_images");
+            Path outputDir = Paths.get(args.length > 0 ? args[0] : "FantalTools.wiki/images/recipes");
             
-            // items サブディレクトリを追加
-            Path itemsDir = outputDir.resolve("items");
-
             // 出力ディレクトリを作成
-            Files.createDirectories(itemsDir);
+            Files.createDirectories(outputDir);
 
-            RecipeImageGenerator generator = new RecipeImageGenerator(projectRoot, itemsDir);
+            RecipeImageGenerator generator = new RecipeImageGenerator(projectRoot, outputDir);
             generator.generateAllRecipes();
 
             System.out.println("✓ レシピ画像の生成が完了しました");
-            System.out.println("  出力先: " + itemsDir.toAbsolutePath());
+            System.out.println("  出力先: " + outputDir.toAbsolutePath());
 
         } catch (Exception e) {
             System.err.println("✗ エラーが発生しました:");
@@ -94,23 +91,32 @@ public class RecipeImageGenerator {
         String type = recipeJson.has("type") ? recipeJson.get("type").getAsString() : "";
         String recipeName = jsonFile.getFileName().toString().replace(".json", "");
 
-        RecipeData recipe = null;
+        // 特例：fantal_bench の場合は icon.png が使用されることをログ出力
+        if ("fantal_bench".equals(recipeName)) {
+            System.out.println("  ℹ fantal_bench: icon.png を完成品画像として使用します");
+        }
 
-        // レシピタイプに応じて解析
+        RecipeData recipe = null;
+        Path targetDir = null;
+
+        // レシピタイプに応じて解析と出力先を決定
         if ("minecraft:crafting_shaped".equals(type)) {
             recipe = parseShapedRecipe(recipeJson, recipeName);
+            targetDir = outputDir;
         } else if ("minecraft:crafting_shapeless".equals(type)) {
             recipe = parseShapelessRecipe(recipeJson, recipeName);
+            targetDir = outputDir;
         } else if ("minecraft:smelting".equals(type)) {
             recipe = parseSmeltingRecipe(recipeJson, recipeName);
+            targetDir = outputDir;
         } else {
             System.out.println("⊘ スキップ（未対応タイプ）: " + jsonFile.getFileName() + " (" + type + ")");
             return;
         }
 
-        if (recipe != null) {
+        if (recipe != null && targetDir != null) {
             RecipeRenderer renderer = new RecipeRenderer(textureCache);
-            Path outputPath = outputDir.resolve(recipeName + ".png");
+            Path outputPath = targetDir.resolve(recipeName + ".png");
             renderer.renderRecipe(recipe, outputPath);
             System.out.println("✓ 生成完了: " + recipeName + ".png (" + type + ")");
         }
@@ -205,4 +211,3 @@ public class RecipeImageGenerator {
         }
     }
 }
-

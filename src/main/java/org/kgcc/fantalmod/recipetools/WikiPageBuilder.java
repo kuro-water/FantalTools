@@ -65,7 +65,7 @@ public class WikiPageBuilder {
         // 自動生成セクション：レシピ情報
         sb.append(AUTO_SECTION_START).append("\n\n");
         sb.append("## レシピ情報\n\n");
-        sb.append("![Recipe](../../recipe_images/items/").append(data.recipeImage()).append(")\n\n");
+        sb.append("![Recipe](../../images/recipes/").append(data.recipeImage()).append(")\n\n");
 
         sb.append("| 項目 | 内容 |\n");
         sb.append("|---|---|\n");

@@ -98,7 +98,7 @@ task generateRecipeImages(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.kgcc.fantalmod.recipetools.RecipeImageGenerator'
 
-    args project.properties.get('outputDir', 'recipe_images')
+    args project.properties.get('outputDir', 'FantalTools.wiki/images/recipes')
     args project.properties.get('projectRoot', projectDir.toString())
 }
 

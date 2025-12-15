@@ -4,6 +4,9 @@
 
 `recipetools` は、Minecraft Fabric MOD のクラフトレシピを JSON から自動的に画像化するツールです。メインプログラムに一切影響を与えない独立した Gradle task として実装されています。
 
+**出力先:**
+- すべてのレシピ画像 → 指定された出力ディレクトリ（デフォルト: `FantalTools.wiki/images/recipes`）
+
 ## 🚀 クイックスタート
 
 ### 1. 基本的な実行方法
@@ -12,7 +15,7 @@
 gradle generateRecipeImages
 ```
 
-**結果**: プロジェクトルートの `recipe_images/` ディレクトリに PNG 画像が生成されます。
+**結果**: プロジェクトルートの `FantalTools.wiki/images/recipes/` ディレクトリに PNG 画像が生成されます。
 
 ### 2. 出力先を指定
 
@@ -60,7 +63,9 @@ src/main/java/org/kgcc/fantalmod/recipetools/
 3. レシピタイプを判定（shaped, shapeless, smelting）
 4. RecipeData を生成
 5. RecipeRenderer で画像化
-6. recipe_images/ に保存
+6. レシピタイプに応じて保存
+   - 作業台レシピ → crafts/
+   - 精錬レシピ → smelts/
 ```
 
 ### TextureCache（テクスチャ管理）
@@ -141,7 +146,8 @@ implementation 'com.google.code.gson:gson:2.10.1'
 
 ### 出力（PNG）
 
-`recipe_images/[レシピ名].png`
+すべてのレシピ画像は指定された出力ディレクトリに保存されます：
+- `FantalTools.wiki/images/recipes/[レシピ名].png`
 
 ## ⚙️ Gradle Task の登録
 
@@ -155,7 +161,7 @@ task generateRecipeImages(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'org.kgcc.fantalmod.recipetools.RecipeImageGenerator'
     
-    args project.properties.get('outputDir', 'recipe_images')
+    args project.properties.get('outputDir', 'FantalTools.wiki/images/recipes')
     args project.properties.get('projectRoot', projectDir.toString())
 }
 ```
@@ -263,15 +269,12 @@ gradle tasks | grep "generateRecipeImages"  # 確認用
 ✓ 生成完了: fantal_ingot_from_smelting_fantal_ore.png (minecraft:smelting)
 ...
 ✓ レシピ画像の生成が完了しました
-  出力先: C:\myprogram\Minecraft\kgcc-fabric-mod\recipe_images
+  出力先: C:\myprogram\Minecraft\kgcc-fabric-mod\FantalTools.wiki\images\recipes
 ```
 
 **実行統計:**
 - 処理ファイル: 25 個
 - 生成画像: 24 個
-  - Shaped レシピ: 18 個
-  - Shapeless レシピ: 1 個
-  - Smelting レシピ: 5 個
 - スキップ: 1 個（未対応タイプ）
 
 ## 🚀 実際の使用シナリオ

@@ -10,7 +10,6 @@ import java.util.*;
  */
 public class WikiGenerator {
     private static final String RECIPES_DIR = "src/main/resources/data/fantalmod/recipes";
-    private static final String RECIPE_IMAGES_DIR = "recipe_images";
     private static final String WIKI_OUTPUT_DIR = "wiki";
 
     private final Path projectRoot;

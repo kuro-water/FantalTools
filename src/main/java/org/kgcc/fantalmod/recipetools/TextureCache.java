@@ -61,6 +61,19 @@ public class TextureCache {
      * テクスチャファイルを読み込む（アイテムとブロック両方を試す）
      */
     private BufferedImage loadTexture(String itemId) {
+        // 特例：FantalBenchの場合は icon.png を使用
+        if ("fantalmod:fantal_bench".equals(itemId)) {
+            Path iconPath = projectRoot.resolve("src/main/resources/assets/fantalmod/icon.png");
+            if (Files.exists(iconPath)) {
+                try {
+                    System.out.println("  ✓ 特例: FantalBench 用に icon.png を読み込み成功");
+                    return javax.imageio.ImageIO.read(iconPath.toFile());
+                } catch (IOException e) {
+                    System.err.println("  特例: FantalBench 用の icon.png 読み込み失敗: " + iconPath);
+                }
+            }
+        }
+
         String[] parts = itemId.split(":");
         String namespace = parts.length > 1 ? parts[0] : "minecraft";
         String textureName = parts.length > 1 ? parts[1] : parts[0];
