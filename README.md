@@ -1,6 +1,6 @@
 The mod's release page is [here](https://www.curseforge.com/minecraft/mc-mods/fantalmod)<br>
 
-mod公開ページは[こちら](https://www.curseforge.com/minecraft/mc-mods/fantalmod)<br>
+modのダウンロードは[こちら](https://www.curseforge.com/minecraft/mc-mods/fantalmod)<br>
 
 Adds Fantal Ore, an original mineral, and its toolset. Currently, only an alpha version is available.<br>
 
@@ -48,8 +48,7 @@ Adds Fantal Ore, an original mineral, and its toolset. Currently, only an alpha 
     * 侵食値が増えるとデバフやダメージ、最悪の場合死に至る
     * alpha-0.9.0現在はコマンド(/fantalmod show)で現在の数値を確認できます
 
-Created by the Kanagawa Institute of Technology Game Creation Circle. For contact, reach out to [@g_c_circle](https://twitter.com/g_c_circle). Visit the
-club's homepage [here](https://kgcc.hannnari.com/) .
+Created by the Kanagawa Institute of Technology Game Creation Circle. For contact, reach out to [@g_c_circle](https://twitter.com/g_c_circle).
 
 神奈川工科大学 ゲーム創作同好会が製作しました。
-サークルへの連絡は[@g_c_circle](https://twitter.com/g_c_circle)まで。 サークルホームページは[こちら](https://kgcc.hannnari.com/)
+サークルへの連絡は[@g_c_circle](https://twitter.com/g_c_circle)まで。
