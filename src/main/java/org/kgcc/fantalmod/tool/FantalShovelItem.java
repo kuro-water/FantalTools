@@ -1,51 +1,68 @@
 package org.kgcc.fantalmod.tool;
 
-import net.minecraft.block.Blocks;
+import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.ShovelItem;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Rarity;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import org.kgcc.fantalmod.util.FantalStateManager;
+import org.jetbrains.annotations.NotNull;
+import org.kgcc.fantalmod.registry.FantalModSkills;
+import org.kgcc.fantalmod.skill.BaseSkill;
 
-public class FantalShovelItem extends ShovelItem {
+public class FantalShovelItem extends ShovelItem implements FantalToolItem {
+    // ...existing code...
+    
     public FantalShovelItem() {
         super(new FantalToolMaterial(), 1.5f, -3f, new Settings().rarity(Rarity.COMMON));
     }
-
+    
+    @Override
+    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
+        // ...existing code...
+        var result = super.use(world, user, hand);
+        if (result.getResult() == ActionResult.SUCCESS) {
+            return result;
+        }
+        ItemStack itemStack = user.getStackInHand(hand);
+        BaseSkill skill = getSkill(itemStack);
+        return skill.use(world, user, hand);
+    }
+    
     @Override
     public ActionResult useOnBlock(ItemUsageContext context) {
-        World world = context.getWorld();
-        BlockPos pos = context.getBlockPos().offset(context.getSide());
-        Hand hand = context.getHand();
+        // ...existing code...
+        var result = super.useOnBlock(context);
+        if (result == ActionResult.SUCCESS) {
+            return result;
+        }
         PlayerEntity player = context.getPlayer();
-        if (player == null) {
-            return ActionResult.FAIL;
+        if(player == null) {
+            return result;
         }
-
-        // 松明を設置
-        if (!world.isClient() && hand == Hand.MAIN_HAND && world.isAir(pos)) {
-            var server = world.getServer();
-            ItemStack torchStack = new ItemStack(Blocks.TORCH);
-            BlockItem blockItem = (BlockItem) torchStack.getItem();
-            BlockHitResult hitResult = new BlockHitResult(
-                    player.getPos(), // Player's position
-                    context.getSide(), // Side of the block that was hit
-                    pos, // Position of the block
-                    false // Whether the hit is inside the block
-            );
-
-            // 設置処理
-            ActionResult result = blockItem.place(new ItemPlacementContext(player, hand, torchStack, hitResult));
-            if (result.isAccepted()) {
-                FantalStateManager.addFantalPollution(server, player, 1);
-                FantalStateManager.sendFantalPollution(server, player);
-                return ActionResult.SUCCESS;
-            }
-        }
-        return ActionResult.FAIL;
+        Hand hand = context.getHand();
+        ItemStack itemStack = player.getStackInHand(hand);
+        BaseSkill skill = getSkill(itemStack);
+        return skill.useOnBlock(context);
+    }
+    
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        super.inventoryTick(stack, world, entity, slot, selected);
+        BaseSkill skill = getSkill(stack);
+        skill.inventoryTick(stack, world, entity, slot, selected);
+    }
+    
+    @Override
+    public void appendTooltip(ItemStack stack, World world, java.util.List<Text> tooltip, TooltipContext context) {
+        super.appendTooltip(stack, world, tooltip, context);
+        BaseSkill skill = getSkill(stack);
+        skill.appendTooltip(stack, world, tooltip, context);
     }
 }

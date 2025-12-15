@@ -1,0 +1,45 @@
+name: Generate and Push Wiki
+
+on:
+  push:
+    branches:
+      - main
+      - dev/**
+  workflow_dispatch:
+
+jobs:
+  wiki:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Generate wiki
+        run: |
+          chmod +x ./gradlew
+          ./gradlew generateWiki --no-daemon
+
+      - name: Setup Git config
+        run: |
+          git config --global user.email "action@github.com"
+          git config --global user.name "GitHub Action"
+
+      - name: Initialize wiki git repository
+        run: |
+          cd wiki
+          git init
+          git remote add origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git
+          git branch -M master
+
+      - name: Commit and push wiki
+        run: |
+          cd wiki
+          git add .
+          git commit -m "wiki: Auto-generated at $(date '+%Y-%m-%d %H:%M:%S') (commit: ${{ github.sha }})" || echo "No changes to commit"
+          git push -u origin master || git push --force -u origin master
+

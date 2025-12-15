@@ -8,6 +8,7 @@ on: [pull_request, push]
 
 jobs:
   build:
+    timeout-minutes: 30
     strategy:
       matrix:
         # Use these Java versions
@@ -20,6 +21,39 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Debug - list gradle wrapper files
+        run: |
+          set -eux
+          ls -la
+          ls -la gradle || true
+          ls -la gradle/wrapper || true
+          echo "--- gradle-wrapper.properties ---"
+          sed -n '1,200p' gradle/wrapper/gradle-wrapper.properties || true
+          if [ -f gradle/wrapper/gradle-wrapper.jar ]; then
+            echo "jar exists"
+            sha256sum gradle/wrapper/gradle-wrapper.jar || true
+          else
+            echo "gradle-wrapper.jar missing"
+            exit 1
+          fi
+        if: ${{ runner.os != 'Windows' }}
+      - name: Debug - list gradle wrapper files (Windows)
+        run: |
+          Get-ChildItem -Force
+          Get-ChildItem gradle -Force -ErrorAction SilentlyContinue
+          Get-ChildItem gradle\wrapper -Force -ErrorAction SilentlyContinue
+          Write-Host "--- gradle-wrapper.properties ---"
+          Get-Content gradle\wrapper\gradle-wrapper.properties -ErrorAction SilentlyContinue
+          if (Test-Path gradle\wrapper\gradle-wrapper.jar) {
+            Write-Host "jar exists"
+            Get-FileHash gradle\wrapper\gradle-wrapper.jar
+          } else {
+            Write-Host "gradle-wrapper.jar missing"
+            exit 1
+          }
+        if: ${{ runner.os == 'Windows' }}
       - name: validate gradle wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: setup jdk ${{ matrix.java }}
@@ -27,14 +61,45 @@ jobs:
         with:
           java-version: ${{ matrix.java }}
           distribution: 'microsoft'
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
       - name: make gradle wrapper executable
         if: ${{ runner.os != 'Windows' }}
         run: chmod +x ./gradlew
-      - name: build
-        run: ./gradlew build
+      - name: Check wrapper by running gradlew --version (Linux/macOS)
+        if: ${{ runner.os != 'Windows' }}
+        run: |
+          set -euxo pipefail
+          ./gradlew --version 2>&1 | tee gradle-version.log
+      - name: Check wrapper by running gradlew --version (Windows)
+        if: ${{ runner.os == 'Windows' }}
+        run: |
+          .\gradlew.bat --version 2>&1 | Tee-Object -FilePath gradle-version.log
+      - name: build (Linux/macOS)
+        if: ${{ runner.os != 'Windows' }}
+        run: |
+          set -euxo pipefail
+          ./gradlew build --stacktrace 2>&1 | tee build.log
+        env:
+          GRADLE_OPTS: "-Xmx2048m -XX:MaxMetaspaceSize=512m"
+      - name: build (Windows)
+        if: ${{ runner.os == 'Windows' }}
+        run: |
+          .\gradlew.bat build --stacktrace 2>&1 | Tee-Object -FilePath build.log
+        env:
+          GRADLE_OPTS: "-Xmx2048m -XX:MaxMetaspaceSize=512m"
       - name: capture build artifacts
-        if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
+        if: ${{ runner.os == 'Linux' && matrix.java == '17' }}
         uses: actions/upload-artifact@v4
         with:
           name: Artifacts
           path: build/libs/
+      - name: Upload debug logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-debug-logs-${{ matrix.os }}-java${{ matrix.java }}
+          path: |
+            gradle-version.log
+            build.log
+          if-no-files-found: ignore

@@ -1,0 +1,20 @@
+{
+    "type" : "minecraft:crafting_shaped",
+    "pattern" : [
+        " WR",
+        "W R",
+        " WR"
+    ],
+    "key" : {
+        "W" : {
+            "item" : "fantalmod:fantal_nugget"
+        },
+        "R" : {
+            "item" : "minecraft:string"
+        }
+    },
+    "result" : {
+        "item" : "fantalmod:fantal_bow",
+        "count" : 1
+    }
+}

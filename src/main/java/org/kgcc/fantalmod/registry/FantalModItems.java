@@ -3,34 +3,41 @@ package org.kgcc.fantalmod.registry;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.AmethystClusterBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import org.kgcc.fantalmod.FantalMod;
+import org.kgcc.fantalmod.TestBlock;
 import org.kgcc.fantalmod.armor.FantalArmorItem;
 import org.kgcc.fantalmod.armor.FantalArmorMaterials;
+import org.kgcc.fantalmod.block.FantalBench;
 import org.kgcc.fantalmod.block.FantalBlock;
 import org.kgcc.fantalmod.block.FantalOreBlock;
-import org.kgcc.fantalmod.item.FantalIngotItem;
-import org.kgcc.fantalmod.item.FantalNuggetItem;
-import org.kgcc.fantalmod.item.RowFantalItem;
+import org.kgcc.fantalmod.item.*;
 import org.kgcc.fantalmod.tool.*;
 
 import static org.kgcc.fantalmod.FantalMod.MODID;
 
 public class FantalModItems {
+//    public static final Item FANTAL_CRYSTAL = registerItem(new TestBlock., "fantal_crystal");
+    // TestBlock.CRYSTAL_BLOCK
     public static final Item FANTAL_INGOT = registerItem(new FantalIngotItem(), "fantal_ingot");
     public static final Item ROW_FANTAL = registerItem(new RowFantalItem(), "row_fantal");
     public static final Item FANTAL_NUGGET = registerItem(new FantalNuggetItem(), "fantal_nugget");
+    public static final Item UNSTABLE_FANTAL_CORE = registerItem(new UnstableFantalCoreItem(), "unstable_fantal_core");
+    public static final Item FANTAL_CORE = registerItem(new FantalCoreItem(), "fantal_core");
     
     public static final Block FANTAL_ORE = registerBlock(new FantalOreBlock(3.0f), "fantal_ore");
     public static final Block DEEP_FANTAL_ORE = registerBlock(new FantalOreBlock(4.5f), "deepslate_fantal_ore");
+    
     public static final Block FANTAL_BLOCK = registerBlock(new FantalBlock(), "fantal_block");
+    public static final Block FANTAL_BENCH = registerBlock(
+            new FantalBench(FabricBlockSettings.of(Material.METAL).strength(4f).requiresTool().nonOpaque()),
+            "fantal_bench");
+    
     
     public static final Item FANTAL_SWORD = registerItem(new FantalSwordItem(), "fantal_sword");
     public static final Item FANTAL_AXE = registerItem(new FantalAxeItem(), "fantal_axe");
@@ -38,13 +45,28 @@ public class FantalModItems {
     public static final Item FANTAL_SHOVEL = registerItem(new FantalShovelItem(), "fantal_shovel");
     public static final Item FANTAL_HOE = registerItem(new FantalHoeItem(), "fantal_hoe");
     
+    
+    public static final Item FANTAL_BOW = registerItem(new FantalBowItem(), "fantal_bow");
+    
+    public static final Item FANTAL_WAND = registerItem(new FantalWandItem(), "fantal_wand");
+    
+    
+    public static final Item FANTAL_ARROW = registerItem(
+            new FantalArrowItem(new FabricItemSettings()), "fantal_arrow");
+    
+    
     public static final Item FANTAL_HELMET =
             registerItem(
                     new FantalArmorItem(FantalArmorMaterials.FANTAL, ArmorItem.Type.HELMET, new FabricItemSettings()),
                     "fantal_helmet");
     public static final Item FANTAL_CHESTPLATE =
-            registerItem(new FantalArmorItem(FantalArmorMaterials.FANTAL, ArmorItem.Type.CHESTPLATE,
-                                             new FabricItemSettings()), "fantal_chestplate");
+            registerItem(
+                    new FantalArmorItem(
+                            FantalArmorMaterials.FANTAL,
+                            ArmorItem.Type.CHESTPLATE,
+                            new FabricItemSettings()),
+                    "fantal_chestplate"
+                        );
     public static final Item FANTAL_LEGGINGS =
             registerItem(
                     new FantalArmorItem(FantalArmorMaterials.FANTAL, ArmorItem.Type.LEGGINGS, new FabricItemSettings()),
@@ -53,18 +75,6 @@ public class FantalModItems {
             registerItem(
                     new FantalArmorItem(FantalArmorMaterials.FANTAL, ArmorItem.Type.BOOTS, new FabricItemSettings()),
                     "fantal_boots");
-    
-    // アメジストみたいな形のクリスタル
-    // AmethystClusterBlockクラスの、getOutlineShapeメソッドで当たり判定を設定している（されている）
-    // ClientのInitializerでBlockRenderLayerMap.INSTANCE.putBlock(FantalModItems.CRYSTAL_BLOCK, RenderLayer.getCutout());が必要
-    public static final Block FANTAL_CRYSTAL =
-            registerBlock(new AmethystClusterBlock(7, 3, FabricBlockSettings.of(Material.AMETHYST)
-                                                                            .luminance(6)
-                                                                            .nonOpaque()
-                                                                            .ticksRandomly()
-                                                                            .sounds(BlockSoundGroup.AMETHYST_CLUSTER)
-                                                                            .strength(1.5F)),
-                          "fantal_crystal");
     
     public static Item registerItem(Item instance, String path) {
         return Registry.register(Registries.ITEM, new Identifier(MODID, path), instance);
@@ -82,6 +92,9 @@ public class FantalModItems {
             entries.addAfter(FantalModItems.FANTAL_SHOVEL, FantalModItems.FANTAL_PICKAXE);
             entries.addAfter(FantalModItems.FANTAL_PICKAXE, FantalModItems.FANTAL_AXE);
             entries.addAfter(FantalModItems.FANTAL_AXE, FantalModItems.FANTAL_HOE);
+            entries.addAfter(Items.TRIDENT, FantalModItems.FANTAL_BOW);
+            entries.addAfter(FantalModItems.FANTAL_BOW, FantalModItems.FANTAL_WAND);
+            entries.addAfter(FantalModItems.FANTAL_WAND, FantalModItems.FANTAL_ARROW);
             // 他のツールがあれば、ここに追加する
         });
         
@@ -100,7 +113,6 @@ public class FantalModItems {
         
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.BUILDING_BLOCKS).register(entries -> {
             entries.addAfter(Items.DIAMOND_BLOCK, FantalModItems.FANTAL_BLOCK);
-            entries.addAfter(FantalModItems.FANTAL_BLOCK, FantalModItems.FANTAL_CRYSTAL);
             // 他のブロックがあれば、ここに追加する
         });
         
@@ -112,6 +124,10 @@ public class FantalModItems {
             entries.addAfter(FantalModItems.FANTAL_CHESTPLATE, FantalModItems.FANTAL_LEGGINGS);
             entries.addAfter(FantalModItems.FANTAL_LEGGINGS, FantalModItems.FANTAL_BOOTS);
             // 他の防具があれば、ここに追加する
+        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(entries -> {
+            entries.addAfter(Items.ENCHANTING_TABLE, FantalModItems.FANTAL_BENCH);
+            // 他の機能系アイテムがあれば、ここに追加する
         });
     }
     

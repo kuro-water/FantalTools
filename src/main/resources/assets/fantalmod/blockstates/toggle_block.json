@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "toggled=false": { "model": "fantalmod:block/toggle_block_off" },
+    "toggled=true": { "model": "fantalmod:block/toggle_block_on" }
+  }
+}

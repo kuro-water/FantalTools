@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "appearance=0": { "model": "fantalmod:block/fantal_bench" },
+    "appearance=1": { "model": "fantalmod:block/fantal_bench_active_general" },
+    "appearance=2": { "model": "fantalmod:block/fantal_bench_active_general" },
+    "appearance=4": { "model": "fantalmod:block/fantal_bench_active_general" },
+    "appearance=5": { "model": "fantalmod:block/fantal_bench_active_general" },
+    "appearance=3": { "model": "fantalmod:block/fantal_bench_sword" }
+  }
+}

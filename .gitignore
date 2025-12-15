@@ -38,3 +38,8 @@ hs_err_*.log
 replay_*.log
 *.hprof
 *.jfr
+
+# recipe tools
+
+recipe_images/
+wiki/

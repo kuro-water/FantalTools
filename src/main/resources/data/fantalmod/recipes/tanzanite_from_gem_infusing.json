@@ -1,0 +1,11 @@
+{
+  "type": "fantalmod:gem_infusing",
+  "ingredients": [
+    {
+      "item": "fantalmod:raw_fantal"
+    }
+  ],
+  "output": {
+    "item": "fantalmod:fantal_ingot"
+  }
+}
