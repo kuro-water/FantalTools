@@ -1,0 +1,11 @@
+{
+    "type" : "minecraft:crafting_shapeless",
+    "ingredients" : [
+        { "item" : "fantalmod:fantal_nugget" },
+        { "item" : "minecraft:arrow" }
+    ],
+    "result" : {
+        "item" : "fantalmod:fantal_arrow",
+        "count" : 1
+    }
+}

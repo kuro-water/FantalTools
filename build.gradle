@@ -28,6 +28,9 @@ dependencies {
     // These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.
 
     // modImplementation "net.fabricmc.fabric-api:fabric-api-deprecated:${project.fabric_version}"
+
+    // For Recipe Image Generator
+    implementation 'com.google.code.gson:gson:2.10.1'
 }
 
 base {
@@ -84,5 +87,38 @@ publishing {
         // Notice: This block does NOT have the same function as the block in the top level.
         // The repositories here will be used for publishing your artifact, not for
         // retrieving dependencies.
+    }
+}
+
+// Recipe Image Generator Task
+task generateRecipeImages(type: JavaExec) {
+    group = 'fantalmod'
+    description = 'Generate recipe images from JSON recipes'
+
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.kgcc.fantalmod.recipetools.RecipeImageGenerator'
+
+    args project.properties.get('outputDir', 'FantalTools.wiki/images/recipes')
+    args project.properties.get('projectRoot', projectDir.toString())
+}
+
+// Wiki Generator Task
+task generateWiki(type: JavaExec) {
+    group = 'fantalmod'
+    description = 'Generate GitHub Wiki pages from JSON recipes'
+
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'org.kgcc.fantalmod.recipetools.WikiGenerator'
+
+    args project.properties.get('projectRoot', projectDir.toString())
+}
+
+loom {
+    runs {
+        client {
+            client()
+            vmArgs("-Duser.uuid=8667ba71-b85a-4004-af54-457a9734eed7")
+            programArgs("--username", "kgcc")
+        }
     }
 }

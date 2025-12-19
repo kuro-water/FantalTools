@@ -5,7 +5,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Material;
 
 public final class FantalBlock extends Block {
-    public FantalBlock() {
-        super(FabricBlockSettings.of(Material.STONE).strength(1f).requiresTool());
-    }
+    public FantalBlock() {super(FabricBlockSettings.of(Material.STONE).strength(1f).requiresTool());}
+
 }

@@ -1,0 +1,20 @@
+{
+    "type" : "minecraft:crafting_shaped",
+    "pattern" : [
+        " W ",
+        " R ",
+        " R "
+    ],
+    "key" : {
+        "W" : {
+            "item" : "fantalmod:fantal_core"
+        },
+        "R" : {
+            "item" : "fantalmod:fantal_ingot"
+        }
+    },
+    "result" : {
+        "item" : "fantalmod:fantal_wand",
+        "count" : 1
+    }
+}
